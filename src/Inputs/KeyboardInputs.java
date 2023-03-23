@@ -1,61 +1,63 @@
 package Inputs;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import main.Game;
 
-public class KeyboardInputs implements KeyListener{
+public class KeyboardInputs implements KeyListener {
 
     private Game game;
-    public KeyboardInputs(Game game){
+
+    public KeyboardInputs(Game game) {
         this.game = game;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        // throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
-        switch(e.getKeyCode()){
+
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                game.getTranslater().getPlayer().setUp(true);
+                game.getTranslator().getPlayer().setUp(true);
                 break;
             case KeyEvent.VK_A:
-                game.getTranslater().getPlayer().setLeft(true);
+                game.getTranslator().getPlayer().setLeft(true);
                 break;
             case KeyEvent.VK_S:
-                game.getTranslater().getPlayer().setDown(true);
+                game.getTranslator().getPlayer().setDown(true);
                 break;
             case KeyEvent.VK_D:
-                game.getTranslater().getPlayer().setRight(true);
+                game.getTranslator().getPlayer().setRight(true);
                 break;
         }
-        
-        
-        //throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
+
+        // throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch(e.getKeyCode()){
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                game.getTranslater().getPlayer().setUp(false);
+                game.getTranslator().getPlayer().setUp(false);
                 break;
             case KeyEvent.VK_A:
-                game.getTranslater().getPlayer().setLeft(false);
+                game.getTranslator().getPlayer().setLeft(false);
                 break;
             case KeyEvent.VK_S:
-                game.getTranslater().getPlayer().setDown(false);
+                game.getTranslator().getPlayer().setDown(false);
                 break;
             case KeyEvent.VK_D:
-                game.getTranslater().getPlayer().setRight(false);
+                game.getTranslator().getPlayer().setRight(false);
                 break;
         }
-        //throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        // throw new UnsupportedOperationException("Unimplemented method
+        // 'keyReleased'");
     }
-    
+
 }

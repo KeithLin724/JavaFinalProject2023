@@ -1,14 +1,12 @@
 package entities;
 
-public abstract class Methods extends Entity{
-    
+public abstract class Methods extends Entity {
 
-    public Methods(float x, float y){
+    public Methods(float x, float y) {
         super(x, y);
     }
 
-    public void importImag(){
+    public void importImage() {
 
     }
 }
-
