@@ -1,6 +1,8 @@
 package main;
 
 import java.awt.Dimension;
+import java.util.logging.Logger;
+
 import Inputs.KeyboardInputs;
 import Inputs.MouseInputs;
 import base.BaseGameConstant;
@@ -16,25 +18,35 @@ public class Game extends BaseGameConstant implements Runnable {
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
 
+    private static Logger LOGGER = Logger.getLogger(Game.class.getName());
+
     public Game() {
-        initClasses();
-        gamePanel = new GamePanel(this);
-        gamePanel.addKeyListener(keyboardInputs);
-        gamePanel.addMouseListener(mouseInputs);
-        gamePanel.addMouseMotionListener(mouseInputs);
-        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
-        // Start Gameloop
-        gameWindow = new GameWindow(gamePanel);
-        gameThread = new Thread(this);
-        gameThread.start();
+        this.initClasses();
+        this.gamePanelSetting();
     }
 
     private void initClasses() {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
         translator = new Translator();
+    }
+
+    private void gamePanelSetting() {
+        gamePanel = new GamePanel(this);
+        gamePanel.addKeyListener(keyboardInputs);
+        gamePanel.addMouseListener(mouseInputs);
+        gamePanel.addMouseMotionListener(mouseInputs);
+
+        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
+    }
+
+    // Start Game-loop
+    public void runGame() {
+        gameWindow = new GameWindow(gamePanel);
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     @Override
@@ -74,7 +86,7 @@ public class Game extends BaseGameConstant implements Runnable {
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + "| UPS: " + updates);
+                LOGGER.info(String.format("FPS: %s| UPS: %s", frames, updates));
                 frames = 0;
                 updates = 0;
             }
