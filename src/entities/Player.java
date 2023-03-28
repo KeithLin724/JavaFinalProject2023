@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
 
+import base.loader.BaseLoader;
+
 import static utilz.Constants.PlayerConstants.*;
 
 public class Player extends Methods {
@@ -20,8 +22,7 @@ public class Player extends Methods {
 
     public Player(float x, float y) {
         super(x, y);
-        importImage();
-
+        this.importImage();
     }
 
     public void update() {
@@ -33,10 +34,12 @@ public class Player extends Methods {
     private void setAnimation() {
         int startAni = playerAction;
 
-        if (moving)
-            playerAction = MOVING;
-        else
-            playerAction = IDLE;
+        // if (moving)
+        // playerAction = MOVING;
+        // else
+        // playerAction = IDLE;
+        // TODO: new update using clear if
+        playerAction = (moving ? MOVING : IDLE);
 
         if (attacking) {
             aniSpeed = 20;
@@ -93,25 +96,28 @@ public class Player extends Methods {
         animations = new BufferedImage[5][6];
 
         for (int i = 0; i < GetAnimationFrameNumbs(IDLE); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "IDLE_" + i + ".png");
+            imageInput = BaseLoader.loadFile(this, Entity.imageName("IDLE_" + i));
+
             try {
-                animations[IDLE][i] = ImageIO.read(imageInput);
+                // animations[IDLE][i] = ImageIO.read(imageInput);
+                animations[IDLE][i] = BaseLoader.coverToImage(imageInput);
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(ATTACKING); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "ATTACK_" + i + ".png");
+            imageInput = BaseLoader.loadFile(this, Entity.imageName("ATTACK_" + i));
             try {
-                animations[ATTACKING][i] = ImageIO.read(imageInput);
+                animations[ATTACKING][i] = BaseLoader.coverToImage(imageInput);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(MOVING); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "MOVE_" + i + ".png");
+            imageInput = BaseLoader.loadFile(this, Entity.imageName("MOVE_" + i));
             try {
-                animations[MOVING][i] = ImageIO.read(imageInput);
+                animations[MOVING][i] = BaseLoader.coverToImage(imageInput);
             } catch (IOException e) {
                 e.printStackTrace();
             }
