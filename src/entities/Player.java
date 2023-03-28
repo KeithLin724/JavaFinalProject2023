@@ -12,7 +12,7 @@ import static utilz.Constants.PlayerConstants.*;
 
 public class Player extends Methods {
     private BufferedImage[][] animations;
-    private InputStream imageInput;
+    // private InputStream imageInput;
     private int aniTick, aniIndex, aniSpeed = 35;
     private int playerAction = IDLE;
     private boolean up, down, right, left;
@@ -96,28 +96,23 @@ public class Player extends Methods {
         animations = new BufferedImage[5][6];
 
         for (int i = 0; i < GetAnimationFrameNumbs(IDLE); i++) {
-            imageInput = BaseLoader.loadFile(this, Entity.imageName("IDLE_" + i));
-
             try {
-                // animations[IDLE][i] = ImageIO.read(imageInput);
-                animations[IDLE][i] = BaseLoader.coverToImage(imageInput);
+                animations[IDLE][i] = BaseLoader.loadImage(Player.class, Entity.imageName("IDLE_" + i));
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(ATTACKING); i++) {
-            imageInput = BaseLoader.loadFile(this, Entity.imageName("ATTACK_" + i));
             try {
-                animations[ATTACKING][i] = BaseLoader.coverToImage(imageInput);
+                animations[ATTACKING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("ATTACK_" + i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(MOVING); i++) {
-            imageInput = BaseLoader.loadFile(this, Entity.imageName("MOVE_" + i));
             try {
-                animations[MOVING][i] = BaseLoader.coverToImage(imageInput);
+                animations[MOVING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("MOVE_" + i));
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import base.loader.BaseLoader;
 import main.Game;
 
 public class LoadSave {
@@ -17,9 +18,12 @@ public class LoadSave {
 
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
-		InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+		// InputStream is = LoadSave.class.getResourceAsStream("/" + fileName);
+
+		InputStream is = BaseLoader.loadFile(LoadSave.class, "/" + fileName);
 		try {
-			img = ImageIO.read(is);
+			// img = ImageIO.read(is);
+			img = BaseLoader.coverToImage(is);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -37,14 +41,18 @@ public class LoadSave {
 		int[][] lvlData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
 		BufferedImage img = GetSpriteAtlas(LEVEL_ONE_DATA);
 
-		for (int j = 0; j < img.getHeight(); j++)
+		for (int j = 0; j < img.getHeight(); j++) {
 			for (int i = 0; i < img.getWidth(); i++) {
 				Color color = new Color(img.getRGB(i, j));
 				int value = color.getRed();
-				if (value >= 48)
+
+				if (value >= 48) {
 					value = 0;
+				}
 				lvlData[j][i] = value;
 			}
+		}
+
 		return lvlData;
 
 	}

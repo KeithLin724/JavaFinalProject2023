@@ -14,8 +14,16 @@ public class BaseLoader {
         return obj.getClass().getResourceAsStream(fileName);
     }
 
+    public static <T> InputStream loadFile(Class<T> cls, String fileName) {
+        return cls.getResourceAsStream(fileName);
+    }
+
     public static BufferedImage coverToImage(InputStream inputStream) throws IOException {
         return ImageIO.read(inputStream);
+    }
+
+    public static <T> BufferedImage loadImage(Class<T> cls, String fileName) throws IOException {
+        return coverToImage(loadFile(cls, fileName));
     }
 
 }
