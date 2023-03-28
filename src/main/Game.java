@@ -3,9 +3,9 @@ package main;
 import java.awt.Dimension;
 import java.util.logging.Logger;
 
-import Inputs.KeyboardInputs;
-import Inputs.MouseInputs;
 import base.BaseGameConstant;
+import logic.input.KeyboardInputs;
+import logic.input.MouseInputs;
 
 public class Game extends BaseGameConstant implements Runnable {
     private GameWindow gameWindow;

@@ -22,6 +22,15 @@ public class BaseFileNameFormatter {
         }
     };
 
+    /**
+     * It takes a file name and a file type and returns a string that is the file
+     * name with the file type
+     * extension appended to it
+     * 
+     * @param fileName The name of the file
+     * @param type     FileNameType
+     * @return The file name and the file extension.
+     */
     public static String of(String fileName, FileNameType type) {
         return String.format("%s%s", fileName, enumMap.get(type));
     }
