@@ -20,6 +20,7 @@ public class Game extends BaseGameConstant implements Runnable {
 
     private static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
+    // construct
     public Game() {
         this.initClasses();
         this.gamePanelSetting();
