@@ -1,5 +1,7 @@
 package main;
 
-public abstract class Online extends MainClass{
-    
+import base.BaseGameConstant;
+
+public abstract class Online extends BaseGameConstant {
+
 }

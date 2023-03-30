@@ -1,26 +1,26 @@
 package main;
+
 import java.awt.Graphics;
 import entities.Player;
 
-public class Translater extends Online{
+public class Translator extends Online {
 
     private Player player;
 
-    public Translater() {
+    public Translator() {
         player = new Player(200, 200);
     }
 
-    public void updateLogic(){
+    public void updateLogic() {
         player.update();
     }
 
-    public void render(Graphics g){
+    public void render(Graphics g) {
         player.render(g);
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return player;
     }
-
 
 }
