@@ -1,6 +1,6 @@
 package Game;
 
-import java.awt.Point;
+import java.awt.Graphics;
 
 import Game.ABC.GameCharacterABC;
 import Game.DataPass.AniData;
@@ -10,8 +10,6 @@ import Game.PLUG.GameCharacterInterface;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface {
-    Point stayPoint;
-
     public GameCharacter() {
         super(null, null, null);
     }
@@ -28,31 +26,27 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void setUp(boolean up) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setUp'");
+        this.up = up;
     }
 
     @Override
     public void setDown(boolean down) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setDown'");
+        this.down = down;
     }
 
     @Override
     public void setLeft(boolean left) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setLeft'");
+        this.left = left;
     }
 
     @Override
     public void setRight(boolean right) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'setRight'");
+        this.right = right;
     }
 
     @Override
-    public void render() {
-
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+    public void render(Graphics g) {
+        // None
     }
+
 }

@@ -1,7 +1,9 @@
 package Game.PLUG;
 
-public interface GameCharacterInterface extends BasicMoveInterface {
-    void updatePosition();
+import java.awt.Graphics;
 
-    void render();
+public interface GameCharacterInterface extends BasicMoveInterface {
+    public void updatePosition();
+
+    public void render(Graphics g);
 }

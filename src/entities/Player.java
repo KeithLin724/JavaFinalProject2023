@@ -9,8 +9,6 @@ import java.io.IOException;
 import Game.gameConstant.PlayerConstants;
 import base.loader.BaseLoader;
 
-// import static utilz.Constants.PlayerConstants.*;
-
 public class Player extends Methods {
     private BufferedImage[][] animations;
     // private InputStream imageInput;
