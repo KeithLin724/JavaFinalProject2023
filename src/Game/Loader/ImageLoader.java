@@ -8,21 +8,16 @@ import base.loader.BaseLoader;
 
 public class ImageLoader {
 
-    // /**
-    // * This function takes a folder name and a file name and returns a string that
-    // * is the folder name and
-    // * file name concatenated together.
-    // *
-    // * @param folderName The name of the folder where the image is stored.
-    // * @param fileName The name of the file.
-    // * @return The imagePathName method returns a String.
-    // */
-    // private static String imagePathName(String folderName, String fileName) {
-    // String res = BaseFileNameFormatter.of(folderName + fileName,
-    // FileNameType.IMAGE);
-    // System.out.println(res);
-    // return res;
-    // }
+    /**
+     * It loads an image from a folder in the resources folder
+     * 
+     * @param folderName The folder name where the image is located.
+     * @param fileName   The name of the file you want to load.
+     * @return A BufferedImage object.
+     */
+    public static BufferedImage loadImage(String folderName, String fileName) throws IOException {
+        return BaseLoader.loadImage(ImageLoader.class, ImageNamePath.imagePath(folderName, fileName));
+    }
 
     /**
      * It loads a character's animations from a folder
@@ -38,18 +33,15 @@ public class ImageLoader {
         BufferedImage[][] animations = new BufferedImage[characterState][frameNumber];
 
         for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.IDLE); i++) {
-            animations[PlayerConstants.IDLE][i] = BaseLoader.loadImage(ImageLoader.class,
-                    ImageNamePath.imagePath(folderName, "IDLE_" + i));
+            animations[PlayerConstants.IDLE][i] = ImageLoader.loadImage(folderName, "IDLE_" + i);
         }
 
         for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.ATTACKING); i++) {
-            animations[PlayerConstants.ATTACKING][i] = BaseLoader.loadImage(ImageLoader.class,
-                    ImageNamePath.imagePath(folderName, "ATTACK_" + i));
+            animations[PlayerConstants.ATTACKING][i] = ImageLoader.loadImage(folderName, "ATTACK_" + i);
         }
 
         for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.MOVING); i++) {
-            animations[PlayerConstants.MOVING][i] = BaseLoader.loadImage(ImageLoader.class,
-                    ImageNamePath.imagePath(folderName, "MOVE_" + i));
+            animations[PlayerConstants.MOVING][i] = ImageLoader.loadImage(folderName, "MOVE_" + i);
         }
 
         return animations;
