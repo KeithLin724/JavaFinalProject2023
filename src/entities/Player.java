@@ -6,15 +6,16 @@ import java.io.IOException;
 // import java.io.InputStream;
 // import javax.imageio.ImageIO;
 
+import Game.gameConstant.PlayerConstants;
 import base.loader.BaseLoader;
 
-import static utilz.Constants.PlayerConstants.*;
+// import static utilz.Constants.PlayerConstants.*;
 
 public class Player extends Methods {
     private BufferedImage[][] animations;
     // private InputStream imageInput;
     private int aniTick, aniIndex, aniSpeed = 35;
-    private int playerAction = IDLE;
+    private int playerAction = PlayerConstants.IDLE;
     private boolean up, down, right, left;
     private boolean moving = false, attacking = false;
     private int imgScaleX, imgScaleY, imageScale = 10;
@@ -39,11 +40,11 @@ public class Player extends Methods {
         // else
         // playerAction = IDLE;
         // TODO: new update using clear if
-        playerAction = (moving ? MOVING : IDLE);
+        playerAction = (moving ? PlayerConstants.MOVING : PlayerConstants.IDLE);
 
         if (attacking) {
             aniSpeed = 20;
-            playerAction = ATTACKING;
+            playerAction = PlayerConstants.ATTACKING;
         }
 
         if (startAni != playerAction) {
@@ -83,7 +84,7 @@ public class Player extends Methods {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= GetAnimationFrameNumbs(playerAction)) {
+            if (aniIndex >= PlayerConstants.GetAnimationFrameNumbs(playerAction)) {
                 aniIndex = 0;
                 attacking = false;
                 aniSpeed = 35;
@@ -95,24 +96,26 @@ public class Player extends Methods {
     public void importImage() {
         animations = new BufferedImage[5][6];
 
-        for (int i = 0; i < GetAnimationFrameNumbs(IDLE); i++) {
+        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.IDLE); i++) {
             try {
-                animations[IDLE][i] = BaseLoader.loadImage(Player.class, Entity.imageName("IDLE_" + i));
+                animations[PlayerConstants.IDLE][i] = BaseLoader.loadImage(Player.class, Entity.imageName("IDLE_" + i));
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        for (int i = 0; i < GetAnimationFrameNumbs(ATTACKING); i++) {
+        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.ATTACKING); i++) {
             try {
-                animations[ATTACKING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("ATTACK_" + i));
+                animations[PlayerConstants.ATTACKING][i] = BaseLoader.loadImage(Player.class,
+                        Entity.imageName("ATTACK_" + i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        for (int i = 0; i < GetAnimationFrameNumbs(MOVING); i++) {
+        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.MOVING); i++) {
             try {
-                animations[MOVING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("MOVE_" + i));
+                animations[PlayerConstants.MOVING][i] = BaseLoader.loadImage(Player.class,
+                        Entity.imageName("MOVE_" + i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
