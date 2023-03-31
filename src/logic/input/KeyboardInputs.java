@@ -1,4 +1,4 @@
-package Inputs;
+package logic.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,26 +15,25 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
+        // None
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_W -> {
                 game.getTranslator().getPlayer().setUp(true);
-                break;
-            case KeyEvent.VK_A:
+            }
+            case KeyEvent.VK_A -> {
                 game.getTranslator().getPlayer().setLeft(true);
-                break;
-            case KeyEvent.VK_S:
+            }
+            case KeyEvent.VK_S -> {
                 game.getTranslator().getPlayer().setDown(true);
-                break;
-            case KeyEvent.VK_D:
+            }
+            case KeyEvent.VK_D -> {
                 game.getTranslator().getPlayer().setRight(true);
-                break;
+            }
         }
 
         // throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
@@ -43,18 +42,18 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_W -> {
                 game.getTranslator().getPlayer().setUp(false);
-                break;
-            case KeyEvent.VK_A:
+            }
+            case KeyEvent.VK_A -> {
                 game.getTranslator().getPlayer().setLeft(false);
-                break;
-            case KeyEvent.VK_S:
+            }
+            case KeyEvent.VK_S -> {
                 game.getTranslator().getPlayer().setDown(false);
-                break;
-            case KeyEvent.VK_D:
+            }
+            case KeyEvent.VK_D -> {
                 game.getTranslator().getPlayer().setRight(false);
-                break;
+            }
         }
         // throw new UnsupportedOperationException("Unimplemented method
         // 'keyReleased'");

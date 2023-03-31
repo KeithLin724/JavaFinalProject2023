@@ -27,13 +27,9 @@ public class LevelManager {
 				levelSprite[index] = img.getSubimage(i * 32, j * 32, 32, 32);
 			}
 		}
+
 	}
 
-	/**
-	 * It draws the level
-	 * 
-	 * @param g Graphics object
-	 */
 	public void draw(Graphics g) {
 		for (int j = 0; j < Game.TILES_IN_HEIGHT; j++) {
 			for (int i = 0; i < Game.TILES_IN_WIDTH; i++) {

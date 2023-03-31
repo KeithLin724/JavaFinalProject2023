@@ -13,27 +13,18 @@ public class Constants {
 
         public static int GetAnimationFrameNumbs(int playerAction) {
             switch (playerAction) {
-                case IDLE -> {
+                case IDLE:
                     return 6;
-                }
-                case ATTACKING -> {
+                case ATTACKING:
                     return 3;
-                }
-
-                case MOVING -> {
-
-                }
-                case HIT -> {
-
-                }
-                case JUMP -> {
+                case MOVING:
+                case HIT:
+                case JUMP:
                     return 2;
-                }
 
-                default -> {
-                }
+                default:
+                    return 1;
             }
-            return 1;
         };
 
     }

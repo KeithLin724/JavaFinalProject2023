@@ -3,18 +3,16 @@ package entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-// import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+// import java.io.InputStream;
+// import javax.imageio.ImageIO;
 
-import javax.imageio.ImageIO;
+import base.loader.BaseLoader;
 
 import static utilz.Constants.PlayerConstants.*;
 
 public class Player extends Methods {
     private BufferedImage[][] animations;
-    private InputStream imageInput;
+    // private InputStream imageInput;
     private int aniTick, aniIndex, aniSpeed = 35;
     private int playerAction = IDLE;
     private boolean up, down, right, left;
@@ -22,11 +20,9 @@ public class Player extends Methods {
     private int imgScaleX, imgScaleY, imageScale = 10;
     private float playerSpeed = 5.0f;
 
-    private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
-
     public Player(float x, float y) {
         super(x, y);
-        importImage();
+        this.importImage();
     }
 
     public void update() {
@@ -38,10 +34,12 @@ public class Player extends Methods {
     private void setAnimation() {
         int startAni = playerAction;
 
-        if (moving)
-            playerAction = MOVING;
-        else
-            playerAction = IDLE;
+        // if (moving)
+        // playerAction = MOVING;
+        // else
+        // playerAction = IDLE;
+        // TODO: new update using clear if
+        playerAction = (moving ? MOVING : IDLE);
 
         if (attacking) {
             aniSpeed = 20;
@@ -98,26 +96,23 @@ public class Player extends Methods {
         animations = new BufferedImage[5][6];
 
         for (int i = 0; i < GetAnimationFrameNumbs(IDLE); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "IDLE_" + i + ".png");
             try {
-                animations[IDLE][i] = ImageIO.read(imageInput);
+                animations[IDLE][i] = BaseLoader.loadImage(Player.class, Entity.imageName("IDLE_" + i));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(ATTACKING); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "ATTACK_" + i + ".png");
             try {
-                animations[ATTACKING][i] = ImageIO.read(imageInput);
+                animations[ATTACKING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("ATTACK_" + i));
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "some wrong", e);
                 e.printStackTrace();
             }
         }
         for (int i = 0; i < GetAnimationFrameNumbs(MOVING); i++) {
-            imageInput = getClass().getResourceAsStream(PLAYER_MAIN_CHARACTER + "MOVE_" + i + ".png");
             try {
-                animations[MOVING][i] = ImageIO.read(imageInput);
+                animations[MOVING][i] = BaseLoader.loadImage(Player.class, Entity.imageName("MOVE_" + i));
             } catch (IOException e) {
                 e.printStackTrace();
             }

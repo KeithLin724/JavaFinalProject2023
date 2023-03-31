@@ -1,10 +1,13 @@
 package main;
 
 import java.awt.Dimension;
-import Inputs.KeyboardInputs;
-import Inputs.MouseInputs;
+import java.util.logging.Logger;
 
-public class Game extends MainClass implements Runnable {
+import base.BaseGameConstant;
+import logic.input.KeyboardInputs;
+import logic.input.MouseInputs;
+
+public class Game extends BaseGameConstant implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Translator translator;
@@ -15,28 +18,36 @@ public class Game extends MainClass implements Runnable {
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
 
+    private static Logger LOGGER = Logger.getLogger(Game.class.getName());
+
+    // construct
     public Game() {
-        initClasses();
-        gamePanel = new GamePanel(this);
-        gamePanel.addKeyListener(keyboardInputs);
-        gamePanel.addMouseListener(mouseInputs);
-        gamePanel.addMouseMotionListener(mouseInputs);
-        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
-        // Start Game-Loop
-        gameWindow = new GameWindow(gamePanel);
-        gameThread = new Thread(this);
-        gameThread.start();
+        this.initClasses();
+        this.gamePanelSetting();
     }
 
-    /**
-     * It initializes the classes that are used in the program
-     */
     private void initClasses() {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
         translator = new Translator();
+    }
+
+    private void gamePanelSetting() {
+        gamePanel = new GamePanel(this);
+        gamePanel.addKeyListener(keyboardInputs);
+        gamePanel.addMouseListener(mouseInputs);
+        gamePanel.addMouseMotionListener(mouseInputs);
+
+        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+        gamePanel.setFocusable(true);
+        gamePanel.requestFocusInWindow();
+    }
+
+    // Start Game-loop
+    public void runGame() {
+        gameWindow = new GameWindow(gamePanel);
+        gameThread = new Thread(this);
+        gameThread.start();
     }
 
     @Override
@@ -76,7 +87,7 @@ public class Game extends MainClass implements Runnable {
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + "| UPS: " + updates);
+                LOGGER.info(String.format("FPS: %s| UPS: %s", frames, updates));
                 frames = 0;
                 updates = 0;
             }
