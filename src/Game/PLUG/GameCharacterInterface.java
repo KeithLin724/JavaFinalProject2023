@@ -1,13 +1,14 @@
 package Game.PLUG;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
 public interface GameCharacterInterface extends BasicMoveInterface {
     public void updatePosition();
 
-    public void setAnimationImage();
+    public void setAnimationImage() throws IOException;
 
-    public void setAttacking();
+    public void setAttacking(boolean attacking);
 
     public void setAnimationState();
 

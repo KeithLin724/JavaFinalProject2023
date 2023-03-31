@@ -1,15 +1,21 @@
 package Game;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
 import Game.ABC.GameCharacterABC;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.Loader.ImageLoader;
+import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
+import Game.gameConstant.PlayerConstants;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface {
+    protected float x, y;
+
     public GameCharacter() {
         super(null, null, null);
     }
@@ -18,10 +24,36 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         super(aid, isd, gps);
     }
 
+    public void init(float x, float y) {
+        this.x = x;
+        this.y = y;
+
+        try {
+            this.setAnimationImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void updatePosition() {
+        this.moving = false;
 
-        throw new UnsupportedOperationException("Unimplemented method 'updatePosition'");
+        if (this.left && !this.right) {
+            this.x -= this.playerSpeed;
+            moving = true;
+        } else if (this.right && !this.left) {
+            this.x += this.playerSpeed;
+            this.moving = true;
+        }
+
+        if (this.up && !this.down) {
+            this.y -= this.playerSpeed;
+            this.moving = true;
+        } else if (this.down && !this.up) {
+            this.y += this.playerSpeed;
+            this.moving = true;
+        }
     }
 
     @Override
@@ -46,7 +78,58 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void render(Graphics g) {
-        // None
+        this.imgScaleX = animations[this.playerAction][this.aniIndex].getWidth() / this.imageScale;
+        this.imgScaleY = animations[this.playerAction][this.aniIndex].getHeight() / this.imageScale;
+        g.drawImage(animations[playerAction][this.aniIndex], (int) this.x, (int) this.y, this.imgScaleX, this.imgScaleY,
+                null);
+    }
+
+    @Override
+    public void setAnimationImage() throws IOException {
+        this.animations = ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6);
+    }
+
+    @Override
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
+    }
+
+    @Override
+    public void setAnimationState() {
+
+        int startAni = playerAction;
+
+        playerAction = (moving ? PlayerConstants.MOVING : PlayerConstants.IDLE);
+
+        if (attacking) {
+            aniSpeed = 20;
+            playerAction = PlayerConstants.ATTACKING;
+        }
+
+        if (startAni != playerAction) {
+            aniTick = 0;
+            aniIndex = 0;
+        }
+    }
+
+    @Override
+    public void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= aniSpeed) {
+            aniTick = 0;
+            aniIndex++;
+            if (aniIndex >= PlayerConstants.GetAnimationFrameNumbs(playerAction)) {
+                aniIndex = 0;
+                attacking = false;
+                aniSpeed = 35;
+            }
+        }
+    }
+
+    public void update() {
+        this.updatePosition();
+        this.updateAnimationTick();
+        this.setAnimationState();
     }
 
 }

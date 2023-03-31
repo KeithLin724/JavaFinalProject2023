@@ -3,6 +3,7 @@ package main;
 import java.awt.Dimension;
 import java.util.logging.Logger;
 
+import GUI.Test.TranslatorTester;
 import base.BaseGameConstant;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
@@ -10,7 +11,8 @@ import logic.input.MouseInputs;
 public class Game extends BaseGameConstant implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
-    private Translator translator;
+    // private Translator translator;
+    private TranslatorTester translator;
     private Thread gameThread;
     private final int FPS = 120;
     private final int UPS = 200;
@@ -29,7 +31,8 @@ public class Game extends BaseGameConstant implements Runnable {
     private void initClasses() {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
-        translator = new Translator();
+        // translator = new Translator();
+        translator = new TranslatorTester();
     }
 
     private void gamePanelSetting() {
@@ -95,7 +98,7 @@ public class Game extends BaseGameConstant implements Runnable {
         }
     }
 
-    public Translator getTranslator() {
+    public TranslatorTester getTranslator() {
         return translator;
     }
 }
