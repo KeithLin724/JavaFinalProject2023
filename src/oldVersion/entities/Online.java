@@ -1,4 +1,4 @@
-package main;
+package oldVersion.entities;
 
 import base.BaseGameConstant;
 

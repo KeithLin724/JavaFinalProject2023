@@ -1,4 +1,4 @@
-package entities;
+package oldVersion.entities;
 
 import base.loader.BaseFileNameFormatter;
 import base.loader.FileNameType;

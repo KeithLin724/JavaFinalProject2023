@@ -1,4 +1,4 @@
-package entities;
+package oldVersion.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

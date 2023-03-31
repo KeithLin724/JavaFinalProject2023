@@ -1,8 +1,10 @@
 package main;
 
 import java.awt.Graphics;
-import entities.Player;
+
 import logic.input.MoveCommandConstant;
+import oldVersion.entities.Online;
+import oldVersion.entities.Player;
 
 public class Translator extends Online {
 

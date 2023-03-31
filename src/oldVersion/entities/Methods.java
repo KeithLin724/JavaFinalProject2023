@@ -1,4 +1,4 @@
-package entities;
+package oldVersion.entities;
 
 public abstract class Methods extends Entity {
 
