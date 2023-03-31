@@ -6,6 +6,8 @@ import java.io.IOException;
 // import java.io.InputStream;
 // import javax.imageio.ImageIO;
 
+import Game.Loader.ImageLoader;
+import Game.Loader.ImageNamePath;
 import Game.gameConstant.PlayerConstants;
 import base.loader.BaseLoader;
 
@@ -92,31 +94,10 @@ public class Player extends Methods {
 
     @Override
     public void importImage() {
-        animations = new BufferedImage[5][6];
-
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.IDLE); i++) {
-            try {
-                animations[PlayerConstants.IDLE][i] = BaseLoader.loadImage(Player.class, Entity.imageName("IDLE_" + i));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.ATTACKING); i++) {
-            try {
-                animations[PlayerConstants.ATTACKING][i] = BaseLoader.loadImage(Player.class,
-                        Entity.imageName("ATTACK_" + i));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.MOVING); i++) {
-            try {
-                animations[PlayerConstants.MOVING][i] = BaseLoader.loadImage(Player.class,
-                        Entity.imageName("MOVE_" + i));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            animations = ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

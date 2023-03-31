@@ -1,6 +1,6 @@
 package Game.Loader;
 
-import Game.Factory;
+import Game.GameElementFactory;
 import Game.GameCharacter;
 
 // Factory 

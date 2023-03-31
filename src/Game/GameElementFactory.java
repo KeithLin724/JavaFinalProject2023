@@ -1,7 +1,7 @@
 package Game;
 
-public class Factory {
-    public Factory() {
+public class GameElementFactory {
+    public GameElementFactory() {
 
     }
 
