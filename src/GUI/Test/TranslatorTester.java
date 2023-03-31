@@ -5,9 +5,10 @@ import java.util.logging.Logger;
 
 import Game.GameCharacter;
 import Game.Loader.GameElementLoader;
+import Game.PLUG.GameRenderInterface;
 import logic.input.MoveCommandConstant;
 
-public class TranslatorTester {
+public class TranslatorTester implements GameRenderInterface {
     private static final Logger LOGGER = Logger.getLogger(TranslatorTester.class.getName());
 
     private GameCharacter player;
@@ -21,10 +22,6 @@ public class TranslatorTester {
 
     public void updateLogic() {
         player.update();
-    }
-
-    public void render(Graphics g) {
-        player.render(g);
     }
 
     public GameCharacter getPlayer() {
@@ -46,5 +43,10 @@ public class TranslatorTester {
                 this.player.setRight(move);
             }
         }
+    }
+
+    @Override
+    public void render(Graphics g) {
+        player.render(g);
     }
 }

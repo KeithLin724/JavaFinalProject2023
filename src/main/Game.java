@@ -1,14 +1,16 @@
 package main;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.logging.Logger;
 
 import GUI.Test.TranslatorTester;
+import Game.PLUG.GameRenderInterface;
 import base.BaseGameConstant;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
 
-public class Game extends BaseGameConstant implements Runnable {
+public class Game extends BaseGameConstant implements Runnable, GameRenderInterface {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     // private Translator translator;
@@ -100,5 +102,10 @@ public class Game extends BaseGameConstant implements Runnable {
 
     public TranslatorTester getTranslator() {
         return translator;
+    }
+
+    @Override
+    public void render(Graphics g) {
+        this.translator.render(g);
     }
 }

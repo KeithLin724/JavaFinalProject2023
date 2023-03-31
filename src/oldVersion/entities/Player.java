@@ -9,7 +9,6 @@ import java.io.IOException;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.gameConstant.PlayerConstants;
-import base.loader.BaseLoader;
 
 public class Player extends Methods {
     private BufferedImage[][] animations;

@@ -14,7 +14,6 @@ public final class ImageNamePath {
      * @param fileName   The name of the file.
      * @return A String
      */
-
     public static String imagePath(String folderName, String fileName) {
         return BaseFileNameFormatter.of(folderName + fileName, FileNameType.IMAGE);
     }
