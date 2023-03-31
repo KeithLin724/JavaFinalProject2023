@@ -23,7 +23,7 @@ public class LoadSave {
 		InputStream is = BaseLoader.loadFile(LoadSave.class, "/" + fileName);
 		try {
 			// img = ImageIO.read(is);
-			img = BaseLoader.coverToImage(is);
+			img = BaseLoader.convertToImage(is);
 
 		} catch (IOException e) {
 			e.printStackTrace();

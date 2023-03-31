@@ -3,6 +3,8 @@ package main;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+// this class for drawing 
+
 public class GamePanel extends JPanel {
 
     private Game game;

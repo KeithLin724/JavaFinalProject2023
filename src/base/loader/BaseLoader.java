@@ -2,6 +2,11 @@ package base.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -38,7 +43,7 @@ public class BaseLoader {
      * @param inputStream The input stream of the image file.
      * @return A BufferedImage object.
      */
-    public static BufferedImage coverToImage(InputStream inputStream) throws IOException {
+    public static BufferedImage convertToImage(InputStream inputStream) throws IOException {
         return ImageIO.read(inputStream);
     }
 
@@ -54,7 +59,31 @@ public class BaseLoader {
      * @return A BufferedImage object.
      */
     public static <T> BufferedImage loadImage(Class<T> cls, String fileName) throws IOException {
-        return coverToImage(loadFile(cls, fileName));
+        return convertToImage(loadFile(cls, fileName));
+    }
+
+    /**
+     * It returns the URI of a file in the same directory as the class file of the
+     * class passed as the
+     * first argument
+     * 
+     * @param cls      The class that is calling the method.
+     * @param fileName The name of the file to be read.
+     * @return A URI object.
+     */
+    public static <T> URI getURI(Class<T> cls, String fileName) throws URISyntaxException {
+        return cls.getResource(fileName).toURI();
+    }
+
+    /**
+     * > Loads a text file from the classpath and returns it as a list of strings
+     * 
+     * @param cls      The class that the file is located in.
+     * @param fileName The name of the file to load.
+     * @return A list of strings.
+     */
+    public static <T> List<String> loadTextFile(Class<T> cls, String fileName) throws IOException, URISyntaxException {
+        return Files.readAllLines(Paths.get(getURI(cls, fileName)));
     }
 
 }

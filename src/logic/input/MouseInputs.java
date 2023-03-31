@@ -29,8 +29,10 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1)
+        if (e.getButton() == MouseEvent.BUTTON1) {
             game.getTranslator().getPlayer().setAttacking(true);
+        }
+
         // TODO Auto-generated method stub
         // throw new UnsupportedOperationException("Unimplemented method
         // 'mouseClicked'");
