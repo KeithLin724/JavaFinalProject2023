@@ -1,4 +1,4 @@
-package Game.gameConstant;
+package oldVersion;
 
 public class PlayerConstants {
     public static final int IDLE = 0;
