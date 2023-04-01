@@ -3,7 +3,8 @@ package Game.Loader;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import Game.gameConstant.PlayerConstants;
+// import Game.gameConstant.PlayerConstants;
+import Game.gameConstant.PlayerState;
 import base.loader.BaseLoader;
 
 public class ImageLoader {
@@ -32,16 +33,16 @@ public class ImageLoader {
 
         BufferedImage[][] animations = new BufferedImage[characterState][frameNumber];
 
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.IDLE); i++) {
-            animations[PlayerConstants.IDLE][i] = ImageLoader.loadImage(folderName, "IDLE_" + i);
+        for (int i = 0; i < PlayerState.IDLE.getAnimationFrameNumbs(); i++) {
+            animations[PlayerState.IDLE.num][i] = ImageLoader.loadImage(folderName, "IDLE_" + i);
         }
 
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.ATTACKING); i++) {
-            animations[PlayerConstants.ATTACKING][i] = ImageLoader.loadImage(folderName, "ATTACK_" + i);
+        for (int i = 0; i < PlayerState.ATTACKING.getAnimationFrameNumbs(); i++) {
+            animations[PlayerState.ATTACKING.num][i] = ImageLoader.loadImage(folderName, "ATTACK_" + i);
         }
 
-        for (int i = 0; i < PlayerConstants.GetAnimationFrameNumbs(PlayerConstants.MOVING); i++) {
-            animations[PlayerConstants.MOVING][i] = ImageLoader.loadImage(folderName, "MOVE_" + i);
+        for (int i = 0; i < PlayerState.MOVING.getAnimationFrameNumbs(); i++) {
+            animations[PlayerState.MOVING.num][i] = ImageLoader.loadImage(folderName, "MOVE_" + i);
         }
 
         return animations;

@@ -1,19 +1,19 @@
 package Game.ABC;
 
-import Game.gameConstant.PlayerConstants;
+import Game.gameConstant.PlayerState;
 
 public abstract class BasicMoveABC {
-    protected int playerAction;
+    protected PlayerState playerAction;
     protected boolean moving, attacking;
     protected boolean up, down, right, left;
 
     public BasicMoveABC() {
-        this.playerAction = PlayerConstants.IDLE;
+        this.playerAction = PlayerState.IDLE;
         this.moving = false;
         this.attacking = false;
     }
 
-    public BasicMoveABC(int playerAction, boolean moving, boolean attacking) {
+    public BasicMoveABC(PlayerState playerAction, boolean moving, boolean attacking) {
         this.playerAction = playerAction;
         this.moving = moving;
         this.attacking = attacking;

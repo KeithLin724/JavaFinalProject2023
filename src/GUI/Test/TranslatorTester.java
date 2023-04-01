@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 import Game.GameCharacter;
 import Game.Loader.GameElementLoader;
 import Game.PLUG.GameRenderInterface;
-import logic.input.MoveCommandConstant;
+import logic.input.MoveCommand;
 
 public class TranslatorTester implements GameRenderInterface {
     private static final Logger LOGGER = Logger.getLogger(TranslatorTester.class.getName());
@@ -28,20 +28,21 @@ public class TranslatorTester implements GameRenderInterface {
         return player;
     }
 
-    public void setPlayMove(String moveCmd, boolean move) {
+    public void setPlayMove(MoveCommand moveCmd, boolean move) {
         switch (moveCmd) {
-            case MoveCommandConstant.UP -> {
+            case UP -> {
                 this.player.setUp(move);
             }
-            case MoveCommandConstant.LEFT -> {
+            case LEFT -> {
                 this.player.setLeft(move);
             }
-            case MoveCommandConstant.DOWN -> {
+            case DOWN -> {
                 this.player.setDown(move);
             }
-            case MoveCommandConstant.RIGHT -> {
+            case RIGHT -> {
                 this.player.setRight(move);
             }
+            default -> throw new IllegalArgumentException("Unexpected value: " + moveCmd);
         }
     }
 

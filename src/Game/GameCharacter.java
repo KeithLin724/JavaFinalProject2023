@@ -10,7 +10,7 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
-import Game.gameConstant.PlayerConstants;
+import Game.gameConstant.PlayerState;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface {
@@ -78,9 +78,11 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void render(Graphics g) {
-        this.imgScaleX = animations[this.playerAction][this.aniIndex].getWidth() / this.imageScale;
-        this.imgScaleY = animations[this.playerAction][this.aniIndex].getHeight() / this.imageScale;
-        g.drawImage(animations[playerAction][this.aniIndex], (int) this.x, (int) this.y, this.imgScaleX, this.imgScaleY,
+        this.imgScaleX = animations[this.playerAction.num][this.aniIndex].getWidth() / this.imageScale;
+        this.imgScaleY = animations[this.playerAction.num][this.aniIndex].getHeight() / this.imageScale;
+        g.drawImage(animations[this.playerAction.num][this.aniIndex],
+                (int) this.x, (int) this.y,
+                this.imgScaleX, this.imgScaleY,
                 null);
     }
 
@@ -97,13 +99,13 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     @Override
     public void setAnimationState() {
 
-        int startAni = playerAction;
+        PlayerState startAni = playerAction;
 
-        playerAction = (moving ? PlayerConstants.MOVING : PlayerConstants.IDLE);
+        playerAction = (moving ? PlayerState.MOVING : PlayerState.IDLE);
 
         if (attacking) {
             aniSpeed = 20;
-            playerAction = PlayerConstants.ATTACKING;
+            playerAction = PlayerState.ATTACKING;
         }
 
         if (startAni != playerAction) {
@@ -118,7 +120,7 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= PlayerConstants.GetAnimationFrameNumbs(playerAction)) {
+            if (aniIndex >= playerAction.getAnimationFrameNumbs()) {
                 aniIndex = 0;
                 attacking = false;
                 aniSpeed = 35;

@@ -2,7 +2,7 @@ package main;
 
 import java.awt.Graphics;
 
-import logic.input.MoveCommandConstant;
+import logic.input.MoveCommand;
 import oldVersion.entities.Online;
 import oldVersion.entities.Player;
 
@@ -26,20 +26,22 @@ public class Translator extends Online {
         return player;
     }
 
-    public void setPlayMove(String moveCmd, boolean move) {
+    public void setPlayMove(MoveCommand moveCmd, boolean move) {
         switch (moveCmd) {
-            case MoveCommandConstant.UP -> {
+            case UP -> {
                 this.player.setUp(move);
             }
-            case MoveCommandConstant.LEFT -> {
+            case LEFT -> {
                 this.player.setLeft(move);
             }
-            case MoveCommandConstant.DOWN -> {
+            case DOWN -> {
                 this.player.setDown(move);
             }
-            case MoveCommandConstant.RIGHT -> {
+            case RIGHT -> {
                 this.player.setRight(move);
             }
+            case NONE -> throw new UnsupportedOperationException("Unimplemented case: " + moveCmd);
+            default -> throw new IllegalArgumentException("Unexpected value: " + moveCmd);
         }
     }
 
