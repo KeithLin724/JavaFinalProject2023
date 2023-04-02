@@ -1,6 +1,16 @@
 package GUI;
 
-public class Translator {
+import java.awt.Graphics;
+
+import Game.PLUG.GameRenderInterface;
+
+public class Translator implements GameRenderInterface {
+
+    @Override
+    public void render(Graphics g) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'render'");
+    }
     // private Player player;
 
     // public Translator() {

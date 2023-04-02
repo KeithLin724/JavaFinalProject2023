@@ -1,8 +1,12 @@
 package main;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
+// import javax.swing.JPanel;
 
 import GUI.Test.TranslatorTester;
 import Game.PLUG.GameRenderInterface;
@@ -16,8 +20,9 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     // private Translator translator;
     private TranslatorTester translator;
     private Thread gameThread;
-    private final int FPS = 120;
-    private final int UPS = 200;
+
+    private static final double FPS = 120;
+    private static final double UPS = 200;
 
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
@@ -46,6 +51,20 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+    }
+
+    // replace GameWindow
+    private static JFrame settingGamingWindow(Component gamingPanel) {
+        JFrame gamingWindow = new JFrame();
+
+        gamingWindow.add(gamingPanel);
+        gamingWindow.setVisible(true);
+        gamingWindow.setLocationRelativeTo(null);
+        gamingWindow.setResizable(false);
+        gamingWindow.pack();
+        gamingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        return gamingWindow;
     }
 
     // Start Game-loop

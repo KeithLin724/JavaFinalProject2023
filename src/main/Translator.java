@@ -3,10 +3,9 @@ package main;
 import java.awt.Graphics;
 
 import logic.input.MoveCommand;
-import oldVersion.entities.Online;
 import oldVersion.entities.Player;
 
-public class Translator extends Online {
+public class Translator {
 
     private Player player;
 
@@ -40,7 +39,9 @@ public class Translator extends Online {
             case RIGHT -> {
                 this.player.setRight(move);
             }
-            case NONE -> throw new UnsupportedOperationException("Unimplemented case: " + moveCmd);
+            case NONE -> {
+                // None
+            }
             default -> throw new IllegalArgumentException("Unexpected value: " + moveCmd);
         }
     }
