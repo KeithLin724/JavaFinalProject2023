@@ -6,7 +6,9 @@ import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 
 /**
- * GameCharacterBuilder
+ * The GameCharacterBuilder class uses the builder pattern to construct a
+ * GameCharacter object with
+ * animation data, image scale, and game player speed data.
  */
 public class GameCharacterBuilder {
     private GameCharacter gameCharacter;

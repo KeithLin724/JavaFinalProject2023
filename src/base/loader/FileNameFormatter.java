@@ -1,5 +1,13 @@
 package base.loader;
 
+/**
+ * This is a Java enum called `FileNameFormatter` that defines two file types:
+ * TEXT and IMAGE. Each
+ * file type has a corresponding file extension (".txt" and ".png",
+ * respectively) stored in the
+ * fileType` field. The constructor initializes the `fileType` field for each
+ * enum value.
+ */
 public enum FileNameFormatter {
     TEXT(".txt"),
     IMAGE(".png");
