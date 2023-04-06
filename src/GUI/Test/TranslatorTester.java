@@ -1,27 +1,30 @@
-package main;
+package GUI.Test;
 
 import java.awt.Graphics;
+import java.util.logging.Logger;
 
+import Game.GameCharacter;
+import Game.Loader.GameElementLoader;
+import Game.PLUG.GameRenderInterface;
 import logic.input.MoveCommand;
-import oldVersion.entities.Player;
 
-public class Translator {
+public class TranslatorTester implements GameRenderInterface {
+    private static final Logger LOGGER = Logger.getLogger(TranslatorTester.class.getName());
 
-    private Player player;
+    private GameCharacter player;
 
-    public Translator() {
-        player = new Player(200, 200);
+    public TranslatorTester() {
+        LOGGER.info("Testing");
+        player = GameElementLoader.getTestingGameCharacter();
+
+        player.init(200, 200);
     }
 
     public void updateLogic() {
         player.update();
     }
 
-    public void render(Graphics g) {
-        player.render(g);
-    }
-
-    public Player getPlayer() {
+    public GameCharacter getPlayer() {
         return player;
     }
 
@@ -39,11 +42,12 @@ public class Translator {
             case RIGHT -> {
                 this.player.setRight(move);
             }
-            case NONE -> {
-                // None
-            }
             default -> throw new IllegalArgumentException("Unexpected value: " + moveCmd);
         }
     }
 
+    @Override
+    public void render(Graphics g) {
+        player.render(g);
+    }
 }

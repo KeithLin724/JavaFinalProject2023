@@ -1,19 +1,28 @@
 package main;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.logging.Logger;
 
+import javax.swing.JFrame;
+// import javax.swing.JPanel;
+
+import GUI.Test.TranslatorTester;
+import Game.PLUG.GameRenderInterface;
 import base.BaseGameConstant;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
 
-public class Game extends BaseGameConstant implements Runnable {
+public class Game extends BaseGameConstant implements Runnable, GameRenderInterface {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
-    private Translator translator;
+    // private Translator translator;
+    private TranslatorTester translator;
     private Thread gameThread;
-    private final int FPS = 120;
-    private final int UPS = 200;
+
+    private static final double FPS = 120;
+    private static final double UPS = 200;
 
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
@@ -29,7 +38,8 @@ public class Game extends BaseGameConstant implements Runnable {
     private void initClasses() {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
-        translator = new Translator();
+        // translator = new Translator();
+        translator = new TranslatorTester();
     }
 
     private void gamePanelSetting() {
@@ -41,6 +51,20 @@ public class Game extends BaseGameConstant implements Runnable {
         gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+    }
+
+    // replace GameWindow
+    private static JFrame settingGamingWindow(Component gamingPanel) {
+        JFrame gamingWindow = new JFrame();
+
+        gamingWindow.add(gamingPanel);
+        gamingWindow.setVisible(true);
+        gamingWindow.setLocationRelativeTo(null);
+        gamingWindow.setResizable(false);
+        gamingWindow.pack();
+        gamingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        return gamingWindow;
     }
 
     // Start Game-loop
@@ -95,7 +119,12 @@ public class Game extends BaseGameConstant implements Runnable {
         }
     }
 
-    public Translator getTranslator() {
+    public TranslatorTester getTranslator() {
         return translator;
+    }
+
+    @Override
+    public void render(Graphics g) {
+        this.translator.render(g);
     }
 }
