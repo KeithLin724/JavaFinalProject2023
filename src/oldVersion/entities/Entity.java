@@ -1,7 +1,7 @@
 package oldVersion.entities;
 
-import base.loader.BaseFileNameFormatter;
-import base.loader.FileNameType;
+import oldVersion.loader.BaseFileNameFormatter;
+import oldVersion.loader.FileNameType;
 
 public abstract class Entity {
     protected float x, y;
