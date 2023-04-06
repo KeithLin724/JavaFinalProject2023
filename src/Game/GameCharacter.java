@@ -15,8 +15,6 @@ import Game.gameConstant.PlayerState;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
-    protected float x, y;
-
     public GameCharacter() {
         super(null, null, null);
     }
