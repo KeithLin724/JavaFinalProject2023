@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import Game.ABC.GameCharacterABC;
@@ -16,7 +17,7 @@ import Game.gameConstant.PlayerState;
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
     public GameCharacter() {
-        super(null, null, null);
+        super();
     }
 
     public GameCharacter(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps) {
@@ -85,9 +86,13 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
                 null);
     }
 
+    public void setAnimation(BufferedImage[][] image) {
+        this.animations = image;
+    }
+
     @Override
     public void setAnimationImage() throws IOException {
-        this.animations = ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6);
+        this.setAnimation(ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6));
     }
 
     @Override

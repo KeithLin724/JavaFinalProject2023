@@ -13,19 +13,19 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     protected int aniTick, aniIndex, aniSpeed; // text
     protected int imgScaleX, imgScaleY, imageScale; // text
 
-    private void setAniThing(AniData aid) {
+    public void setAniThing(AniData aid) {
         this.aniTick = aid.aniTick();
         this.aniIndex = aid.aniIndex();
         this.aniSpeed = aid.aniSpeed();
     }
 
-    private void setImageScale(ImageScaleData isd) {
+    public void setImageScale(ImageScaleData isd) {
         this.imgScaleX = isd.imgScaleX();
         this.imgScaleY = isd.imgScaleY();
         this.imageScale = isd.imageScale();
     }
 
-    private void setGamePlayerSpeedData(GamePlayerSpeedData gps) {
+    public void setGamePlayerSpeedData(GamePlayerSpeedData gps) {
         super.setPlayerSpeed(gps.playSpeed());
     }
 
