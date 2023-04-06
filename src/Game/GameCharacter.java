@@ -1,7 +1,6 @@
 package Game;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import Game.ABC.GameCharacterABC;
@@ -57,26 +56,6 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     }
 
     @Override
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-
-    @Override
-    public void setDown(boolean down) {
-        this.down = down;
-    }
-
-    @Override
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    @Override
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    @Override
     public void render(Graphics g) {
         this.imgScaleX = animations[this.playerAction.num][this.aniIndex].getWidth() / this.imageScale;
         this.imgScaleY = animations[this.playerAction.num][this.aniIndex].getHeight() / this.imageScale;
@@ -86,18 +65,9 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
                 null);
     }
 
-    public void setAnimation(BufferedImage[][] image) {
-        this.animations = image;
-    }
-
     @Override
     public void setAnimationImage() throws IOException {
         this.setAnimation(ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6));
-    }
-
-    @Override
-    public void setAttacking(boolean attacking) {
-        this.attacking = attacking;
     }
 
     @Override

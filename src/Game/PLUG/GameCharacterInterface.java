@@ -2,10 +2,8 @@ package Game.PLUG;
 
 import java.io.IOException;
 
-public interface GameCharacterInterface extends BasicMoveInterface {
+public interface GameCharacterInterface {
     public void setAnimationImage() throws IOException;
-
-    public void setAttacking(boolean attacking);
 
     public void setAnimationState();
 

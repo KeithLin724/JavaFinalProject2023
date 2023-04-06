@@ -40,4 +40,8 @@ public abstract class GameCharacterABC extends BasicMoveABC {
         this.setImageScale(isd);
         this.setGamePlayerSpeedData(gps);
     }
+
+    public void setAnimation(BufferedImage[][] image) {
+        this.animations = image;
+    }
 }

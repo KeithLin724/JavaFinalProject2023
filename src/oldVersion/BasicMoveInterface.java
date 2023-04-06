@@ -1,4 +1,4 @@
-package Game.PLUG;
+package oldVersion;
 
 public interface BasicMoveInterface {
     public void setUp(boolean up);
