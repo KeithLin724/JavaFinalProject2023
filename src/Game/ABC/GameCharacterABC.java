@@ -9,10 +9,9 @@ import Game.DataPass.ImageScaleData;
 public abstract class GameCharacterABC extends BasicMoveABC {
 
     protected BufferedImage[][] animations;
-    // private InputStream imageInput;
+
     protected int aniTick, aniIndex, aniSpeed; // text
     protected int imgScaleX, imgScaleY, imageScale; // text
-    protected float playerSpeed; // text
 
     private void setAniThing(AniData aid) {
         this.aniTick = aid.aniTick();
@@ -27,7 +26,7 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     }
 
     private void setGamePlayerSpeedData(GamePlayerSpeedData gps) {
-        this.playerSpeed = gps.playSpeed();
+        super.setPlayerSpeed(gps.playSpeed());
     }
 
     public GameCharacterABC() {

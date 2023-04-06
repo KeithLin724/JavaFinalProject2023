@@ -10,10 +10,11 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
+import Game.PLUG.GameRenderInterface;
 import Game.gameConstant.PlayerState;
 
 // for put the game character skin
-public class GameCharacter extends GameCharacterABC implements GameCharacterInterface {
+public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
     protected float x, y;
 
     public GameCharacter() {
