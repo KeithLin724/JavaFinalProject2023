@@ -1,5 +1,17 @@
 package Game.gameConstant;
 
+/**
+ * This is an enum class named `PlayerState` that defines the different states a
+ * player can be in a
+ * game. Each state is assigned a number and has a method
+ * `getAnimationFrameNumbs()` that returns the
+ * number of animation frames associated with that state. The constructor
+ * initializes the `num` field
+ * with the assigned number for each state. The `switch` statement in the
+ * `getAnimationFrameNumbs()`
+ * method returns the appropriate number of animation frames based on the
+ * current state.
+ */
 public enum PlayerState {
     IDLE(0),
     MOVING(1),

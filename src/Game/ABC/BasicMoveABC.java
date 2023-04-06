@@ -10,14 +10,12 @@ public abstract class BasicMoveABC {
 
     protected float playerSpeed; // text
 
+    public abstract void updatePosition();
+
     public BasicMoveABC() {
         this.playerAction = PlayerState.IDLE;
         this.moving = false;
         this.attacking = false;
-    }
-
-    protected void setPlayerSpeed(float playerSpeed) {
-        this.playerSpeed = playerSpeed;
     }
 
     public BasicMoveABC(PlayerState playerAction, boolean moving, boolean attacking) {
@@ -26,9 +24,22 @@ public abstract class BasicMoveABC {
         this.attacking = attacking;
     }
 
-    public abstract void updatePosition();
+    public void setX(float x) {
+        this.x = x;
+    }
 
-    // public
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setXY(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    protected void setPlayerSpeed(float playerSpeed) {
+        this.playerSpeed = playerSpeed;
+    }
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;

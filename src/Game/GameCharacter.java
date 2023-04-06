@@ -2,6 +2,8 @@ package Game;
 
 import java.awt.Graphics;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Game.ABC.GameCharacterABC;
 import Game.DataPass.AniData;
@@ -15,6 +17,8 @@ import Game.gameConstant.PlayerState;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
+    private static final Logger LOGGER = Logger.getLogger(GameCharacter.class.getName());
+
     public GameCharacter() {
         super();
     }
@@ -24,14 +28,8 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     }
 
     public void init(float x, float y) {
-        this.x = x;
-        this.y = y;
-
-        try {
-            this.setAnimationImage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.setXY(x, y);
+        this.setAnimationImage();
     }
 
     @Override
@@ -57,17 +55,24 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void render(Graphics g) {
-        this.imgScaleX = animations[this.playerAction.num][this.aniIndex].getWidth() / this.imageScale;
-        this.imgScaleY = animations[this.playerAction.num][this.aniIndex].getHeight() / this.imageScale;
-        g.drawImage(animations[this.playerAction.num][this.aniIndex],
+        var nowImage = this.getAnimationImage(this.playerAction, this.aniIndex);
+        var scalePoint = this.getImageScalePoint(nowImage);
+
+        g.drawImage(nowImage,
                 (int) this.x, (int) this.y,
-                this.imgScaleX, this.imgScaleY,
+                scalePoint.x, scalePoint.y,
                 null);
+
     }
 
     @Override
-    public void setAnimationImage() throws IOException {
-        this.setAnimation(ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6));
+    public void setAnimationImage() {
+        try {
+            this.setAnimation(ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "load image error", e);
+            e.printStackTrace();
+        }
     }
 
     @Override
