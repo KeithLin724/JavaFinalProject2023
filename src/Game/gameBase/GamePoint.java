@@ -59,62 +59,62 @@ public class GamePoint extends GameUnitPair {
     }
 
     /**
-     * The function takes two Point objects and returns a new GameUnitPair object
-     * with the sum of their x
-     * and y coordinates.
+     * The function takes two Point objects and returns a new GamePoint object with
+     * the sum of their x and
+     * y coordinates.
      * 
-     * @param obj1 A Point object representing the coordinates of the first game
-     *             unit.
-     * @param obj2 obj2 is a Point object representing the second point to be added
-     *             to obj1. It contains
-     *             the x and y coordinates of the second point.
-     * @return A new instance of the `GameUnitPair` class with the x and y
-     *         coordinates of `obj1` and `obj2`
-     *         added together.
+     * @param obj1 A Point object representing the coordinates of a point in a 2D
+     *             space.
+     * @param obj2 The obj2 parameter is an object of the Point class, which
+     *             represents a point in a
+     *             two-dimensional coordinate system with x and y coordinates. It is
+     *             being used to add its x and y
+     *             values to the x and y values of another Point object (obj1) in
+     *             order to create a new Game
+     * @return A new instance of the GamePoint class with the x and y values of obj1
+     *         and obj2 added
+     *         together.
      */
-    public static GameUnitPair add(Point obj1, Point obj2) {
-        return new GameUnitPair(obj1.x + obj2.x, obj1.y + obj2.y);
+    public static GamePoint add(Point obj1, Point obj2) {
+        return new GamePoint(obj1.x + obj2.x, obj1.y + obj2.y);
     }
 
     /**
-     * The function takes two Point objects and returns a new GameUnitPair object
-     * with the difference of
-     * their x and y coordinates.
+     * The function takes two Point objects and returns a new GamePoint object with
+     * the difference of their
+     * x and y coordinates.
      * 
-     * @param obj1 A Point object representing the first point to be subtracted
-     *             from.
-     * @param obj2 The obj2 parameter is a Point object representing the second
-     *             point in the subtraction
-     *             operation.
-     * @return A new instance of the `GameUnitPair` class with the `x` and `y`
-     *         values of the difference
-     *         between the `x` and `y` values of `obj1` and `obj2`.
+     * @param obj1 A Point object representing the first point.
+     * @param obj2 The second object of type Point that is being subtracted from the
+     *             first object (obj1) in
+     *             order to calculate the difference between their x and y
+     *             coordinates.
+     * @return A new instance of the `GamePoint` class with the `x` and `y` values
+     *         calculated by
+     *         subtracting the corresponding values of `obj2` from `obj1`.
      */
-    public static GameUnitPair sub(Point obj1, Point obj2) {
-        return new GameUnitPair(obj1.x - obj2.x, obj1.y - obj2.y);
+    public static GamePoint sub(Point obj1, Point obj2) {
+        return new GamePoint(obj1.x - obj2.x, obj1.y - obj2.y);
     }
 
     /**
-     * The function takes two Point objects and returns a new GameUnitPair object
-     * with the product of their
-     * x and y values.
+     * The function takes two Point objects and returns a new GamePoint object with
+     * the product of their x
+     * and y values.
      * 
-     * @param obj1 The first parameter is a Point object named obj1. It likely
-     *             contains an x and y
-     *             coordinate value.
-     * @param obj2 The obj2 parameter is a Point object that represents the second
-     *             operand in a
-     *             multiplication operation. It has two properties, x and y, which
-     *             are multiplied with the
-     *             corresponding properties of the obj1 parameter to create a new
-     *             GameUnitPair object.
-     * @return A new instance of the `GameUnitPair` class with the `x` value of
-     *         `obj1` multiplied by the
-     *         `x` value of `obj2` and the `y` value of `obj1` multiplied by the `y`
-     *         value of `obj2`.
+     * @param obj1 A Point object representing the first point to be multiplied.
+     * @param obj2 The obj2 parameter is an instance of the Point class, which
+     *             represents a point in a
+     *             two-dimensional coordinate system with x and y coordinates. It is
+     *             being used to multiply the x and y
+     *             coordinates of another Point object (obj1) to create a new
+     *             GamePoint object.
+     * @return A new instance of the `GamePoint` class with the `x` and `y` values
+     *         multiplied from the
+     *         `Point` objects `obj1` and `obj2`.
      */
-    public static GameUnitPair mul(Point obj1, Point obj2) {
-        return new GameUnitPair(obj1.x * obj2.x, obj1.y * obj2.y);
+    public static GamePoint mul(Point obj1, Point obj2) {
+        return new GamePoint(obj1.x * obj2.x, obj1.y * obj2.y);
     }
 
     /**
@@ -122,7 +122,7 @@ public class GamePoint extends GameUnitPair {
      * 
      * @param obj1 The first parameter "obj1" is a Point object representing a point
      *             in 2D space. It has
-     *             two attributes, "x" and "y", which represent the coordinates of
+     *             two properties, "x" and "y", which represent the coordinates of
      *             the point on the x-axis and y-axis
      *             respectively.
      * @param obj2 obj2 is an object of the class Point, which presumably has two

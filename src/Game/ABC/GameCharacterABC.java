@@ -1,12 +1,13 @@
 package Game.ABC;
 
+import java.awt.Point;
 // import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
-import Game.gameBase.GameUnitPair;
+import Game.gameBase.GameCalculator;
 import Game.gameConstant.PlayerState;
 
 public abstract class GameCharacterABC extends BasicMoveABC {
@@ -124,13 +125,9 @@ public abstract class GameCharacterABC extends BasicMoveABC {
      *         and y coordinates,
      *         respectively.
      */
-    public GameUnitPair getImageScalePoint(BufferedImage animationsImage) {
-        return new GameUnitPair(animationsImage.getWidth(), animationsImage.getHeight())
-                .div(this.imageScale);
-
-        // var imageScaleX = this.scaleFunction(animationsImage.getWidth());
-        // var imageScaleY = this.scaleFunction(animationsImage.getHeight());
-
-        // return new Point(imageScaleX, imageScaleY);
+    public Point getImageScalePoint(BufferedImage animationsImage) {
+        return GameCalculator.calculate(
+                animationsImage.getWidth(), animationsImage.getHeight(),
+                (x) -> this.scaleFunction(x));
     }
 }
