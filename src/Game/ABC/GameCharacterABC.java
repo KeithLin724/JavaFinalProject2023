@@ -128,6 +128,6 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     public Point getImageScalePoint(BufferedImage animationsImage) {
         return GameCalculator.calculate(
                 animationsImage.getWidth(), animationsImage.getHeight(),
-                (x) -> this.scaleFunction(x));
+                this::scaleFunction);
     }
 }

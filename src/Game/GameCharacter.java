@@ -12,7 +12,6 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
-import Game.PLUG.GameLambda;
 import Game.PLUG.GameRenderInterface;
 import Game.gameConstant.PlayerState;
 
