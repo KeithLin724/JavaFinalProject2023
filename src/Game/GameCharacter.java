@@ -12,6 +12,7 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
+import Game.PLUG.GameLambda;
 import Game.PLUG.GameRenderInterface;
 import Game.gameConstant.PlayerState;
 
@@ -35,6 +36,8 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     @Override
     public void updatePosition() {
         this.moving = false;
+
+        // GameLambda<Boolean> booleanLambda = (a, b) -> a && !b;
 
         if (this.left && !this.right) {
             this.x -= this.playerSpeed;
