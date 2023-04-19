@@ -12,6 +12,7 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
+import Game.PLUG.GameLambda;
 import Game.PLUG.GameRenderInterface;
 import Game.gameConstant.PlayerState;
 
@@ -34,29 +35,42 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void updatePosition() {
+        GameLambda<Boolean> trueDir = (a, b) -> a && !b;
 
-        switch (this.direction) {
-            case UP -> {
-                this.y -= this.playerSpeed;
-            }
-            case DOWN -> {
-                this.y += this.playerSpeed;
-            }
-            case LEFT -> {
-                this.x -= this.playerSpeed;
-            }
-
-            case RIGHT -> {
-                this.x += this.playerSpeed;
-            }
-            case NONE -> {
-                // None
-            }
-            default -> {
-
-            }
-
+        if (trueDir.func(this.dirMove[2], this.dirMove[3])) {
+            this.x -= this.playerSpeed;
+        } else if (trueDir.func(this.dirMove[3], this.dirMove[2])) {
+            this.x += this.playerSpeed;
         }
+
+        if (trueDir.func(this.dirMove[0], this.dirMove[1])) {
+            this.y -= this.playerSpeed;
+        } else if (trueDir.func(this.dirMove[1], this.dirMove[0])) {
+            this.y += this.playerSpeed;
+        }
+        // switch (this.direction) {
+        // case UP -> {
+        // this.y -= this.playerSpeed;
+        // }
+        // case DOWN -> {
+        // this.y += this.playerSpeed;
+        // }
+        // case LEFT -> {
+        // this.x -= this.playerSpeed;
+        // }
+
+        // case RIGHT -> {
+        // this.x += this.playerSpeed;
+        // }
+        // case NONE -> {
+        // // None
+        // }
+        // default -> {
+
+        // }
+
+        // }
+
     }
 
     @Override

@@ -11,5 +11,5 @@ package Game.PLUG;
  */
 
 public interface GameLambda<T> {
-    public T function(T objectA, T objectB);
+    public T func(T objectA, T objectB);
 }

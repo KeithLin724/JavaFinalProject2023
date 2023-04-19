@@ -31,8 +31,8 @@ public class KeyboardInputs implements KeyListener {
         return Direction.NONE;
     }
 
-    private void updatePlayerMoveState(Direction moveCmd) {
-        game.getTranslator().setPlayMove(moveCmd);
+    private void updatePlayerMoveState(Direction moveCmd, boolean isMoving) {
+        game.getTranslator().setPlayMove(moveCmd, isMoving);
     }
 
     @Override
@@ -43,12 +43,14 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         var state = this.keyEventToMoveCommand(e);
-        this.updatePlayerMoveState(state);
+        // System.out.println(state);
+        this.updatePlayerMoveState(state, true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        this.updatePlayerMoveState(Direction.NONE);
+        var state = this.keyEventToMoveCommand(e);
+        this.updatePlayerMoveState(state, false);
     }
 
 }

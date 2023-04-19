@@ -1,16 +1,21 @@
 package Game.ABC;
 
+import java.util.Arrays;
+
 import Game.gameConstant.PlayerState;
 import logic.input.Direction;
 
 public abstract class BasicMoveABC {
     protected PlayerState playerAction;
 
-    protected boolean attacking; // moving
+    protected boolean attacking;
     protected float x, y;
     protected float playerSpeed; // text
 
     protected Direction direction;
+    protected boolean[] dirMove = { false, false, false, false };
+
+    protected static final boolean[] CHECK_DIR = { false, false, false, false };
 
     public abstract void updatePosition();
 
@@ -51,8 +56,13 @@ public abstract class BasicMoveABC {
         this.playerAction = playerState;
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(Direction direction, boolean isMoving) {
         this.direction = direction;
+        this.dirMove[direction.index()] = isMoving;
+
+        if (Arrays.equals(this.dirMove, CHECK_DIR)) {
+            this.direction = Direction.NONE;
+        }
     }
 
 }

@@ -28,8 +28,8 @@ public class TranslatorTester implements GameRenderInterface {
         return player;
     }
 
-    public void setPlayMove(Direction moveCmd) {
-        this.player.setDirection(moveCmd);
+    public void setPlayMove(Direction moveCmd, boolean isMoving) {
+        this.player.setDirection(moveCmd, isMoving);
     }
 
     @Override
