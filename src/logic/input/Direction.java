@@ -1,6 +1,6 @@
 package logic.input;
 
-public enum MoveCommand {
+public enum Direction {
     UP("UP"),
     DOWN("DOWN"),
     LEFT("LEFT"),
@@ -10,7 +10,11 @@ public enum MoveCommand {
 
     final String cmd;
 
-    MoveCommand(String cmdString) {
+    Direction(String cmdString) {
         this.cmd = cmdString;
+    }
+
+    public boolean isMoving() {
+        return !this.equals(NONE);
     }
 }

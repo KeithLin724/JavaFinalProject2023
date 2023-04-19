@@ -1,26 +1,28 @@
 package Game.ABC;
 
 import Game.gameConstant.PlayerState;
+import logic.input.Direction;
 
 public abstract class BasicMoveABC {
     protected PlayerState playerAction;
-    protected boolean moving, attacking;
-    protected float x, y;
-    protected boolean up, down, right, left;
 
+    protected boolean attacking; // moving
+    protected float x, y;
     protected float playerSpeed; // text
+
+    protected Direction direction;
 
     public abstract void updatePosition();
 
     public BasicMoveABC() {
         this.playerAction = PlayerState.IDLE;
-        this.moving = false;
         this.attacking = false;
+        this.direction = Direction.NONE;
     }
 
-    public BasicMoveABC(PlayerState playerAction, boolean moving, boolean attacking) {
+    public BasicMoveABC(PlayerState playerAction, Direction direction, boolean attacking) {
         this.playerAction = playerAction;
-        this.moving = moving;
+        this.direction = direction;
         this.attacking = attacking;
     }
 
@@ -45,19 +47,12 @@ public abstract class BasicMoveABC {
         this.attacking = attacking;
     }
 
-    public void setUp(boolean up) {
-        this.up = up;
+    public void setPlayerState(PlayerState playerState) {
+        this.playerAction = playerState;
     }
 
-    public void setDown(boolean down) {
-        this.down = down;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    public void setRight(boolean right) {
-        this.right = right;
-    }
 }

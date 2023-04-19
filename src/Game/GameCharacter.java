@@ -34,24 +34,28 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void updatePosition() {
-        this.moving = false;
 
-        // GameLambda<Boolean> booleanLambda = (a, b) -> a && !b;
+        switch (this.direction) {
+            case UP -> {
+                this.y -= this.playerSpeed;
+            }
+            case DOWN -> {
+                this.y += this.playerSpeed;
+            }
+            case LEFT -> {
+                this.x -= this.playerSpeed;
+            }
 
-        if (this.left && !this.right) {
-            this.x -= this.playerSpeed;
-            moving = true;
-        } else if (this.right && !this.left) {
-            this.x += this.playerSpeed;
-            this.moving = true;
-        }
+            case RIGHT -> {
+                this.x += this.playerSpeed;
+            }
+            case NONE -> {
+                // None
+            }
+            default -> {
 
-        if (this.up && !this.down) {
-            this.y -= this.playerSpeed;
-            this.moving = true;
-        } else if (this.down && !this.up) {
-            this.y += this.playerSpeed;
-            this.moving = true;
+            }
+
         }
     }
 
@@ -82,7 +86,7 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
         PlayerState startAni = playerAction;
 
-        playerAction = (moving ? PlayerState.MOVING : PlayerState.IDLE);
+        playerAction = (this.direction.isMoving() ? PlayerState.MOVING : PlayerState.IDLE);
 
         if (attacking) {
             aniSpeed = 20;

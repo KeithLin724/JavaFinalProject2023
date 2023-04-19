@@ -2,7 +2,7 @@ package main;
 
 import java.awt.Graphics;
 
-import logic.input.MoveCommand;
+import logic.input.Direction;
 import oldVersion.entities.Player;
 
 public class Translator {
@@ -25,7 +25,7 @@ public class Translator {
         return player;
     }
 
-    public void setPlayMove(MoveCommand moveCmd, boolean move) {
+    public void setPlayMove(Direction moveCmd, boolean move) {
         switch (moveCmd) {
             case UP -> {
                 this.player.setUp(move);
