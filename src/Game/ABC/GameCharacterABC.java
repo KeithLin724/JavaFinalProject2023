@@ -8,6 +8,7 @@ import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.gameBase.GameCalculator;
+import Game.gameBase.GameUnitPair;
 import Game.gameConstant.PlayerState;
 
 public abstract class GameCharacterABC extends BasicMoveABC {
@@ -123,7 +124,7 @@ public abstract class GameCharacterABC extends BasicMoveABC {
      *                        animations.
      * @return A Point object is being returned.
      */
-    public Point getImageScalePoint(BufferedImage animationsImage) {
+    public GameUnitPair getImageScalePoint(BufferedImage animationsImage) {
         return GameCalculator.calculate(
                 animationsImage.getWidth(), animationsImage.getHeight(),
                 this::scaleFunction);

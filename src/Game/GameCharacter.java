@@ -35,32 +35,18 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void updatePosition() {
-        // GameLambda<Boolean> trueDir = (a, b) -> a && !b;
-
-        this.x += this.dirMove[2] + this.dirMove[3];
-        this.y += this.dirMove[0] + this.dirMove[1];
-
-        // if (trueDir.func(this.dirMove[2], this.dirMove[3])) {
-        // this.x -= this.playerSpeed;
-        // } else if (trueDir.func(this.dirMove[3], this.dirMove[2])) {
-        // this.x += this.playerSpeed;
-        // }
-
-        // if (trueDir.func(this.dirMove[0], this.dirMove[1])) {
-        // this.y -= this.playerSpeed;
-        // } else if (trueDir.func(this.dirMove[1], this.dirMove[0])) {
-        // this.y += this.playerSpeed;
-        // }
-
+        this.point.x += this.dirMove[2] + this.dirMove[3];
+        this.point.y += this.dirMove[0] + this.dirMove[1];
     }
 
     @Override
     public void render(Graphics g) {
         var nowImage = this.getAnimationImage(this.playerAction, this.aniIndex);
-        var scalePoint = this.getImageScalePoint(nowImage);
+        var scalePoint = this.getImageScalePoint(nowImage).toIntPoint();
+        var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                (int) this.x, (int) this.y,
+                fromPoint.x, fromPoint.y,
                 scalePoint.x, scalePoint.y,
                 null);
 

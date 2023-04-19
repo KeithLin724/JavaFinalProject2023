@@ -2,6 +2,7 @@ package Game.ABC;
 
 import java.util.Arrays;
 
+import Game.gameBase.GamePoint;
 import Game.gameConstant.PlayerState;
 import logic.input.Direction;
 
@@ -9,7 +10,8 @@ public abstract class BasicMoveABC {
     protected PlayerState playerAction;
 
     protected boolean attacking;
-    protected float x, y;
+    // protected float x, y;
+    protected GamePoint point;
     protected float playerSpeed; // text
 
     protected Direction direction;
@@ -23,25 +25,26 @@ public abstract class BasicMoveABC {
         this.playerAction = PlayerState.IDLE;
         this.attacking = false;
         this.direction = Direction.NONE;
+        this.point = new GamePoint();
     }
 
-    public BasicMoveABC(PlayerState playerAction, Direction direction, boolean attacking) {
+    public BasicMoveABC(PlayerState playerAction, GamePoint point, Direction direction, boolean attacking) {
         this.playerAction = playerAction;
         this.direction = direction;
         this.attacking = attacking;
+        this.point = point;
     }
 
     public void setX(float x) {
-        this.x = x;
+        this.point.x = x;
     }
 
     public void setY(float y) {
-        this.y = y;
+        this.point.y = y;
     }
 
     public void setXY(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.point.setAll(x, y);
     }
 
     protected void setPlayerSpeed(float playerSpeed) {
