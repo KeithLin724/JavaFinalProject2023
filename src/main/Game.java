@@ -1,12 +1,8 @@
 package main;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-// import javax.swing.JPanel;
 
 import GUI.Test.TranslatorTester;
 import Game.PLUG.GameRenderInterface;
@@ -53,23 +49,11 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         gamePanel.requestFocusInWindow();
     }
 
-    // replace GameWindow
-    private static JFrame settingGamingWindow(Component gamingPanel) {
-        JFrame gamingWindow = new JFrame();
-
-        gamingWindow.add(gamingPanel);
-        gamingWindow.setVisible(true);
-        gamingWindow.setLocationRelativeTo(null);
-        gamingWindow.setResizable(false);
-        gamingWindow.pack();
-        gamingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        return gamingWindow;
-    }
-
     // Start Game-loop
     public void runGame() {
-        gameWindow = new GameWindow(gamePanel);
+        gameWindow = new GameWindow();
+        gameWindow.init(gamePanel);
+
         gameThread = new Thread(this);
         gameThread.start();
     }

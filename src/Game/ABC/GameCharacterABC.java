@@ -115,15 +115,13 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     }
 
     /**
-     * This function returns a Point object containing the scaled width and height
-     * of a given
-     * BufferedImage.
+     * The function returns a Point object that represents the scale of a given
+     * BufferedImage using a
+     * scaleFunction.
      * 
      * @param animationsImage A BufferedImage object representing an image used for
      *                        animations.
-     * @return A Point object with the imageScaleX and imageScaleY values as its x
-     *         and y coordinates,
-     *         respectively.
+     * @return A Point object is being returned.
      */
     public Point getImageScalePoint(BufferedImage animationsImage) {
         return GameCalculator.calculate(
