@@ -8,16 +8,13 @@ import logic.input.Direction;
 
 public abstract class BasicMoveABC {
     protected PlayerState playerAction;
-
     protected boolean attacking;
-    // protected float x, y;
+
     protected GamePoint point;
     protected float playerSpeed; // text
 
     protected Direction direction;
     protected int[] dirMove = { 0, 0, 0, 0 };
-
-    // protected static final boolean[] CHECK_DIR = { false, false, false, false };
 
     public abstract void updatePosition();
 

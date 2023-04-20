@@ -1,12 +1,11 @@
 package Game.ABC;
 
-import java.awt.Point;
-// import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
 import Game.gameConstant.PlayerState;

@@ -12,7 +12,6 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
-// import Game.PLUG.GameLambda;
 import Game.PLUG.GameRenderInterface;
 import Game.gameConstant.PlayerState;
 
@@ -35,8 +34,8 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void updatePosition() {
-        this.point.x += this.dirMove[2] + this.dirMove[3];
-        this.point.y += this.dirMove[0] + this.dirMove[1];
+        this.point.addToX(this.dirMove[2] + this.dirMove[3]);
+        this.point.addToY(this.dirMove[0] + this.dirMove[1]);
     }
 
     @Override
