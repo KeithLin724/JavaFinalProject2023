@@ -88,6 +88,13 @@ class Game.Loader.ImageNamePath {
 }
 class Game.gameBase.GamePoint {
 + void addToX(float)
++ void subToX(float)
++ void mulToX(float)
++ void divToX(float)
++ void addToY(float)
++ void subToY(float)
++ void mulToY(float)
++ void divToY(float)
 + boolean equals(Object)
 + String toString()
 + {static} double distance(GameUnitPair,GameUnitPair)
