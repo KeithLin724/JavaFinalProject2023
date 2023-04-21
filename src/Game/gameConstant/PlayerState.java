@@ -17,7 +17,8 @@ public enum PlayerState {
     MOVING(1),
     JUMP(2),
     ATTACKING(3),
-    HIT(4);
+    HIT(4),
+    FALLING(5);
 
     public final int num;
 
@@ -34,6 +35,7 @@ public enum PlayerState {
             case MOVING:
             case HIT:
             case JUMP:
+            case FALLING:
                 return 2;
 
             default:

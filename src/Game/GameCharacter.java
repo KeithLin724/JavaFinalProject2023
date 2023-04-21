@@ -162,6 +162,14 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
             playerAction = (this.direction.isMoving() ? PlayerState.MOVING : PlayerState.IDLE);
         }
 
+        if (this.inAir) {
+            if (airSpeed < 0) {
+                this.playerAction = PlayerState.JUMP;
+            } else {
+                this.playerAction = PlayerState.FALLING;
+            }
+        }
+
         if (attacking) {
             aniSpeed = 20;
             playerAction = PlayerState.ATTACKING;
@@ -178,6 +186,9 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     public void setLevel(GameLevel levelData) {
         this.level = levelData;
+        if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+            inAir = true;
+        }
     }
 
     @Override
