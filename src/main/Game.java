@@ -111,4 +111,8 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     public void render(Graphics g) {
         this.translator.render(g);
     }
+
+    public void windowLostFocus() {
+        translator.stopPlayerMoving();
+    }
 }

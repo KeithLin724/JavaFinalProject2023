@@ -83,8 +83,7 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         }
 
         if (startAni != playerAction) {
-            aniTick = 0;
-            aniIndex = 0;
+            this.resetAniTick();
         }
     }
 

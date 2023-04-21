@@ -81,6 +81,11 @@ public abstract class GameCharacterABC extends BasicMoveABC {
         this.animations = image;
     }
 
+    protected void resetAniTick() {
+        this.aniTick = 0;
+        this.aniIndex = 0;
+    }
+
     /**
      * This function returns a BufferedImage for a specific frame of a character's
      * animation based on their

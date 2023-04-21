@@ -40,4 +40,8 @@ public class TranslatorTester implements GameRenderInterface {
     public void render(Graphics g) {
         player.render(g);
     }
+
+    public void stopPlayerMoving() {
+        this.player.stopDirection();
+    }
 }

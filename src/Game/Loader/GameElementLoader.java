@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 import Game.DataPass;
-// import Game.GameElementFactory;
 import Game.GameCharacter;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
@@ -50,17 +49,21 @@ public class GameElementLoader {
         String path = fileData.get(0);
         String stateFrame = fileData.get(1);
 
+        // state data
         var stateData = DataPass.stringDataToIntArray(stateFrame);
         gameCharacterBuilder.setAnimationImage(path, stateData[0], stateData[1]);
 
+        // ani data
         String aniData = fileData.get(2);
         var aniDataArray = DataPass.stringDataToIntArray(aniData);
         gameCharacterBuilder.setAniData(DataPass.build(aniDataArray, AniData.class));
 
+        // img data
         String imgData = fileData.get(3);
         var imgDataArr = DataPass.stringDataToIntArray(imgData);
         gameCharacterBuilder.setImageScale(DataPass.build(imgDataArr, ImageScaleData.class));
 
+        // player speed
         float playerSpeed = Float.parseFloat(fileData.get(4));
         gameCharacterBuilder.setGamePlayerSpeedData(new GamePlayerSpeedData(playerSpeed));
 

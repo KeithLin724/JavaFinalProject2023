@@ -56,6 +56,12 @@ public abstract class BasicMoveABC {
         this.playerAction = playerState;
     }
 
+    public void stopDirection() {
+        this.playerAction = PlayerState.IDLE;
+        this.direction = Direction.NONE;
+        this.dirMove = new int[] { 0, 0, 0, 0 };
+    }
+
     /**
      * This function sets the direction and movement status of a player object in a
      * game.
