@@ -15,8 +15,12 @@ public class TranslatorTester implements GameRenderInterface {
 
     public TranslatorTester() {
         LOGGER.info("Testing");
-        player = GameElementLoader.getTestingGameCharacter();
+        // player = GameElementLoader.getTestingGameCharacter();
 
+        // player.initWithPoint_testing(200, 200);
+
+        String fileName = "../../characterDir/mainCharacter.txt";
+        player = GameElementLoader.getTestingGameCharacter(fileName);
         player.init(200, 200);
     }
 

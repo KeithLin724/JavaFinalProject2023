@@ -27,9 +27,14 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         super(aid, isd, gps);
     }
 
-    public void init(float x, float y) {
+    public void initWithPoint_testing(float x, float y) {
         this.setXY(x, y);
         this.setAnimationImage();
+    }
+
+    public void init(float x, float y) {
+        this.setXY(x, y);
+        // this.setAnimationImage();
     }
 
     @Override
@@ -51,14 +56,18 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     }
 
-    @Override
-    public void setAnimationImage() {
+    public void setAnimationImage(String filePath, int characterStateNum, int frameNumber) {
         try {
-            this.setAnimation(ImageLoader.loadCharacter(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6));
+            this.setAnimation(ImageLoader.loadCharacter(filePath, characterStateNum, frameNumber));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "load image error", e);
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setAnimationImage() {
+        this.setAnimationImage(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6);
     }
 
     @Override

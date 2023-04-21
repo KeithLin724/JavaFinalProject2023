@@ -71,6 +71,31 @@ public class GameCharacterBuilder {
     }
 
     /**
+     * This function sets the animation image for a game character and returns a
+     * GameCharacterBuilder
+     * object.
+     * 
+     * @param filePath          A string representing the file path of the animation
+     *                          image file.
+     * @param characterStateNum characterStateNum is the number that represents the
+     *                          state of the game
+     *                          character. This could be things like standing,
+     *                          walking, jumping, attacking, etc. Each state would
+     *                          have its own set of animation frames.
+     * @param frameNumber       frameNumber refers to the number of the frame in the
+     *                          animation sequence. It is
+     *                          used to specify which frame of the animation image
+     *                          should be set for a particular character
+     *                          state.
+     * @return The method is returning an instance of the GameCharacterBuilder
+     *         class.
+     */
+    public GameCharacterBuilder setAnimationImage(String filePath, int characterStateNum, int frameNumber) {
+        this.gameCharacter.setAnimationImage(filePath, characterStateNum, frameNumber);
+        return this;
+    }
+
+    /**
      * The function returns a GameCharacter object that was built using the builder
      * pattern.
      * 
