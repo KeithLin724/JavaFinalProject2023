@@ -42,6 +42,11 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.getTranslator().setPlayerJump(true);
+            return;
+        }
+
         var state = this.keyEventToMoveCommand(e);
         // System.out.println(state);
         this.updatePlayerMoveState(state, true);
@@ -49,6 +54,11 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.getTranslator().setPlayerJump(false);
+            return;
+        }
+
         var state = this.keyEventToMoveCommand(e);
         this.updatePlayerMoveState(state, false);
     }

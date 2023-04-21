@@ -2,7 +2,7 @@ package Game;
 
 import java.awt.Graphics;
 import java.io.IOException;
-import java.util.Arrays;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +21,7 @@ import gameBackground.GameLevel;
 
 import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.canMoveHere;
+import static logic.Controller.GameHelpMethods.*;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
@@ -49,20 +50,78 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     @Override
     public void updatePosition() {
-        if (Arrays.stream(this.dirMove).allMatch(x -> x == 0)) {
+        // moving
+        if (this.jump) {
+            jump();
+        }
+
+        if (this.dirMove[2] == 0 && this.dirMove[3] == 0 && !this.inAir) {
             return;
         }
+
+        if (!this.inAir) {
+            // System.out.println("here");
+            var get = isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level);
+            // System.out.println(get);
+            if (!get) {
+
+                this.inAir = true;
+            }
+        }
+
         int xSpeed = this.dirMove[2] + this.dirMove[3];
-        int ySpeed = this.dirMove[0] + this.dirMove[1];
 
-        GamePoint nextPoint = new GamePoint(xSpeed, ySpeed);
+        if (this.inAir) { // check up and down
 
-        // this.point.addToX(this.dirMove[2] + this.dirMove[3]);
-        // this.point.addToY(this.dirMove[0] + this.dirMove[1]);
+            GamePoint nextPoint = new GamePoint(0, this.airSpeed);
+
+            if (canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+
+                // System.out.println("jump");
+                this.point.addToY(this.airSpeed);
+                this.airSpeed += this.gravity;
+
+                updateXPos(xSpeed);
+
+            } else {
+                // System.out.println("here");
+
+                if (airSpeed > 0) {
+                    resetInAir();
+                } else {
+                    airSpeed = fallSpeedAfterCollision;
+                }
+                updateXPos(xSpeed);
+            }
+
+        } else { // updateXPos
+            updateXPos(xSpeed);
+        }
+
+    }
+
+    private void jump() {
+        if (inAir) {
+            return;
+        }
+
+        this.inAir = true;
+        this.airSpeed = this.jumpSpeed;
+    }
+
+    private void resetInAir() {
+        this.inAir = false;
+        this.airSpeed = 0;
+    }
+
+    private void updateXPos(int xSpeed) {
+        GamePoint nextPoint = new GamePoint(xSpeed, 0);
         if (canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
             this.point.addToX(xSpeed);
-            this.point.addToY(ySpeed);
         }
+        // } else {
+        // this.point.addToX(getGameCharacterXPosNextToWall(this.point, xSpeed));
+        // }
     }
 
     @Override
@@ -99,7 +158,9 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
         PlayerState startAni = playerAction;
 
-        playerAction = (this.direction.isMoving() ? PlayerState.MOVING : PlayerState.IDLE);
+        if (!playerAction.equals(PlayerState.JUMP)) {
+            playerAction = (this.direction.isMoving() ? PlayerState.MOVING : PlayerState.IDLE);
+        }
 
         if (attacking) {
             aniSpeed = 20;

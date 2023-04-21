@@ -59,4 +59,8 @@ public class TranslatorTester implements GameRenderInterface {
     public void stopPlayerMoving() {
         this.player.stopDirection();
     }
+
+    public void setPlayerJump(boolean isJump) {
+        this.player.setJump(isJump);
+    }
 }

@@ -50,6 +50,10 @@ public class ImageLoader {
             animations[PlayerState.IDLE.num][i] = ImageLoader.loadImage(folderName, "IDLE_" + i);
         }
 
+        for (int i = 0; i < PlayerState.JUMP.getAnimationFrameNumbs(); i++) {
+            animations[PlayerState.JUMP.num][i] = ImageLoader.loadImage(folderName, "JUMP_" + i);
+        }
+
         for (int i = 0; i < PlayerState.ATTACKING.getAnimationFrameNumbs(); i++) {
             animations[PlayerState.ATTACKING.num][i] = ImageLoader.loadImage(folderName, "ATTACK_" + i);
         }

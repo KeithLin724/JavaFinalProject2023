@@ -2,7 +2,7 @@ package Game.ABC;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+// import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
@@ -12,6 +12,7 @@ import Game.gameConstant.PlayerState;
 import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;
+import static base.BaseGameConstant.SCALE;
 
 public abstract class BasicMoveABC {
     public static final int HIT_BOX_WIDTH = TILES_SIZE - 7;
@@ -27,6 +28,14 @@ public abstract class BasicMoveABC {
     protected int[] dirMove = { 0, 0, 0, 0 };
 
     protected Rectangle2D.Float hitBox;
+
+    // jumping
+    protected boolean jump;
+    protected float airSpeed = 0f;
+    protected float gravity = 0.1f * SCALE;
+    protected float jumpSpeed = -4.25f * SCALE;
+    protected float fallSpeedAfterCollision = 0.5f * SCALE;
+    protected boolean inAir = false;
 
     public abstract void updatePosition();
 
@@ -52,11 +61,13 @@ public abstract class BasicMoveABC {
     ////////////////////
 
     protected void initHitBox(GamePoint point, int width, int height) {
-        this.hitBox = new Rectangle2D.Float((int) point.x, (int) point.y, width, height);
+        this.hitBox = new Rectangle2D.Float((int) point.x, (int) point.y, width,
+                height);
     }
 
     protected void initHitBox() {
-        this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH, HIT_BOX_HEIGHT);
+        this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH,
+                HIT_BOX_HEIGHT);
     }
 
     // public void setPlayerHitBox(PlayerHitBox playerHitBox) {
@@ -134,6 +145,14 @@ public abstract class BasicMoveABC {
         if (Arrays.stream(this.dirMove).allMatch(x -> x == 0)) {
             this.direction = Direction.NONE;
         }
+    }
+
+    public void setJump(boolean isJump) {
+        // if (isJump) {
+        // this.playerAction = PlayerState.JUMP;
+        // }
+        this.jump = isJump;
+        this.playerAction = (isJump ? PlayerState.JUMP : PlayerState.IDLE);
     }
 
 }
