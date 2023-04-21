@@ -29,6 +29,20 @@ final public class DataPass {
 
     }
 
+    // /**
+    // * Defining a record class named `PlayerHitBox` with four fields: `x`, `y`,
+    // * `width`, and `height`. This
+    // * record class is likely used to store data related to the hit box of a
+    // player
+    // * in a game. The `record`
+    // * keyword is a new feature in Java 16 that allows for concise and immutable
+    // * classes that are primarily
+    // * used for modeling data.
+    // */
+    // public record PlayerHitBox(float x, float y, int width, int height) {
+
+    // }
+
     /**
      * Defining a record class named `GamePlayerSpeedData` with a single field
      * `playSpeed` of type `float`.

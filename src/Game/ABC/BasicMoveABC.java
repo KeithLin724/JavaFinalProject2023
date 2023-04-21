@@ -1,12 +1,22 @@
 package Game.ABC;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
+// import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GamePoint;
 import Game.gameConstant.PlayerState;
 import logic.input.Direction;
 
+import static base.BaseGameConstant.TILES_SIZE;
+
 public abstract class BasicMoveABC {
+    public static final int HIT_BOX_WIDTH = TILES_SIZE - 7;
+    public static final int HIT_BOX_HEIGHT = TILES_SIZE - 7;
+
     protected PlayerState playerAction;
     protected boolean attacking;
 
@@ -16,6 +26,8 @@ public abstract class BasicMoveABC {
     protected Direction direction;
     protected int[] dirMove = { 0, 0, 0, 0 };
 
+    protected Rectangle2D.Float hitBox;
+
     public abstract void updatePosition();
 
     public BasicMoveABC() {
@@ -23,6 +35,8 @@ public abstract class BasicMoveABC {
         this.attacking = false;
         this.direction = Direction.NONE;
         this.point = new GamePoint();
+
+        this.initHitBox();
     }
 
     public BasicMoveABC(PlayerState playerAction, GamePoint point, Direction direction, boolean attacking) {
@@ -30,7 +44,44 @@ public abstract class BasicMoveABC {
         this.direction = direction;
         this.attacking = attacking;
         this.point = point;
+
+        this.initHitBox();
+
     }
+
+    ////////////////////
+
+    protected void initHitBox(GamePoint point, int width, int height) {
+        this.hitBox = new Rectangle2D.Float((int) point.x, (int) point.y, width, height);
+    }
+
+    protected void initHitBox() {
+        this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH, HIT_BOX_HEIGHT);
+    }
+
+    // public void setPlayerHitBox(PlayerHitBox playerHitBox) {
+    // this.hitBox = new Rectangle2D.Float((int) playerHitBox.x(), (int)
+    // playerHitBox.y(),
+    // playerHitBox.width(),
+    // playerHitBox.height());
+    // }
+
+    protected void updateHitBox() {
+        this.hitBox.x = point.x;
+        this.hitBox.y = point.y;
+    }
+
+    public Rectangle2D.Float getHitBox() {
+        return this.hitBox;
+    }
+
+    protected void drawHitBox(Graphics g) {
+        // for debugging
+        g.setColor(Color.PINK);
+        g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+    }
+
+    ////////////////////
 
     public void setX(float x) {
         this.point.x = x;

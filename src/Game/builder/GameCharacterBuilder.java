@@ -4,6 +4,7 @@ import Game.GameCharacter;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+// import Game.DataPass.PlayerHitBox;
 
 /**
  * The GameCharacterBuilder class uses the builder pattern to construct a
@@ -94,6 +95,22 @@ public class GameCharacterBuilder {
         this.gameCharacter.setAnimationImage(filePath, characterStateNum, frameNumber);
         return this;
     }
+
+    // /**
+    // * This function sets the player hit box for a game character builder and
+    // * returns the builder object.
+    // *
+    // * @param phb PlayerHitBox object that represents the hit box of a game
+    // * character in a video game. The
+    // * method `setPlayerHitBox` sets the hit box of the game character
+    // * being built by the
+    // * GameCharacterBuilder object.
+    // * @return The method is returning a GameCharacterBuilder object.
+    // */
+    // public GameCharacterBuilder setPlayerHitBox(PlayerHitBox phb) {
+    // this.gameCharacter.setPlayerHitBox(phb);
+    // return this;
+    // }
 
     /**
      * The function returns a GameCharacter object that was built using the builder

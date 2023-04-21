@@ -2,11 +2,13 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import GUI.Test.TranslatorTester;
 import Game.PLUG.GameRenderInterface;
 import base.BaseGameConstant;
+import gameBackground.GameLevelManager;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
 
@@ -23,19 +25,25 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
 
+    // private GameMapLevelManager gameMapLevelManager;
+
     private static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
     // construct
     public Game() {
-        this.initClasses();
+        try {
+            this.initClasses();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.gamePanelSetting();
     }
 
-    private void initClasses() {
+    private void initClasses() throws IOException {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
-        // translator = new Translator();
-        translator = new TranslatorTester();
+
+        translator = new TranslatorTester(this);
     }
 
     private void gamePanelSetting() {
