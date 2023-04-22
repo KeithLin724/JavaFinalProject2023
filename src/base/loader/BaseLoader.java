@@ -24,31 +24,28 @@ public class BaseLoader {
     private static final Logger LOGGER = Logger.getLogger(BaseLoader.class.getName());
 
     /**
-     * It returns an InputStream for the file specified by the fileName parameter
+     * The function takes a path as input and returns its absolute path as a string.
      * 
-     * @param obj      The object that is calling the method.
-     * @param fileName The name of the file to load.
-     * @return The InputStream of the file.
+     * @param path The path parameter is a string representing a file or directory
+     *             path, which may be
+     *             relative or absolute.
+     * @return The method `pathToAbsolutePath` returns a `String` that represents
+     *         the absolute path of the
+     *         file or directory specified by the input `path`.
      */
+
     private static String pathToAbsolutePath(String path) {
         return new File(path).getAbsolutePath();
     }
 
-    // public static InputStream loadFile(Object obj, String fileName) {
-    // // System.out.println(obj.getClass());
-
-    // return obj.getClass().getResourceAsStream(fileName);
-    // }
-
     /**
-     * Load a file from the classpath.
+     * This function loads a file from a given file name and returns an input
+     * stream.
      * 
-     * @param cls      The class that is calling the method.
-     * @param fileName The name of the file to load.
-     * @return An InputStream object.
-     * @throws FileNotFoundException
+     * @param fileName The name of the file to be loaded.
+     * @return The method is returning an InputStream object.
      */
-    public static <T> InputStream loadFile(Class<T> cls, String fileName) throws FileNotFoundException {
+    public static <T> InputStream loadFile(String fileName) throws FileNotFoundException {
         String absPath = pathToAbsolutePath(fileName);
         LOGGER.info("loading" + absPath);
         return new FileInputStream(absPath);
@@ -65,18 +62,15 @@ public class BaseLoader {
     }
 
     /**
-     * "Loads an image from a file and returns it as a BufferedImage."
+     * This function loads an image file and converts it into a BufferedImage
+     * object.
      * 
-     * The first line of the function is the function header. It tells us the
-     * function's name, the type of
-     * data it returns, and the type of data it takes as input
-     * 
-     * @param cls      The class that the file is in.
-     * @param fileName The name of the file to load.
-     * @return A BufferedImage object.
+     * @param fileName A String representing the name or path of the image file to
+     *                 be loaded.
+     * @return A BufferedImage object is being returned.
      */
-    public static <T> BufferedImage loadImage(Class<T> cls, String fileName) throws IOException {
-        return convertToImage(loadFile(cls, fileName));
+    public static <T> BufferedImage loadImage(String fileName) throws IOException {
+        return convertToImage(loadFile(fileName));
     }
 
     /**
@@ -93,13 +87,16 @@ public class BaseLoader {
     }
 
     /**
-     * > Loads a text file from the classpath and returns it as a list of strings
+     * This function loads the contents of a text file into a list of strings in
+     * Java.
      * 
-     * @param cls      The class that the file is located in.
-     * @param fileName The name of the file to load.
-     * @return A list of strings.
+     * @param fileName The name of the text file that needs to be loaded.
+     * @return A `List` of `String` objects is being returned. The method
+     *         `loadTextFile` reads all the
+     *         lines from a text file specified by the `fileName` parameter and
+     *         returns them as a list of strings.
      */
-    public static <T> List<String> loadTextFile(Class<T> cls, String fileName) throws IOException, URISyntaxException {
+    public static <T> List<String> loadTextFile(String fileName) throws IOException, URISyntaxException {
         return Files.readAllLines(Paths.get(pathToAbsolutePath(fileName)));
     }
 

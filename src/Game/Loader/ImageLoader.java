@@ -17,7 +17,7 @@ public class ImageLoader {
      * @return A BufferedImage object.
      */
     public static BufferedImage loadImage(String folderName, String fileName) throws IOException {
-        return BaseLoader.loadImage(ImageLoader.class, ImageNamePath.imagePath(folderName, fileName));
+        return BaseLoader.loadImage(ImageNamePath.imagePath(folderName, fileName));
     }
 
     /**
@@ -30,7 +30,7 @@ public class ImageLoader {
      * @return A BufferedImage object is being returned.
      */
     public static BufferedImage loadImage(String fileName) throws IOException {
-        return BaseLoader.loadImage(ImageLoader.class, fileName);
+        return BaseLoader.loadImage(fileName);
     }
 
     /**

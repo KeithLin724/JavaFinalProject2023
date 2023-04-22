@@ -49,7 +49,7 @@ public class GameElementLoader {
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         GameCharacterBuilder gameCharacterBuilder = new GameCharacterBuilder();
-        var fileData = BaseLoader.loadTextFile(GameElementLoader.class, fileName);
+        var fileData = BaseLoader.loadTextFile(fileName);
 
         String path = fileData.get(0);
         String stateFrame = fileData.get(1);
