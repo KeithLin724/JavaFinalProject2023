@@ -1,5 +1,8 @@
 package base.loader;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -7,6 +10,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -17,6 +21,8 @@ import java.awt.image.BufferedImage;
  */
 public class BaseLoader {
 
+    private static final Logger LOGGER = Logger.getLogger(BaseLoader.class.getName());
+
     /**
      * It returns an InputStream for the file specified by the fileName parameter
      * 
@@ -24,9 +30,15 @@ public class BaseLoader {
      * @param fileName The name of the file to load.
      * @return The InputStream of the file.
      */
-    public static InputStream loadFile(Object obj, String fileName) {
-        return obj.getClass().getResourceAsStream(fileName);
+    private static String pathToAbsolutePath(String path) {
+        return new File(path).getAbsolutePath();
     }
+
+    // public static InputStream loadFile(Object obj, String fileName) {
+    // // System.out.println(obj.getClass());
+
+    // return obj.getClass().getResourceAsStream(fileName);
+    // }
 
     /**
      * Load a file from the classpath.
@@ -34,9 +46,12 @@ public class BaseLoader {
      * @param cls      The class that is calling the method.
      * @param fileName The name of the file to load.
      * @return An InputStream object.
+     * @throws FileNotFoundException
      */
-    public static <T> InputStream loadFile(Class<T> cls, String fileName) {
-        return cls.getResourceAsStream(fileName);
+    public static <T> InputStream loadFile(Class<T> cls, String fileName) throws FileNotFoundException {
+        String absPath = pathToAbsolutePath(fileName);
+        LOGGER.info("loading" + absPath);
+        return new FileInputStream(absPath);
     }
 
     /**
@@ -85,7 +100,7 @@ public class BaseLoader {
      * @return A list of strings.
      */
     public static <T> List<String> loadTextFile(Class<T> cls, String fileName) throws IOException, URISyntaxException {
-        return Files.readAllLines(Paths.get(getURI(cls, fileName)));
+        return Files.readAllLines(Paths.get(pathToAbsolutePath(fileName)));
     }
 
 }
