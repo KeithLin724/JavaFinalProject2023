@@ -1,16 +1,14 @@
 package main;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.logging.Logger;
-
-import javax.swing.JFrame;
-// import javax.swing.JPanel;
 
 import GUI.Test.TranslatorTester;
 import Game.PLUG.GameRenderInterface;
 import base.BaseGameConstant;
+import gameBackground.GameLevelManager;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
 
@@ -27,19 +25,25 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     private MouseInputs mouseInputs;
     private KeyboardInputs keyboardInputs;
 
+    // private GameMapLevelManager gameMapLevelManager;
+
     private static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
     // construct
     public Game() {
-        this.initClasses();
+        try {
+            this.initClasses();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.gamePanelSetting();
     }
 
-    private void initClasses() {
+    private void initClasses() throws IOException {
         mouseInputs = new MouseInputs(this);
         keyboardInputs = new KeyboardInputs(this);
-        // translator = new Translator();
-        translator = new TranslatorTester();
+
+        translator = new TranslatorTester(this);
     }
 
     private void gamePanelSetting() {
@@ -53,23 +57,11 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         gamePanel.requestFocusInWindow();
     }
 
-    // replace GameWindow
-    private static JFrame settingGamingWindow(Component gamingPanel) {
-        JFrame gamingWindow = new JFrame();
-
-        gamingWindow.add(gamingPanel);
-        gamingWindow.setVisible(true);
-        gamingWindow.setLocationRelativeTo(null);
-        gamingWindow.setResizable(false);
-        gamingWindow.pack();
-        gamingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        return gamingWindow;
-    }
-
     // Start Game-loop
     public void runGame() {
-        gameWindow = new GameWindow(gamePanel);
+        gameWindow = new GameWindow();
+        gameWindow.init(gamePanel);
+
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -126,5 +118,9 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     @Override
     public void render(Graphics g) {
         this.translator.render(g);
+    }
+
+    public void windowLostFocus() {
+        translator.stopPlayerMoving();
     }
 }

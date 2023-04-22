@@ -1,7 +1,6 @@
 package Game.Loader;
 
-import base.loader.BaseFileNameFormatter;
-import base.loader.FileNameType;
+import base.loader.FileNameFormatter;
 
 public final class ImageNamePath {
     public static final String PLAYER_MAIN_CHARACTER = "../../res/mainCharacter/";
@@ -15,6 +14,6 @@ public final class ImageNamePath {
      * @return A String
      */
     public static String imagePath(String folderName, String fileName) {
-        return BaseFileNameFormatter.of(folderName + fileName, FileNameType.IMAGE);
+        return FileNameFormatter.of(folderName + fileName, FileNameFormatter.IMAGE);
     }
 }

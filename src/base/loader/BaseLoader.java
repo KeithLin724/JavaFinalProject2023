@@ -12,7 +12,9 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 
-// this class is a base class for loading different file or image
+/**
+ * this class is a base class for loading different file or image
+ */
 public class BaseLoader {
 
     /**

@@ -1,0 +1,329 @@
+@startuml
+class main.Main {
++ {static} void main(String[])
+}
+enum base.loader.FileNameFormatter {
++  TEXT
++  IMAGE
+- String fileType
+~ <<Create>> FileNameFormatter(String)
++ String type()
++ {static} String of(String,FileNameFormatter)
+}
+enum Game.gameConstant.PlayerState {
++  IDLE
++  MOVING
++  JUMP
++  ATTACKING
++  HIT
++ int num
+~ <<Create>> PlayerState(int)
++ int getAnimationFrameNumbs()
+}
+class com.company.Main {
++ {static} void main(String[])
+}
+class Game.DataPass {
++ {static} int[] stringDataToIntArray(String)
++ {static} double[] stringDataToDouble(String)
++ {static} T build(int[],Class<T>)
+}
+interface Game.PLUG.GameCalculatorLambda {
++ int calculate(int)
+}
+class main.Game {
+- GameWindow gameWindow
+- GamePanel gamePanel
+- TranslatorTester translator
+- Thread gameThread
+- {static} double FPS
+- {static} double UPS
+- MouseInputs mouseInputs
+- KeyboardInputs keyboardInputs
+- {static} Logger LOGGER
++ <<Create>> Game()
+- void initClasses()
+- void gamePanelSetting()
++ void runGame()
++ void run()
++ TranslatorTester getTranslator()
++ void render(Graphics)
++ void windowLostFocus()
+}
+class logic.input.KeyboardInputs {
+- Game game
++ <<Create>> KeyboardInputs(Game)
+- Direction keyEventToMoveCommand(KeyEvent)
+- void updatePlayerMoveState(Direction,boolean)
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+enum logic.input.Direction {
++  UP
++  DOWN
++  LEFT
++  RIGHT
++  NONE
+~ String cmd
+~ <<Create>> Direction(String)
++ boolean isMoving()
++ int index()
+}
+class Game.GameElementFactory {
++ <<Create>> GameElementFactory()
++ GameCharacter gameCharacterFactory()
+}
+class logic.Controller.GameHelpMethods {
+- {static} boolean outOfGameWindow(float,float,GameLevel)
++ {static} boolean canMoveHere(GamePoint,float,float,GameLevel)
+}
+class logic.input.MouseInputs {
+- Game game
++ <<Create>> MouseInputs(Game)
++ void mouseDragged(MouseEvent)
++ void mouseMoved(MouseEvent)
++ void mouseClicked(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ void mouseEntered(MouseEvent)
++ void mouseExited(MouseEvent)
+}
+enum Game.gameBase.GameCalculator {
++  ADD
++  SUB
++  MUL
++  DIV
++ {static} GameUnitPair calculate(int,int,GameCalculator,int)
++ {static} GameUnitPair calculate(int,int,GameCalculatorLambda)
+}
+class Game.Loader.ImageNamePath {
++ {static} String PLAYER_MAIN_CHARACTER
++ {static} String imagePath(String,String)
+}
+class Game.GameSourceFilePath {
++ {static} String PLAYER_MAIN_CHARACTER
++ {static} String PLAYER_MAIN_CHARACTER_TEXT_FILE
++ {static} String BACKGROUND_IMAGE_PATH
++ {static} String BACKGROUND_LEVEL_1
+}
+class Game.gameBase.GamePoint {
++ <<Create>> GamePoint()
++ <<Create>> GamePoint(int,int)
++ <<Create>> GamePoint(float,float)
++ <<Create>> GamePoint(GameUnitPair)
++ <<Create>> GamePoint(Point)
++ void addToX(float)
++ void subToX(float)
++ void mulToX(float)
++ void divToX(float)
++ void addToY(float)
++ void subToY(float)
++ void mulToY(float)
++ void divToY(float)
++ boolean equals(Object)
++ String toString()
++ {static} double distance(GameUnitPair,GameUnitPair)
++ {static} GamePoint add(GameUnitPair,GameUnitPair)
++ {static} GamePoint sub(GameUnitPair,GameUnitPair)
++ {static} GamePoint mul(GameUnitPair,GameUnitPair)
++ {static} double dot(GameUnitPair,GameUnitPair)
+}
+abstract class Game.ABC.BasicMoveABC {
++ {static} int HIT_BOX_WIDTH
++ {static} int HIT_BOX_HEIGHT
+# PlayerState playerAction
+# boolean attacking
+# GamePoint point
+# float playerSpeed
+# Direction direction
+# int[] dirMove
+# Rectangle2D.Float hitBox
++ <<Create>> BasicMoveABC()
++ <<Create>> BasicMoveABC(PlayerState,GamePoint,Direction,boolean)
++ {abstract}void updatePosition()
+# void initHitBox(GamePoint,int,int)
+# void initHitBox()
+# void updateHitBox()
++ Rectangle2D.Float getHitBox()
+# void drawHitBox(Graphics)
++ void setX(float)
++ void setY(float)
++ void setXY(float,float)
+# void setPlayerSpeed(float)
++ void setAttacking(boolean)
++ void setPlayerState(PlayerState)
++ void stopDirection()
++ void setDirection(Direction,boolean)
+}
+class Game.Loader.ImageLoader {
++ {static} BufferedImage loadImage(String,String)
++ {static} BufferedImage loadImage(String)
++ {static} BufferedImage[][] loadCharacter(String,int,int)
++ {static} BufferedImage[] loadBackground(String,int,int,int)
+}
+class gameBackground.GameLevel {
+- int[][] levelData
++ <<Create>> GameLevel(int[][])
++ {static} GameLevel loadFromFile(String)
++ int getImageIndex(int,int)
++ int getImageIndex(GameUnitPair)
++ int[][] getLevel2D()
+}
+class GUI.Test.TranslatorTester {
+- {static} Logger LOGGER
+- Game game
+- GameLevelManager gameMapLevelManager
+- GameCharacter player
++ <<Create>> TranslatorTester(Game)
++ void updateLogic()
++ GameCharacter getPlayer()
++ void setPlayMove(Direction,boolean)
++ void render(Graphics)
++ void stopPlayerMoving()
+}
+class main.GamePanel {
+- Game game
++ <<Create>> GamePanel(Game)
++ void paintComponent(Graphics)
++ Game getGame()
+}
+class GUI.Translator {
++ void render(Graphics)
+}
+abstract class Game.ABC.GameCharacterABC {
+# BufferedImage[][] animations
+# int aniTick
+# int imgScaleX
++ <<Create>> GameCharacterABC()
++ <<Create>> GameCharacterABC(AniData,ImageScaleData,GamePlayerSpeedData)
++ void setAniThing(AniData)
++ void setImageScale(ImageScaleData)
++ void setGamePlayerSpeedData(GamePlayerSpeedData)
++ void setAnimation(BufferedImage[][])
+# void resetAniTick()
++ BufferedImage getAnimationImage(PlayerState,int)
+- int scaleFunction(int)
++ GameUnitPair getImageScalePoint(BufferedImage)
+}
+class Game.gameBase.GameUnitPair {
++ float x
++ <<Create>> GameUnitPair()
++ <<Create>> GameUnitPair(int,int)
++ <<Create>> GameUnitPair(float,float)
++ <<Create>> GameUnitPair(Point)
++ <<Create>> GameUnitPair(GameUnitPair)
++ {static} GameUnitPair buildGameUnitPair(int,int)
++ {static} GameUnitPair buildGameUnitPair(float,float)
++ {static} GameUnitPair buildGameUnitPair(Point)
++ GameUnitPair getPoint()
++ Point toIntPoint()
++ void setAll(float,float)
++ GameUnitPair getSizePoint()
++ void copy(GameUnitPair)
++ void copy(Point)
++ GameUnitPair add(float)
++ GameUnitPair sub(float)
++ GameUnitPair mul(float)
++ GameUnitPair div(float)
+}
+interface Game.PLUG.GameLambda {
++ T func(T,T)
+}
+class Game.builder.GameCharacterBuilder {
+- GameCharacter gameCharacter
++ <<Create>> GameCharacterBuilder()
++ GameCharacterBuilder setAniData(AniData)
++ GameCharacterBuilder setImageScale(ImageScaleData)
++ GameCharacterBuilder setGamePlayerSpeedData(GamePlayerSpeedData)
++ GameCharacterBuilder setAnimationImage(String,int,int)
++ GameCharacter build()
+}
+class gameBackground.GameLevelManager {
++ {static} int HEIGHT_BLOCK_NUM
++ {static} int WIDTH_BLOCK_NUM
++ {static} int PIXEL
+- Game game
+- BufferedImage[] bgMapImage
+- GameLevel gameLevel1
++ <<Create>> GameLevelManager(Game)
++ void render(Graphics)
++ GameLevel getGameLevel()
++ void update()
+}
+class main.Translator {
+}
+class Game.Loader.GameElementLoader {
++ GameCharacter gameCharacter()
++ {static} GameCharacter getTestingGameCharacter()
++ {static} GameCharacter getTestingGameCharacter(String)
++ {static} GameCharacter loadCharacterByPath(String)
++ {static} int[][] loadGameLevelData(String,int,int)
+}
+class main.GameWindow {
++ <<Create>> GameWindow()
++ void init(GamePanel)
++ WindowFocusListener settingWindowFocusListener(GamePanel)
+}
+interface Game.PLUG.GameRenderInterface {
++ void render(Graphics)
+}
+class Game.GameCharacter {
+- {static} Logger LOGGER
+- int[][] levelData
+- GameLevel level
++ <<Create>> GameCharacter()
++ <<Create>> GameCharacter(AniData,ImageScaleData,GamePlayerSpeedData)
++ void initWithPoint_testing(float,float)
++ void init(float,float)
++ void updatePosition()
++ void render(Graphics)
++ void setAnimationImage(String,int,int)
++ void setAnimationImage()
++ void setAnimationState()
++ void setLevelData(int[][])
++ void setLevel(GameLevel)
++ void updateAnimationTick()
++ void update()
+}
+interface Game.PLUG.GameCharacterInterface {
++ void setAnimationImage()
++ void setAnimationState()
++ void updateAnimationTick()
+}
+class base.loader.BaseLoader {
++ {static} InputStream loadFile(Object,String)
++ {static} InputStream loadFile(Class<T>,String)
++ {static} BufferedImage convertToImage(InputStream)
++ {static} BufferedImage loadImage(Class<T>,String)
++ {static} URI getURI(Class<T>,String)
++ {static} List<String> loadTextFile(Class<T>,String)
+}
+class base.BaseGameConstant {
++ {static} int TILES_DEFAULT_SIZE
++ {static} float SCALE
++ {static} int TILES_IN_WIDTH
++ {static} int TILES_IN_HEIGHT
++ {static} int TILES_SIZE
++ {static} int GAME_WIDTH
++ {static} int GAME_HEIGHT
+}
+
+
+main.Runnable <|.. main.Game
+Game.PLUG.GameRenderInterface <|.. main.Game
+base.BaseGameConstant <|-- main.Game
+java.awt.event.KeyListener <|.. logic.input.KeyboardInputs
+java.awt.event.MouseListener <|.. logic.input.MouseInputs
+java.awt.event.MouseMotionListener <|.. logic.input.MouseInputs
+Game.gameBase.GameUnitPair <|-- Game.gameBase.GamePoint
+Game.PLUG.GameRenderInterface <|.. GUI.Test.TranslatorTester
+javax.swing.JPanel <|-- main.GamePanel
+Game.PLUG.GameRenderInterface <|.. GUI.Translator
+Game.ABC.BasicMoveABC <|-- Game.ABC.GameCharacterABC
+Game.PLUG.GameRenderInterface <|.. gameBackground.GameLevelManager
+javax.swing.JFrame <|-- main.GameWindow
+Game.PLUG.GameCharacterInterface <|.. Game.GameCharacter
+Game.PLUG.GameRenderInterface <|.. Game.GameCharacter
+Game.ABC.GameCharacterABC <|-- Game.GameCharacter
+@enduml

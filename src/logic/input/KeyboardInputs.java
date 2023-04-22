@@ -13,26 +13,26 @@ public class KeyboardInputs implements KeyListener {
         this.game = game;
     }
 
-    private MoveCommand keyEventToMoveCommand(KeyEvent e) {
+    private Direction keyEventToMoveCommand(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> {
-                return MoveCommand.UP;
+                return Direction.UP;
             }
             case KeyEvent.VK_A -> {
-                return MoveCommand.LEFT;
+                return Direction.LEFT;
             }
             case KeyEvent.VK_S -> {
-                return MoveCommand.DOWN;
+                return Direction.DOWN;
             }
             case KeyEvent.VK_D -> {
-                return MoveCommand.RIGHT;
+                return Direction.RIGHT;
             }
         }
-        return MoveCommand.NONE;
+        return Direction.NONE;
     }
 
-    private void updatePlayerMoveState(MoveCommand moveCmd, boolean move) {
-        game.getTranslator().setPlayMove(moveCmd, move);
+    private void updatePlayerMoveState(Direction moveCmd, boolean isMoving) {
+        game.getTranslator().setPlayMove(moveCmd, isMoving);
     }
 
     @Override
@@ -42,12 +42,23 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.getTranslator().setPlayerJump(true);
+            return;
+        }
+
         var state = this.keyEventToMoveCommand(e);
+        // System.out.println(state);
         this.updatePlayerMoveState(state, true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+            game.getTranslator().setPlayerJump(false);
+            return;
+        }
+
         var state = this.keyEventToMoveCommand(e);
         this.updatePlayerMoveState(state, false);
     }
