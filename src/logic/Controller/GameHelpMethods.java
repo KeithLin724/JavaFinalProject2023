@@ -7,20 +7,41 @@ import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.GAME_HEIGHT;
 import static base.BaseGameConstant.TILES_SIZE;
 
-import org.w3c.dom.xpath.XPathNamespace;
-
 import static Game.ABC.BasicMoveABC.HIT_BOX_WIDTH;
 import static Game.ABC.BasicMoveABC.HIT_BOX_HEIGHT;
 // this class for put some logic 
 
 public class GameHelpMethods {
-    private static boolean outOfGameWindow(float x, float y, GameLevel level) {
 
+    /**
+     * The function checks if a given point is outside the game window.
+     * 
+     * @param x a float value representing the x-coordinate of a point in a 2D game
+     *          world.
+     * @param y The "y" parameter in the "outOfWindow" method is a float value
+     *          representing the vertical
+     *          position of an object in the game window. It is used to check if the
+     *          object is outside the
+     *          boundaries of the game window.
+     * @return The method is returning a boolean value, which is either true or
+     *         false. The method checks if
+     *         the given coordinates (x, y) are outside the game window, and returns
+     *         true if they are outside, and
+     *         false if they are inside the window.
+     */
+    private static boolean outOfWindow(float x, float y) {
         if (x < 0 || x >= GAME_WIDTH) {
             return true;
         }
 
         if (y < 0 || y >= GAME_HEIGHT) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean IsSolid(float x, float y, GameLevel level) {
+        if (outOfWindow(x, y)) {
             return true;
         }
 
@@ -36,22 +57,22 @@ public class GameHelpMethods {
 
     public static boolean canMoveHere(GamePoint point, float width, float height, GameLevel level) {
 
-        if (outOfGameWindow(point.x, point.y, level)) {
+        if (IsSolid(point.x, point.y, level)) {
             // System.out.println("this 1");
             return false;
         }
 
-        if (outOfGameWindow(point.x + width, point.y + height, level)) {
+        if (IsSolid(point.x + width, point.y + height, level)) {
             // System.out.println("this 2");
             return false;
         }
 
-        if (outOfGameWindow(point.x + width, point.y, level)) {
+        if (IsSolid(point.x + width, point.y, level)) {
             // System.out.println("this 3");
             return false;
         }
 
-        if (outOfGameWindow(point.x, point.y + height, level)) {
+        if (IsSolid(point.x, point.y + height, level)) {
             // System.out.println("this 4");
             return false;
         }
@@ -62,11 +83,12 @@ public class GameHelpMethods {
 
     public static boolean isOnTheFloor(GamePoint point, float width, float height, GameLevel level) {
 
-        if (!outOfGameWindow(point.x, point.y + height, level)) {
+        // check conner
+        if (!IsSolid(point.x, point.y + height + 1, level)) {
             return false;
         }
 
-        if (!outOfGameWindow(point.x + width, point.y + height, level)) {
+        if (!IsSolid(point.x + width, point.y + height + 1, level)) {
             // System.out.println("this 2");
             return false;
         }
@@ -74,22 +96,4 @@ public class GameHelpMethods {
         return true;
     }
 
-    // public static float getGameCharacterXPosNextToWall(GamePoint point, float
-    // xSpeed) {
-    // System.out.println(point);
-    // if (xSpeed > 0) { // right
-    // return point.x + 0.001f;
-    // }
-    // return point.x - 0.001f;
-    // // int currentTile = (int) (point.x / TILES_SIZE);
-
-    // // if (xSpeed > 0) { // right
-    // // int tileXPos = currentTile * TILES_SIZE;
-    // // int xOffset = (int) (TILES_SIZE - HIT_BOX_WIDTH);
-    // // return tileXPos + xOffset - 1;
-    // // }
-
-    // // // left
-    // // return currentTile * TILES_SIZE;
-    // }
 }

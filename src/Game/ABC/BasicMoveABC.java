@@ -30,7 +30,7 @@ public abstract class BasicMoveABC {
     protected Rectangle2D.Float hitBox;
 
     // jumping
-    protected boolean jump;
+    // protected boolean jump;
     protected float airSpeed = 0f;
     protected float gravity = 0.1f * SCALE;
     protected float jumpSpeed = -4.25f * SCALE;
@@ -61,13 +61,11 @@ public abstract class BasicMoveABC {
     ////////////////////
 
     protected void initHitBox(GamePoint point, int width, int height) {
-        this.hitBox = new Rectangle2D.Float((int) point.x, (int) point.y, width,
-                height);
+        this.hitBox = new Rectangle2D.Float((int) point.x, (int) point.y, width, height);
     }
 
     protected void initHitBox() {
-        this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH,
-                HIT_BOX_HEIGHT);
+        this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH, HIT_BOX_HEIGHT);
     }
 
     // public void setPlayerHitBox(PlayerHitBox playerHitBox) {
@@ -142,8 +140,11 @@ public abstract class BasicMoveABC {
 
         this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
 
+        this.setPlayerState(PlayerState.MOVING);
+
         if (Arrays.stream(this.dirMove).allMatch(x -> x == 0)) {
             this.direction = Direction.NONE;
+            this.setPlayerState(PlayerState.IDLE);
         }
     }
 
@@ -151,7 +152,7 @@ public abstract class BasicMoveABC {
         // if (isJump) {
         // this.playerAction = PlayerState.JUMP;
         // }
-        this.jump = isJump;
+        // this.jump = isJump;
         this.playerAction = (isJump ? PlayerState.JUMP : PlayerState.IDLE);
     }
 

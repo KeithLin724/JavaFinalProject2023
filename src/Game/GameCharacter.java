@@ -48,55 +48,60 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         // this.setAnimationImage();
     }
 
+    private void updateXPos(int xSpeed) {
+        GamePoint nextPoint = new GamePoint(xSpeed, 0);
+
+        if (!canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+            return;
+        }
+
+        this.point.addToX(xSpeed);
+    }
+
+    // check up and down
+    private void updateYPos() {
+
+        if (!this.inAir) {
+            return;
+        }
+
+        GamePoint nextPoint = new GamePoint(0, this.airSpeed);
+
+        if (canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+            this.point.addToY(this.airSpeed);
+
+            this.airSpeed += this.gravity;
+            return;
+        }
+
+        if (airSpeed > 0) { // FALLING
+            resetInAir();
+        } else {
+            airSpeed = fallSpeedAfterCollision;
+        }
+
+    }
+
     @Override
     public void updatePosition() {
         // moving
-        if (this.jump) {
+        if (this.playerAction == PlayerState.JUMP) {
             jump();
         }
-
+        // check left right
         if (this.dirMove[2] == 0 && this.dirMove[3] == 0 && !this.inAir) {
             return;
         }
 
-        if (!this.inAir) {
-            // System.out.println("here");
-            var get = isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level);
-            // System.out.println(get);
-            if (!get) {
-
-                this.inAir = true;
-            }
+        // check is it in air
+        if (!this.inAir && !isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+            this.inAir = true;
         }
 
         int xSpeed = this.dirMove[2] + this.dirMove[3];
 
-        if (this.inAir) { // check up and down
-
-            GamePoint nextPoint = new GamePoint(0, this.airSpeed);
-
-            if (canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
-
-                // System.out.println("jump");
-                this.point.addToY(this.airSpeed);
-                this.airSpeed += this.gravity;
-
-                updateXPos(xSpeed);
-
-            } else {
-                // System.out.println("here");
-
-                if (airSpeed > 0) {
-                    resetInAir();
-                } else {
-                    airSpeed = fallSpeedAfterCollision;
-                }
-                updateXPos(xSpeed);
-            }
-
-        } else { // updateXPos
-            updateXPos(xSpeed);
-        }
+        updateYPos();
+        updateXPos(xSpeed);
 
     }
 
@@ -112,16 +117,6 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     private void resetInAir() {
         this.inAir = false;
         this.airSpeed = 0;
-    }
-
-    private void updateXPos(int xSpeed) {
-        GamePoint nextPoint = new GamePoint(xSpeed, 0);
-        if (canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
-            this.point.addToX(xSpeed);
-        }
-        // } else {
-        // this.point.addToX(getGameCharacterXPosNextToWall(this.point, xSpeed));
-        // }
     }
 
     @Override
@@ -163,11 +158,13 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         }
 
         if (this.inAir) {
-            if (airSpeed < 0) {
-                this.playerAction = PlayerState.JUMP;
-            } else {
-                this.playerAction = PlayerState.FALLING;
-            }
+            // System.out.println(this.playerAction);
+            this.playerAction = (airSpeed < 0 ? PlayerState.JUMP : PlayerState.FALLING);
+            // if (airSpeed < 0) {
+            // this.playerAction = PlayerState.JUMP;
+            // } else {
+            // this.playerAction = PlayerState.FALLING;
+            // }
         }
 
         if (attacking) {
@@ -186,8 +183,10 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
 
     public void setLevel(GameLevel levelData) {
         this.level = levelData;
+
+        // check is in air
         if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
-            inAir = true;
+            this.inAir = true;
         }
     }
 
