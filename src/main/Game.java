@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -8,8 +7,6 @@ import java.util.logging.Logger;
 import GUI.Test.TranslatorTester;
 import Game.PLUG.gameDrawer.GameRenderInterface;
 import base.BaseGameConstant;
-import logic.input.KeyboardInputs;
-import logic.input.MouseInputs;
 
 public class Game extends BaseGameConstant implements Runnable, GameRenderInterface {
     private GameWindow gameWindow;
@@ -30,15 +27,12 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // this.gamePanelSetting();
 
         gamePanel = new GamePanel(this);
-
         gamePanel.init();
     }
 
     private void initClasses() throws IOException {
-
         translator = new TranslatorTester(this);
     }
 

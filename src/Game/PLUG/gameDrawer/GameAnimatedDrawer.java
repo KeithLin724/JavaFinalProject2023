@@ -1,5 +1,5 @@
 package Game.PLUG.gameDrawer;
 
-public interface GameAnimatedDrawer extends GameRenderInterface, GameUpdateInterface {
+public interface GameAnimatedDrawer extends GameUpdateInterface, GameRenderInterface {
 
 }

@@ -46,15 +46,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     }
 
     @Override
-    public void render(Graphics g) {
-        this.gameMapLevelManager.render(g);
-        this.player.render(g);
-    }
-
-    @Override
     public void update() {
         this.gameMapLevelManager.update();
         this.player.update();
+    }
+
+    @Override
+    public void render(Graphics g) {
+        this.gameMapLevelManager.render(g);
+        this.player.render(g);
     }
 
     @Override
