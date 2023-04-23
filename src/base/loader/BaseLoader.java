@@ -96,7 +96,7 @@ public class BaseLoader {
      *         lines from a text file specified by the `fileName` parameter and
      *         returns them as a list of strings.
      */
-    public static <T> List<String> loadTextFile(String fileName) throws IOException, URISyntaxException {
+    public static <T> List<String> loadTextFile(String fileName) throws IOException {
         return Files.readAllLines(Paths.get(pathToAbsolutePath(fileName)));
     }
 

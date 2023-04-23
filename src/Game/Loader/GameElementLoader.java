@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import Game.DataPass;
 import Game.GameCharacter;
@@ -15,7 +17,9 @@ import Game.builder.GameCharacterBuilder;
 import base.loader.BaseLoader;
 
 import static base.BaseGameConstant.TILES_IN_HEIGHT;
-import static base.BaseGameConstant.TILES_IN_WIDTH;;
+import static base.BaseGameConstant.TILES_IN_WIDTH;
+
+import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
 
 // Factory 
 public class GameElementLoader {
@@ -42,6 +46,17 @@ public class GameElementLoader {
         }
         return null;
 
+    }
+
+    public static BufferedImage[] loadBackgroundSkinImageFromTextList(String fileName) throws IOException {
+        var fileNameList = BaseLoader.loadTextFile(fileName);
+        List<BufferedImage> loadResult = new ArrayList<>();
+
+        for (var imageFileName : fileNameList) {
+            loadResult.add(ImageLoader.loadImage(BACKGROUND_SKIN_FOLDER_PATH, imageFileName));
+        }
+
+        return loadResult.toArray(BufferedImage[]::new);
     }
 
     public static GameCharacter loadCharacterByPath(String fileName)

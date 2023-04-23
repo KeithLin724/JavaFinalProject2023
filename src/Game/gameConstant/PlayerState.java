@@ -1,5 +1,7 @@
 package Game.gameConstant;
 
+import java.awt.Frame;
+
 /**
  * This is an enum class named `PlayerState` that defines the different states a
  * player can be in a
@@ -13,33 +15,21 @@ package Game.gameConstant;
  * current state.
  */
 public enum PlayerState {
-    IDLE(0),
-    MOVING(1),
-    JUMP(2),
-    ATTACKING(3),
-    HIT(4),
-    FALLING(5);
+    IDLE(0, 6, "IDLE_"),
+    MOVING(1, 2, "MOVE_"),
+    JUMP(2, 2, "JUMP_"),
+    ATTACKING(3, 3, "ATTACK_"),
+    HIT(4, 2, "HIT_"),
+    FALLING(5, 2, "FALLING_");
 
     public final int num;
+    public final int frameNumber;
+    public final String imageString;
 
-    PlayerState(int number) {
+    PlayerState(int number, int frameNumber, String imageString) {
         this.num = number;
+        this.frameNumber = frameNumber;
+        this.imageString = imageString;
     }
 
-    public int getAnimationFrameNumbs() {
-        switch (this) {
-            case IDLE:
-                return 6;
-            case ATTACKING:
-                return 3;
-            case MOVING:
-            case HIT:
-            case JUMP:
-            case FALLING:
-                return 2;
-
-            default:
-                return 1;
-        }
-    }
 }

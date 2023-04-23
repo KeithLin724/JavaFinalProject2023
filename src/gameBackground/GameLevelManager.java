@@ -28,7 +28,7 @@ public class GameLevelManager implements GameRenderInterface {
 
     public GameLevelManager(Game game) throws IOException {
         this.game = game;
-        this.bgMapImage = ImageLoader.loadBackground(GameSourceFilePath.BACKGROUND_IMAGE_PATH,
+        this.bgMapImage = ImageLoader.loadBackgroundImage(GameSourceFilePath.BACKGROUND_IMAGE_PATH,
                 HEIGHT_BLOCK_NUM,
                 WIDTH_BLOCK_NUM,
                 PIXEL);

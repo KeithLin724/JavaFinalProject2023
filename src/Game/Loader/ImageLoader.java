@@ -34,6 +34,32 @@ public class ImageLoader {
     }
 
     /**
+     * This function loads a set of character images based on the player's state and
+     * returns them as an
+     * array of BufferedImages.
+     * 
+     * @param folderName  The name of the folder where the character images are
+     *                    stored.
+     * @param playerState PlayerState is an enum that represents the different
+     *                    states a player character
+     *                    can be in, such as standing, walking, jumping, etc. It
+     *                    contains information about the number of
+     *                    frames in the animation and the name of the image file for
+     *                    each frame.
+     * @return The method is returning an array of BufferedImages.
+     */
+    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState)
+            throws IOException {
+        BufferedImage[] stateImages = new BufferedImage[playerState.frameNumber];
+
+        for (int i = 0; i < playerState.frameNumber; i++) {
+            stateImages[i] = ImageLoader.loadImage(folderName, playerState.imageString + i);
+        }
+
+        return stateImages;
+    }
+
+    /**
      * It loads a character's animations from a folder
      * 
      * @param characterState The number of states the character has.
@@ -41,30 +67,16 @@ public class ImageLoader {
      * @param folderName     The name of the folder where the images are stored.
      * @return A 2D array of BufferedImages.
      */
-    public static BufferedImage[][] loadCharacter(String folderName, int characterState, int frameNumber)
+    public static BufferedImage[][] loadCharacterImage(String folderName, int characterState, int frameNumber)
             throws IOException {
 
-        BufferedImage[][] animations = new BufferedImage[characterState][frameNumber];
+        BufferedImage[][] animations = new BufferedImage[characterState][]; // frameNumber
 
-        for (int i = 0; i < PlayerState.IDLE.getAnimationFrameNumbs(); i++) {
-            animations[PlayerState.IDLE.num][i] = ImageLoader.loadImage(folderName, "IDLE_" + i);
-        }
-
-        for (int i = 0; i < PlayerState.JUMP.getAnimationFrameNumbs(); i++) {
-            animations[PlayerState.JUMP.num][i] = ImageLoader.loadImage(folderName, "JUMP_" + i);
-        }
-
-        for (int i = 0; i < PlayerState.FALLING.getAnimationFrameNumbs(); i++) {
-            animations[PlayerState.FALLING.num][i] = ImageLoader.loadImage(folderName, "FALLING_" + i);
-        }
-
-        for (int i = 0; i < PlayerState.ATTACKING.getAnimationFrameNumbs(); i++) {
-            animations[PlayerState.ATTACKING.num][i] = ImageLoader.loadImage(folderName, "ATTACK_" + i);
-        }
-
-        for (int i = 0; i < PlayerState.MOVING.getAnimationFrameNumbs(); i++) {
-            animations[PlayerState.MOVING.num][i] = ImageLoader.loadImage(folderName, "MOVE_" + i);
-        }
+        animations[PlayerState.IDLE.num] = loadCharacterImageByState(folderName, PlayerState.IDLE);
+        animations[PlayerState.JUMP.num] = loadCharacterImageByState(folderName, PlayerState.JUMP);
+        animations[PlayerState.FALLING.num] = loadCharacterImageByState(folderName, PlayerState.FALLING);
+        animations[PlayerState.ATTACKING.num] = loadCharacterImageByState(folderName, PlayerState.ATTACKING);
+        animations[PlayerState.MOVING.num] = loadCharacterImageByState(folderName, PlayerState.MOVING);
 
         return animations;
     }
@@ -85,7 +97,7 @@ public class ImageLoader {
      *         the loaded background
      *         image divided into smaller blocks.
      */
-    public static BufferedImage[] loadBackground(String fileName, int heightBlockNum, int widthBlockNum, int pixel)
+    public static BufferedImage[] loadBackgroundImage(String fileName, int heightBlockNum, int widthBlockNum, int pixel)
             throws IOException {
 
         BufferedImage oriImage = loadImage(fileName);

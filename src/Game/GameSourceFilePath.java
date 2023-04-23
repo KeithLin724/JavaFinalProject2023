@@ -11,6 +11,9 @@ public final class GameSourceFilePath {
     // bg image
     public static final String BACKGROUND_IMAGE_PATH = "resource/background/outside_sprites.png";
 
+    // about a folder for save the game skin
+    public static final String BACKGROUND_SKIN_FOLDER_PATH = "resource/skin";
+
     // level 1 path
     public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data.png";
 }
