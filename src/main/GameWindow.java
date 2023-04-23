@@ -12,16 +12,16 @@ public class GameWindow extends JFrame {
     }
 
     public void init(GamePanel gamePanel) {
-        setVisible(true);
-        add(gamePanel);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+        this.add(gamePanel);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.pack();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addWindowFocusListener(settingWindowFocusListener(gamePanel));
     }
 
-    public WindowFocusListener settingWindowFocusListener(GamePanel gamePanel) {
+    private WindowFocusListener settingWindowFocusListener(GamePanel gamePanel) {
         return new WindowFocusListener() {
 
             @Override

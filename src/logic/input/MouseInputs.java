@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import Game.state.GameState;
 import main.Game;
 
 public class MouseInputs implements MouseListener, MouseMotionListener {
@@ -15,55 +16,50 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mouseDragged'");
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        game.getTranslator().getPlayer();
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'mouseMoved'");
+        // game.getTranslator().getPlayer();
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            game.getTranslator().getPlayer().setAttacking(true);
-        }
+        // if (e.getButton() == MouseEvent.BUTTON1) {
+        // game.getTranslator().getPlayer().setAttacking(true);
+        // }
 
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mouseClicked'");
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.game.getGameMenu().mouseClicked(e);
+            }
+            case PLAYING -> {
+                this.game.getGamePlaying().mouseClicked(e);
+            }
+
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mousePressed'");
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mouseReleased'");
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mouseEntered'");
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'mouseExited'");
+
     }
 
 }

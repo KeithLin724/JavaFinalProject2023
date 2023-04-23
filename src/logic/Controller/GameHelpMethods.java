@@ -1,7 +1,7 @@
 package logic.Controller;
 
+import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
-import gameBackground.GameLevel;
 
 import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.GAME_HEIGHT;

@@ -1,31 +1,26 @@
 package main;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import GUI.Test.TranslatorTester;
-import Game.PLUG.GameRenderInterface;
+import Game.GUI.GameMenu;
+import Game.GUI.GamePlaying;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.state.GameState;
 import base.BaseGameConstant;
-import gameBackground.GameLevelManager;
-import logic.input.KeyboardInputs;
-import logic.input.MouseInputs;
 
-public class Game extends BaseGameConstant implements Runnable, GameRenderInterface {
+public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
-    // private Translator translator;
-    private TranslatorTester translator;
+
+    private GameMenu gameMenu;
+    private GamePlaying gamePlaying;
+
     private Thread gameThread;
 
     private static final double FPS = 120;
     private static final double UPS = 200;
-
-    private MouseInputs mouseInputs;
-    private KeyboardInputs keyboardInputs;
-
-    // private GameMapLevelManager gameMapLevelManager;
 
     private static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
@@ -36,25 +31,19 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.gamePanelSetting();
+
     }
 
     private void initClasses() throws IOException {
-        mouseInputs = new MouseInputs(this);
-        keyboardInputs = new KeyboardInputs(this);
+        // translator = new TranslatorTester(this);
 
-        translator = new TranslatorTester(this);
-    }
-
-    private void gamePanelSetting() {
         gamePanel = new GamePanel(this);
-        gamePanel.addKeyListener(keyboardInputs);
-        gamePanel.addMouseListener(mouseInputs);
-        gamePanel.addMouseMotionListener(mouseInputs);
+        gamePanel.init();
 
-        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
+        this.gameMenu = new GameMenu(this);
+        this.gamePlaying = new GamePlaying(this);
+
+        this.gamePlaying.initClass();
     }
 
     // Start Game-loop
@@ -90,7 +79,7 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
             lastFrame = currentFrame;
 
             if (deltaU >= 1) {
-                translator.updateLogic();
+                this.update();
                 updates++;
                 deltaU--;
             }
@@ -111,16 +100,44 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         }
     }
 
-    public TranslatorTester getTranslator() {
-        return translator;
+    public GameMenu getGameMenu() {
+        return this.gameMenu;
+    }
+
+    public GamePlaying getGamePlaying() {
+        return this.gamePlaying;
+    }
+
+    @Override
+    public void update() {
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.gameMenu.update();
+            }
+            case PLAYING -> {
+                this.gamePlaying.update();
+            }
+
+        }
     }
 
     @Override
     public void render(Graphics g) {
-        this.translator.render(g);
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.gameMenu.render(g);
+            }
+            case PLAYING -> {
+                this.gamePlaying.render(g);
+            }
+
+        }
     }
 
     public void windowLostFocus() {
-        translator.stopPlayerMoving();
+        if (GameState.getState() == GameState.PLAYING) {
+            this.gamePlaying.windowLostFocus();
+        }
     }
+
 }

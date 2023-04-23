@@ -1,6 +1,6 @@
 package Game.gameBase;
 
-import Game.PLUG.GameCalculatorLambda;
+import Game.PLUG.gameMath.GameCalculatorLambda;
 
 public enum GameCalculator {
     ADD,

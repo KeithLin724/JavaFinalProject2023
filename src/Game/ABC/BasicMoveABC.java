@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GamePoint;
-import Game.gameConstant.PlayerState;
+import Game.state.PlayerState;
 import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;
@@ -136,9 +136,10 @@ public abstract class BasicMoveABC {
     public void setDirection(Direction direction, boolean isMoving) {
         this.direction = direction;
 
-        int index = direction.index(), isMovingNum = (isMoving ? 1 : 0);
-
-        this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
+        if (direction != Direction.NONE) {
+            int index = direction.index, isMovingNum = (isMoving ? 1 : 0);
+            this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
+        }
 
         this.setPlayerState(PlayerState.MOVING);
 
@@ -149,10 +150,6 @@ public abstract class BasicMoveABC {
     }
 
     public void setJump(boolean isJump) {
-        // if (isJump) {
-        // this.playerAction = PlayerState.JUMP;
-        // }
-        // this.jump = isJump;
         this.playerAction = (isJump ? PlayerState.JUMP : PlayerState.IDLE);
     }
 
