@@ -2,6 +2,9 @@ package Game.Loader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.IntStream;
 
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
@@ -33,6 +36,29 @@ public class ImageLoader {
     }
 
     /**
+     * This is a lambda expression that defines a function that takes in a String
+     * and an Integer as
+     * parameters and returns a BufferedImage. It is used in the
+     * `loadCharacterImageByState` method to load
+     * a set of character images based on the player's state. The lambda expression
+     * takes the `fileName`
+     * parameter and appends the integer `i` to it to create the full file name for
+     * each frame of the
+     * animation. It then calls the `loadImage` method to load the image and returns
+     * it as a BufferedImage.
+     * If an IOException occurs during the loading process, it prints the stack
+     * trace and returns null.
+     */
+    private static BiFunction<String, Integer, BufferedImage> loadImageLambda = (fileName, i) -> {
+        try {
+            return ImageLoader.loadImage(ImageNamePath.imagePath(fileName + i));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    };
+
+    /**
      * This function loads a set of character images based on the player's state and
      * returns them as an
      * array of BufferedImages.
@@ -49,13 +75,10 @@ public class ImageLoader {
      */
     private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState)
             throws IOException {
-        BufferedImage[] stateImages = new BufferedImage[playerState.frameNumber];
 
-        for (int i = 0; i < playerState.frameNumber; i++) {
-            stateImages[i] = ImageLoader.loadImage(folderName, playerState.imageString + i);
-        }
-
-        return stateImages;
+        return IntStream.range(0, playerState.frameNumber)
+                .mapToObj(i -> loadImageLambda.apply(folderName + playerState.imageString, i))
+                .toArray(BufferedImage[]::new);
     }
 
     /**
