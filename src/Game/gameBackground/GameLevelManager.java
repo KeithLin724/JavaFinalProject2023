@@ -38,9 +38,7 @@ public class GameLevelManager implements GameAnimatedDrawer {
 
     @Override
     public void render(Graphics g) {
-        // g.drawImage(bgMapImage[2], 0, 0, null);
 
-        // for test
         for (int row = 0; row < Game.TILES_IN_HEIGHT; row++) {
             for (int col = 0; col < Game.TILES_IN_WIDTH; col++) {
                 int index = gameLevel1.getImageIndex(col, row);

@@ -1,5 +1,7 @@
 package Game.state;
 
+import java.util.logging.Logger;
+
 /**
  * This is a Java enum called `GameState` that represents the different states
  * of a game. It has two
@@ -16,6 +18,7 @@ public enum GameState {
     MENU;
 
     private static GameState state = MENU;
+    private static final Logger LOGGER = Logger.getLogger(GameState.class.getName());
 
     /**
      * The function returns the current state of the game.
@@ -39,5 +42,6 @@ public enum GameState {
      */
     public static void setState(GameState inState) {
         GameState.state = inState;
+        LOGGER.info("Game State IN: " + GameState.state);
     }
 }

@@ -32,6 +32,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         gameMapLevelManager = new GameLevelManager(this.game);
 
         player = GameElementLoader.getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
+
         assert player != null;
         player.init(200, 200);
         player.setLevelData(gameMapLevelManager.getGameLevel().getLevel2D());
