@@ -150,10 +150,6 @@ public abstract class BasicMoveABC {
     }
 
     public void setJump(boolean isJump) {
-        // if (isJump) {
-        // this.playerAction = PlayerState.JUMP;
-        // }
-        // this.jump = isJump;
         this.playerAction = (isJump ? PlayerState.JUMP : PlayerState.IDLE);
     }
 

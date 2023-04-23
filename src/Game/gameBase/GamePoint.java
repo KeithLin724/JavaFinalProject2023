@@ -64,8 +64,7 @@ public class GamePoint extends GameUnitPair {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof GamePoint) {
-            var pt = (GamePoint) obj;
+        if (obj instanceof GamePoint pt) {
             return (x == pt.x) && (y == pt.y);
         }
         return super.equals(obj);

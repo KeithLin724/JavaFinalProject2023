@@ -64,7 +64,7 @@ final public class DataPass {
         var dataSplit = strData.split(" ");
 
         return Arrays.stream(dataSplit)
-                .mapToInt(x -> Integer.parseInt(x))
+                .mapToInt(Integer::parseInt)
                 .toArray();
     }
 
@@ -81,7 +81,7 @@ final public class DataPass {
         var dataSplit = strData.split(" ");
 
         return Arrays.stream(dataSplit)
-                .mapToDouble(x -> Double.parseDouble(x))
+                .mapToDouble(Double::parseDouble)
                 .toArray();
     }
 

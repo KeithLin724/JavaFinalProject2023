@@ -45,7 +45,7 @@ public class BaseLoader {
      * @param fileName The name of the file to be loaded.
      * @return The method is returning an InputStream object.
      */
-    public static <T> InputStream loadFile(String fileName) throws FileNotFoundException {
+    public static InputStream loadFile(String fileName) throws FileNotFoundException {
         String absPath = pathToAbsolutePath(fileName);
         LOGGER.info("loading" + absPath);
         return new FileInputStream(absPath);
@@ -69,7 +69,7 @@ public class BaseLoader {
      *                 be loaded.
      * @return A BufferedImage object is being returned.
      */
-    public static <T> BufferedImage loadImage(String fileName) throws IOException {
+    public static BufferedImage loadImage(String fileName) throws IOException {
         return convertToImage(loadFile(fileName));
     }
 
@@ -96,7 +96,7 @@ public class BaseLoader {
      *         lines from a text file specified by the `fileName` parameter and
      *         returns them as a list of strings.
      */
-    public static <T> List<String> loadTextFile(String fileName) throws IOException {
+    public static List<String> loadTextFile(String fileName) throws IOException {
         return Files.readAllLines(Paths.get(pathToAbsolutePath(fileName)));
     }
 

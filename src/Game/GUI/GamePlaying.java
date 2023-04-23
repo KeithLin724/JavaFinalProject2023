@@ -32,6 +32,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         gameMapLevelManager = new GameLevelManager(this.game);
 
         player = GameElementLoader.getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
+        assert player != null;
         player.init(200, 200);
         player.setLevelData(gameMapLevelManager.getGameLevel().getLevel2D());
         player.setLevel(gameMapLevelManager.getGameLevel());
@@ -59,10 +60,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        switch (e.getButton()) {
-            case MouseEvent.BUTTON1 -> {
-                this.player.setAttacking(true);
-            }
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            this.player.setAttacking(true);
         }
     }
 
@@ -99,21 +98,13 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private void keyEventToPlayerMove(KeyEvent e, boolean isMoveIt) {
         switch (e.getKeyCode()) {
 
-            case KeyEvent.VK_A -> {
-                this.player.setDirection(Direction.LEFT, isMoveIt);
-            }
+            case KeyEvent.VK_A -> this.player.setDirection(Direction.LEFT, isMoveIt);
 
-            case KeyEvent.VK_D -> {
-                this.player.setDirection(Direction.RIGHT, isMoveIt);
-            }
+            case KeyEvent.VK_D -> this.player.setDirection(Direction.RIGHT, isMoveIt);
 
-            case KeyEvent.VK_SPACE -> {
-                this.player.setJump(isMoveIt);
-            }
+            case KeyEvent.VK_SPACE -> this.player.setJump(isMoveIt);
 
-            case KeyEvent.VK_BACK_SPACE -> {
-                GameState.setState(GameState.MENU);
-            }
+            case KeyEvent.VK_BACK_SPACE -> GameState.setState(GameState.MENU);
 
         }
     }

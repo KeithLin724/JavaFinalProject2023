@@ -16,8 +16,6 @@ import base.BaseGameConstant;
 public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
-    // private Translator translator;
-    // private TranslatorTester translator;
 
     private GameMenu gameMenu;
     private GamePlaying gamePlaying;
@@ -84,7 +82,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
             lastFrame = currentFrame;
 
             if (deltaU >= 1) {
-                // translator.update();
                 this.update();
                 updates++;
                 deltaU--;
@@ -105,10 +102,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
         }
     }
-
-    // public TranslatorTester getTranslator() {
-    // return translator;
-    // }
 
     public GameMenu getGameMenu() {
         return this.gameMenu;
@@ -133,7 +126,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     @Override
     public void render(Graphics g) {
-        // this.translator.render(g);
         switch (GameState.getState()) {
             case MENU -> {
                 this.gameMenu.render(g);
