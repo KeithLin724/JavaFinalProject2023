@@ -4,12 +4,9 @@ import java.awt.Graphics;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import GUI.Test.TranslatorTester;
-import Game.DataPass.GamePlayerSpeedData;
 import Game.GUI.GameMenu;
 import Game.GUI.GamePlaying;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
-import Game.PLUG.gameDrawer.GameRenderInterface;
 import Game.state.GameState;
 import base.BaseGameConstant;
 
@@ -138,7 +135,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     }
 
     public void windowLostFocus() {
-        // translator.stopPlayerMoving();
         if (GameState.getState() == GameState.PLAYING) {
             this.gamePlaying.windowLostFocus();
         }

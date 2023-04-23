@@ -17,7 +17,7 @@ import main.Game;
 
 public class GamePlaying extends GameStateBase implements GameStateMethod {
 
-    private GameLevelManager gameMapLevelManager;
+    private GameLevelManager gameLevelManager;
     private GameCharacter player;
 
     private static final Logger LOGGER = Logger.getLogger(GamePlaying.class.getName());
@@ -27,16 +27,16 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     }
 
     public void initClass() throws IOException {
-        LOGGER.info("Testing");
+        LOGGER.info("Playing");
 
-        gameMapLevelManager = new GameLevelManager(this.game);
+        gameLevelManager = new GameLevelManager(this.game);
 
         player = GameElementLoader.getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
 
         assert player != null;
         player.init(200, 200);
-        player.setLevelData(gameMapLevelManager.getGameLevel().getLevel2D());
-        player.setLevel(gameMapLevelManager.getGameLevel());
+        player.setLevelData(gameLevelManager.getGameLevel().getLevel2D());
+        player.setLevel(gameLevelManager.getGameLevel());
     }
 
     public GameCharacter getPlayer() {
@@ -49,13 +49,13 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void update() {
-        this.gameMapLevelManager.update();
+        this.gameLevelManager.update();
         this.player.update();
     }
 
     @Override
     public void render(Graphics g) {
-        this.gameMapLevelManager.render(g);
+        this.gameLevelManager.render(g);
         this.player.render(g);
     }
 
