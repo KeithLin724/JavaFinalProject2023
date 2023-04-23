@@ -21,11 +21,6 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
     private static final double FPS = 120;
     private static final double UPS = 200;
 
-    private MouseInputs mouseInputs;
-    private KeyboardInputs keyboardInputs;
-
-    // private GameMapLevelManager gameMapLevelManager;
-
     private static Logger LOGGER = Logger.getLogger(Game.class.getName());
 
     // construct
@@ -35,25 +30,16 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.gamePanelSetting();
+        // this.gamePanelSetting();
+
+        gamePanel = new GamePanel(this);
+
+        gamePanel.init();
     }
 
     private void initClasses() throws IOException {
-        mouseInputs = new MouseInputs(this);
-        keyboardInputs = new KeyboardInputs(this);
 
         translator = new TranslatorTester(this);
-    }
-
-    private void gamePanelSetting() {
-        gamePanel = new GamePanel(this);
-        gamePanel.addKeyListener(keyboardInputs);
-        gamePanel.addMouseListener(mouseInputs);
-        gamePanel.addMouseMotionListener(mouseInputs);
-
-        gamePanel.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
-        gamePanel.setFocusable(true);
-        gamePanel.requestFocusInWindow();
     }
 
     // Start Game-loop

@@ -123,7 +123,6 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     @Override
     public void render(Graphics g) {
         var nowImage = this.getAnimationImage(this.playerAction, this.aniIndex);
-        // var scalePoint = this.getImageScalePoint(nowImage).toIntPoint();
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
