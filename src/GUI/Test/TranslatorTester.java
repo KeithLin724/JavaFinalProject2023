@@ -26,7 +26,7 @@ public class TranslatorTester implements GameAnimatedDrawer {
         // player = GameElementLoader.getTestingGameCharacter();
 
         // player.initWithPoint_testing(200, 200);
-        gameMapLevelManager = new GameLevelManager(this.game);
+        gameMapLevelManager = new GameLevelManager(game);
 
         player = GameElementLoader.getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
         player.init(200, 200);
