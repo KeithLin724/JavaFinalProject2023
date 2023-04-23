@@ -6,15 +6,14 @@ import java.io.IOException;
 
 import Game.GameSourceFilePath;
 import Game.Loader.ImageLoader;
-import Game.PLUG.gameDrawer.GameRenderInterface;
-import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import main.Game;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
 // https://www.youtube.com/watch?v=et5JeT-ESKk&list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&index=9
 
-public class GameLevelManager implements GameRenderInterface, GameUpdateInterface {
+public class GameLevelManager implements GameAnimatedDrawer {
 
     public static final int HEIGHT_BLOCK_NUM = 4;
     public static final int WIDTH_BLOCK_NUM = 12;

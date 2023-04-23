@@ -1,5 +1,6 @@
 package Game.GUI;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,9 @@ import java.awt.event.MouseEvent;
 import Game.PLUG.GameStateMethod;
 import Game.state.GameState;
 import main.Game;
+
+import static base.BaseGameConstant.GAME_WIDTH;
+import static base.BaseGameConstant.GAME_HEIGHT;;
 
 public class GameMenu extends GameStateBase implements GameStateMethod {
 
@@ -16,6 +20,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void render(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.drawString("Menu", GAME_WIDTH / 2, GAME_HEIGHT / 2);
     }
 
     @Override

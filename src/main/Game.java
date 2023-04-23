@@ -5,14 +5,23 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import GUI.Test.TranslatorTester;
+import Game.DataPass.GamePlayerSpeedData;
+import Game.GUI.GameMenu;
+import Game.GUI.GamePlaying;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderInterface;
+import Game.state.GameState;
 import base.BaseGameConstant;
 
-public class Game extends BaseGameConstant implements Runnable, GameRenderInterface {
+public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     // private Translator translator;
-    private TranslatorTester translator;
+    // private TranslatorTester translator;
+
+    private GameMenu gameMenu;
+    private GamePlaying gamePlaying;
+
     private Thread gameThread;
 
     private static final double FPS = 120;
@@ -28,12 +37,18 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
             e.printStackTrace();
         }
 
-        gamePanel = new GamePanel(this);
-        gamePanel.init();
     }
 
     private void initClasses() throws IOException {
-        translator = new TranslatorTester(this);
+        // translator = new TranslatorTester(this);
+
+        gamePanel = new GamePanel(this);
+        gamePanel.init();
+
+        this.gameMenu = new GameMenu(this);
+        this.gamePlaying = new GamePlaying(this);
+
+        this.gamePlaying.initClass();
     }
 
     // Start Game-loop
@@ -69,7 +84,8 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
             lastFrame = currentFrame;
 
             if (deltaU >= 1) {
-                translator.update();
+                // translator.update();
+                this.update();
                 updates++;
                 deltaU--;
             }
@@ -90,16 +106,50 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
         }
     }
 
-    public TranslatorTester getTranslator() {
-        return translator;
+    // public TranslatorTester getTranslator() {
+    // return translator;
+    // }
+
+    public GameMenu getGameMenu() {
+        return this.gameMenu;
+    }
+
+    public GamePlaying getGamePlaying() {
+        return this.gamePlaying;
+    }
+
+    @Override
+    public void update() {
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.gameMenu.update();
+            }
+            case PLAYING -> {
+                this.gamePlaying.update();
+            }
+
+        }
     }
 
     @Override
     public void render(Graphics g) {
-        this.translator.render(g);
+        // this.translator.render(g);
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.gameMenu.render(g);
+            }
+            case PLAYING -> {
+                this.gamePlaying.render(g);
+            }
+
+        }
     }
 
     public void windowLostFocus() {
-        translator.stopPlayerMoving();
+        // translator.stopPlayerMoving();
+        if (GameState.getState() == GameState.PLAYING) {
+            this.gamePlaying.windowLostFocus();
+        }
     }
+
 }

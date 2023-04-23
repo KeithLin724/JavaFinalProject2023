@@ -1,14 +1,12 @@
 package Game.gameBackground;
 
 import Game.Loader.GameElementLoader;
-import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
-import main.Game;
 
 import static Game.gameBackground.GameLevelManager.HEIGHT_BLOCK_NUM;
 import static Game.gameBackground.GameLevelManager.WIDTH_BLOCK_NUM;
 
-import java.io.IOException;;
+import java.io.IOException;
 
 public class GameLevel {
     private int[][] levelData;
