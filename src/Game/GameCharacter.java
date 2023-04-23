@@ -14,17 +14,18 @@ import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
-import Game.PLUG.GameRenderInterface;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
-import Game.gameConstant.PlayerState;
-import gameBackground.GameLevel;
+import Game.state.PlayerState;
 
 import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.canMoveHere;
 import static logic.Controller.GameHelpMethods.*;
 
 // for put the game character skin
-public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameRenderInterface {
+public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameAnimatedDrawer {
+
     private static final Logger LOGGER = Logger.getLogger(GameCharacter.class.getName());
 
     private int[][] levelData;
@@ -204,6 +205,7 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         }
     }
 
+    @Override
     public void update() {
         this.updatePosition();
 

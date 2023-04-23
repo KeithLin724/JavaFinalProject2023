@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 import Game.GameCharacter;
 import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
-import Game.PLUG.GameRenderInterface;
-import gameBackground.GameLevelManager;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.gameBackground.GameLevelManager;
 import logic.input.Direction;
 import main.Game;
 
-public class TranslatorTester implements GameRenderInterface {
+public class TranslatorTester implements GameAnimatedDrawer {
     private static final Logger LOGGER = Logger.getLogger(TranslatorTester.class.getName());
 
     private Game game;
@@ -35,7 +35,9 @@ public class TranslatorTester implements GameRenderInterface {
 
     }
 
-    public void updateLogic() {
+    @Override
+    public void update() {
+        gameMapLevelManager.update();
         player.update();
     }
 

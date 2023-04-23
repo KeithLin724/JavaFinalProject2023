@@ -3,8 +3,7 @@ package Game.Loader;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-// import Game.gameConstant.PlayerConstants;
-import Game.gameConstant.PlayerState;
+import Game.state.PlayerState;
 import base.loader.BaseLoader;
 
 public class ImageLoader {

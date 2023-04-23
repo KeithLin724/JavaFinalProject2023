@@ -1,6 +1,5 @@
 package Game.ABC;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Game.DataPass.AniData;
@@ -9,7 +8,7 @@ import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
-import Game.gameConstant.PlayerState;
+import Game.state.PlayerState;
 
 public abstract class GameCharacterABC extends BasicMoveABC {
 

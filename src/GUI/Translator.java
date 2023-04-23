@@ -2,7 +2,7 @@ package GUI;
 
 import java.awt.Graphics;
 
-import Game.PLUG.GameRenderInterface;
+import Game.PLUG.gameDrawer.GameRenderInterface;
 
 public class Translator implements GameRenderInterface {
 

@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GamePoint;
-import Game.gameConstant.PlayerState;
+import Game.state.PlayerState;
 import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;

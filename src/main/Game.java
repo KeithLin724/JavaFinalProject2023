@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import GUI.Test.TranslatorTester;
-import Game.PLUG.GameRenderInterface;
+import Game.PLUG.gameDrawer.GameRenderInterface;
+import Game.gameBackground.GameLevelManager;
+import Game.state.GameState;
 import base.BaseGameConstant;
-import gameBackground.GameLevelManager;
 import logic.input.KeyboardInputs;
 import logic.input.MouseInputs;
 
@@ -90,7 +91,7 @@ public class Game extends BaseGameConstant implements Runnable, GameRenderInterf
             lastFrame = currentFrame;
 
             if (deltaU >= 1) {
-                translator.updateLogic();
+                translator.update();
                 updates++;
                 deltaU--;
             }
