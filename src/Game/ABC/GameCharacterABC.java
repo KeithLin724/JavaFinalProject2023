@@ -88,22 +88,22 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     }
 
     /**
-     * This function returns a BufferedImage for a specific frame of a character's
-     * animation based on their
-     * current state.
+     * This function returns a specific animation image based on the player's state
+     * and frame index.
      * 
-     * @param characterState It is an enum type variable that represents the current
-     *                       state of the player
-     *                       character. It could be standing, walking, jumping,
-     *                       attacking, etc. The "num" field of the enum is
-     *                       used to index into the animations array to retrieve the
-     *                       correct animation for the current state.
-     * @param frameIndex     The index of the frame in the animation that is being
-     *                       requested.
-     * @return A BufferedImage object is being returned.
+     * @param characterState The parameter characterState is an object of the
+     *                       PlayerState class which
+     *                       contains information about the current state of the
+     *                       player character, such as whether they are
+     *                       standing, walking, jumping, or attacking.
+     * @param frameIndex     frameIndex is an integer value representing the index
+     *                       of the frame in the
+     *                       animation sequence. It is used to determine which image
+     *                       to retrieve from the animations array.
+     * @return A BufferedImage object.
      */
     public BufferedImage getAnimationImage(PlayerState characterState, int frameIndex) {
-        return this.animations[characterState.num][frameIndex];
+        return this.animations[characterState.num][frameIndex % characterState.frameNumber];
     }
 
     /**

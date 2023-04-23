@@ -136,9 +136,10 @@ public abstract class BasicMoveABC {
     public void setDirection(Direction direction, boolean isMoving) {
         this.direction = direction;
 
-        int index = direction.index(), isMovingNum = (isMoving ? 1 : 0);
-
-        this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
+        if (direction != Direction.NONE) {
+            int index = direction.index, isMovingNum = (isMoving ? 1 : 0);
+            this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
+        }
 
         this.setPlayerState(PlayerState.MOVING);
 

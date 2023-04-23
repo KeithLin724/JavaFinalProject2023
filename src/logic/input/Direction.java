@@ -1,45 +1,24 @@
 package logic.input;
 
 public enum Direction {
-    UP("UP"),
-    DOWN("DOWN"),
-    LEFT("LEFT"),
-    RIGHT("RIGHT"),
+    UP("UP", 0),
+    DOWN("DOWN", 1),
+    LEFT("LEFT", 2),
+    RIGHT("RIGHT", 3),
 
-    NONE("NONE");
+    NONE("NONE", -1);
 
-    final String cmd;
+    public final String cmd;
 
-    Direction(String cmdString) {
+    public final int index;
+
+    Direction(String cmdString, int index) {
         this.cmd = cmdString;
+        this.index = index;
     }
 
     public boolean isMoving() {
         return !this.equals(NONE);
     }
 
-    public int index() {
-        switch (this) {
-            case UP -> {
-                return 0;
-            }
-            case DOWN -> {
-                return 1;
-            }
-            case LEFT -> {
-                return 2;
-            }
-            case RIGHT -> {
-                return 3;
-            }
-            case NONE -> {
-                return -1;
-            }
-
-            default -> {
-                return -1;
-            }
-
-        }
-    }
 }
