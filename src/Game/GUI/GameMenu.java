@@ -1,6 +1,5 @@
 package Game.GUI;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -15,7 +14,6 @@ import Game.GUI.ui.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBase.GameCalculator;
-import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
 import Game.state.GameState;
 import Game.state.MouseState;
@@ -26,8 +24,9 @@ import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.SCALE;
 
 public class GameMenu extends GameStateBase implements GameStateMethod {
+    private static final int MENU_BUTTON_NUMBER = 3;
 
-    private GameMenuButton[] buttons = new GameMenuButton[3];
+    private GameMenuButton[] buttons = new GameMenuButton[MENU_BUTTON_NUMBER];
     private BufferedImage backgroundImage;
 
     private Point menuWH;
@@ -74,6 +73,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                 this.menuBgPoint.x, this.menuBgPoint.y,
                 this.menuWH.x, this.menuWH.y,
                 null);
+
         Arrays.stream(this.buttons).forEach(item -> item.render(g));
     }
 
@@ -89,22 +89,21 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        for (var item : this.buttons) {
-            if (this.isIn(e, item)) {
-                item.setMouseState(MouseState.PRESS);
-                break;
-            }
-        }
+
+        Arrays.stream(this.buttons)
+                .filter(item -> this.isIn(e, item))
+                .findFirst()
+                .ifPresent(item -> item.setMouseState(MouseState.PRESS));
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        for (var item : this.buttons) {
-            if (this.isIn(e, item) && item.getMouseState() == MouseState.PRESS) {
-                item.applyGameState();
-                break;
-            }
-        }
+
+        Arrays.stream(this.buttons)
+                .filter(item -> this.isIn(e, item) && item.getMouseState() == MouseState.PRESS)
+                .findFirst()
+                .ifPresent(item -> item.applyGameState());
+
         this.resetButtons();
     }
 
@@ -131,12 +130,11 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     public void mouseMoved(MouseEvent e) {
         Arrays.stream(this.buttons).forEach(item -> item.resetMouseState());
 
-        for (var item : this.buttons) {
-            if (this.isIn(e, item)) {
-                item.setMouseState(MouseState.OVER);
-                break;
-            }
-        }
+        Arrays.stream(this.buttons)
+                .filter(item -> this.isIn(e, item))
+                .findFirst()
+                .ifPresent(item -> item.setMouseState(MouseState.OVER));
+
     }
 
     @Override
