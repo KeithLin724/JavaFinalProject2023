@@ -22,7 +22,18 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
         // game.getTranslator().getPlayer();
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.game.getGameMenu().mouseMoved(e);
+            }
+            case PLAYING -> {
+                this.game.getGamePlaying().mouseMoved(e);
+            }
+            case OPTIONS -> throw new UnsupportedOperationException("Unimplemented case: " + GameState.getState());
+            case QUITS -> System.exit(0);
+            default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
 
+        }
     }
 
     @Override
@@ -38,18 +49,43 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
             case PLAYING -> {
                 this.game.getGamePlaying().mouseClicked(e);
             }
+            case OPTIONS -> throw new UnsupportedOperationException("Unimplemented case: " + GameState.getState());
+            case QUITS -> System.exit(0);
+            default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
 
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.game.getGameMenu().mousePressed(e);
+            }
+            case PLAYING -> {
+                this.game.getGamePlaying().mousePressed(e);
+            }
+            case OPTIONS -> throw new UnsupportedOperationException("Unimplemented case: " + GameState.getState());
+            case QUITS -> System.exit(0);
+            default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
 
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        switch (GameState.getState()) {
+            case MENU -> {
+                this.game.getGameMenu().mouseReleased(e);
+            }
+            case PLAYING -> {
+                this.game.getGamePlaying().mouseReleased(e);
+            }
+            case OPTIONS -> throw new UnsupportedOperationException("Unimplemented case: " + GameState.getState());
+            case QUITS -> System.exit(0);
+            default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
 
+        }
     }
 
     @Override

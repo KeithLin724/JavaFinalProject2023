@@ -15,7 +15,9 @@ import java.util.logging.Logger;
  */
 public enum GameState {
     PLAYING,
-    MENU;
+    MENU,
+    OPTIONS,
+    QUITS;
 
     private static GameState state = MENU;
     private static final Logger LOGGER = Logger.getLogger(GameState.class.getName());

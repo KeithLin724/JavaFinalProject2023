@@ -16,4 +16,10 @@ public final class GameSourceFilePath {
 
     // level 1 path
     public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data.png";
+
+    // menu button
+    public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";
+
+    // menu background
+    public static final String MENU_BACKGROUND_IMAGE = "resource/ui/menu_background.png";
 }

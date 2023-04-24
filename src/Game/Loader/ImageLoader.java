@@ -6,8 +6,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
+import Game.GUI.UIConstant.Buttons;
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
+
+import static Game.GUI.ui.GameMenuButton.pitchesNumber;
 
 public class ImageLoader {
 
@@ -134,5 +137,17 @@ public class ImageLoader {
         }
 
         return mapBlock;
+    }
+
+    public static BufferedImage[] loadMenuButtonImage(String fileName, int selectImageRowIndex) throws IOException {
+        BufferedImage imageOri = loadImage(fileName);
+
+        return IntStream
+                .range(0, pitchesNumber)
+                .mapToObj(i -> imageOri.getSubimage(i * Buttons.B_WIDTH_DEFAULT.value,
+                        selectImageRowIndex * Buttons.B_HEIGHT_DEFAULT.value,
+                        Buttons.B_WIDTH_DEFAULT.value,
+                        Buttons.B_HEIGHT_DEFAULT.value))
+                .toArray(BufferedImage[]::new);
     }
 }
