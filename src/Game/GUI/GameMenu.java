@@ -70,18 +70,15 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void render(Graphics g) {
-        // g.setColor(Color.BLACK);
-        // g.drawString("Menu", GAME_WIDTH / 2, GAME_HEIGHT / 2);
-        g.drawImage(backgroundImage, this.menuBgPoint.x, this.menuBgPoint.y, this.menuWH.x, this.menuWH.y, null);
+        g.drawImage(backgroundImage,
+                this.menuBgPoint.x, this.menuBgPoint.y,
+                this.menuWH.x, this.menuWH.y,
+                null);
         Arrays.stream(this.buttons).forEach(item -> item.render(g));
     }
 
     @Override
     public void update() {
-        // for (var item : this.buttons) {
-        // item.update();
-        // }
-
         Arrays.stream(this.buttons).forEach(item -> item.update());
     }
 
