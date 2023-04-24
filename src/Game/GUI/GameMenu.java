@@ -52,7 +52,9 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                         x -> (int) (x * SCALE))
                 .toIntPoint();
 
-        this.menuBgPoint = new GamePoint(GAME_WIDTH / 2 - menuWH.x / 2, 45 * SCALE).toIntPoint();
+        this.menuBgPoint = GameUnitPair
+                .buildGameUnitPair(GAME_WIDTH / 2 - menuWH.x / 2, 45 * SCALE)
+                .toIntPoint();
     }
 
     private void loadGameMenuButton() {

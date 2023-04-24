@@ -5,10 +5,6 @@ import Game.Loader.ImageLoader;
 import Game.gameBase.GamePoint;
 import Game.state.GameState;
 
-import static base.BaseGameConstant.GAME_WIDTH;
-import static base.BaseGameConstant.GAME_HEIGHT;
-import static base.BaseGameConstant.SCALE;
-
 import java.io.IOException;
 
 public class GameElementFactory {
