@@ -139,6 +139,20 @@ public class ImageLoader {
         return mapBlock;
     }
 
+    /**
+     * This function loads and returns an array of sub-images from a given image
+     * file.
+     * 
+     * @param fileName            The name of the image file to be loaded.
+     * @param selectImageRowIndex The selectImageRowIndex parameter is an integer
+     *                            value representing the
+     *                            row index of the image to be selected from the
+     *                            loaded image file. This method is used to load
+     *                            multiple images from a single image file by
+     *                            selecting a specific row of images based on the
+     *                            selectImageRowIndex parameter.
+     * @return The method is returning an array of BufferedImages.
+     */
     public static BufferedImage[] loadMenuButtonImage(String fileName, int selectImageRowIndex) throws IOException {
         BufferedImage imageOri = loadImage(fileName);
 
