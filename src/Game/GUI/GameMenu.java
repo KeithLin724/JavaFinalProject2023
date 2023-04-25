@@ -100,7 +100,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
 
         Arrays.stream(this.buttons)
-                .filter(item -> this.isIn(e, item) && item.getMouseState() == MouseState.PRESS)
+                .filter(item -> this.isIn(e, item) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
                 .ifPresent(item -> item.applyGameState());
 
