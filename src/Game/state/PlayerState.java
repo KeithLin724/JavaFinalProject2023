@@ -1,7 +1,5 @@
 package Game.state;
 
-import java.awt.Frame;
-
 /**
  * This is an enum class named `PlayerState` that defines the different states a
  * player can be in a

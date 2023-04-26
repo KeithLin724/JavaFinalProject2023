@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import Game.GUI.UIConstant.Buttons;
@@ -57,7 +56,7 @@ public class ImageLoader {
      * If an IOException occurs during the loading process, it prints the stack
      * trace and returns null.
      */
-    private static BiFunction<String, Integer, BufferedImage> loadImageLambda = (fileName, i) -> {
+    private static final BiFunction<String, Integer, BufferedImage> loadImageLambda = (fileName, i) -> {
         try {
             return ImageLoader.loadImage(ImageNamePath.imagePath(fileName + i));
         } catch (IOException e) {
@@ -67,9 +66,8 @@ public class ImageLoader {
     };
 
     /**
-     * This function loads a set of character images based on the player's state and
-     * returns them as an
-     * array of BufferedImages.
+     * The function loads character images based on their state using
+     * multithreading.
      * 
      * @param folderName  The name of the folder where the character images are
      *                    stored.
@@ -77,15 +75,16 @@ public class ImageLoader {
      *                    states a player character
      *                    can be in, such as standing, walking, jumping, etc. It
      *                    contains information about the number of
-     *                    frames in the animation and the name of the image file for
+     *                    frames in the animation and the file name of the image for
      *                    each frame.
-     * @return The method is returning an array of BufferedImages.
+     * @return The method is returning an array of BufferedImages, which are loaded
+     *         from image files based
+     *         on the provided folder name and player state. The images are loaded
+     *         using a lambda function and a
+     *         thread pool to improve performance.
      */
     private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState) {
 
-        // return IntStream.range(0, playerState.frameNumber)
-        // .mapToObj(i -> loadImageLambda.apply(folderName + playerState.imageString,i))
-        // .toArray(BufferedImage[]::new);
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         Future<?>[] futures = IntStream.range(0, playerState.frameNumber)
