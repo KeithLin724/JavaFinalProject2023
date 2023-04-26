@@ -32,6 +32,9 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private Point menuWH;
     private Point menuBgPoint;
 
+    private static final float[] xMenuArray = { GAME_WIDTH / 2, GAME_WIDTH / 2, GAME_WIDTH / 2 };
+    private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
+
     public GameMenu(Game game) {
         super(game);
         this.loadGameMenuButton();
@@ -57,14 +60,12 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     }
 
     private void loadGameMenuButton() {
-
         try {
-            buttons[0] = GameElementFactory.getGameMenuButton(GAME_WIDTH / 2, 150 * SCALE, 0, GameState.PLAYING);
-            buttons[1] = GameElementFactory.getGameMenuButton(GAME_WIDTH / 2, 220 * SCALE, 1, GameState.OPTIONS);
-            buttons[2] = GameElementFactory.getGameMenuButton(GAME_WIDTH / 2, 290 * SCALE, 2, GameState.QUITS);
+            buttons = GameElementFactory.getAllMenuButtons(xMenuArray, yMenuArray);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
