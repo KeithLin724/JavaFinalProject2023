@@ -2,6 +2,11 @@ package Game.Loader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.IntStream;
@@ -76,12 +81,29 @@ public class ImageLoader {
      *                    each frame.
      * @return The method is returning an array of BufferedImages.
      */
-    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState)
-            throws IOException {
+    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState) {
 
-        return IntStream.range(0, playerState.frameNumber)
-                .mapToObj(i -> loadImageLambda.apply(folderName + playerState.imageString, i))
-                .toArray(BufferedImage[]::new);
+        // return IntStream.range(0, playerState.frameNumber)
+        // .mapToObj(i -> loadImageLambda.apply(folderName + playerState.imageString,i))
+        // .toArray(BufferedImage[]::new);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        Future<?>[] futures = IntStream.range(0, playerState.frameNumber)
+                .mapToObj(i -> executorService
+                        .submit(() -> loadImageLambda.apply(folderName + playerState.imageString, i)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        return Arrays.stream(futures)
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).toArray(BufferedImage[]::new);
     }
 
     /**
@@ -97,11 +119,23 @@ public class ImageLoader {
 
         BufferedImage[][] animations = new BufferedImage[characterState][]; // frameNumber
 
-        animations[PlayerState.IDLE.num] = loadCharacterImageByState(folderName, PlayerState.IDLE);
-        animations[PlayerState.JUMP.num] = loadCharacterImageByState(folderName, PlayerState.JUMP);
-        animations[PlayerState.FALLING.num] = loadCharacterImageByState(folderName, PlayerState.FALLING);
-        animations[PlayerState.ATTACKING.num] = loadCharacterImageByState(folderName, PlayerState.ATTACKING);
-        animations[PlayerState.MOVING.num] = loadCharacterImageByState(folderName, PlayerState.MOVING);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        Future<?>[] futures = Arrays.stream(PlayerState.ALL_PLAYER_STATES)
+                .map(state -> executorService
+                        .submit(() -> animations[state.num] = loadCharacterImageByState(folderName, state)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        try {
+            // Wait for all tasks to complete
+            for (var future : futures) {
+                future.get();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
         return animations;
     }

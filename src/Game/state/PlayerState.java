@@ -26,6 +26,8 @@ public enum PlayerState {
     public final int frameNumber;
     public final String imageString;
 
+    public static final PlayerState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, ATTACKING, FALLING };
+
     PlayerState(int number, int frameNumber, String imageString) {
         this.num = number;
         this.frameNumber = frameNumber;
