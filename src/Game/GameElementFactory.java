@@ -26,13 +26,26 @@ public class GameElementFactory {
         return new GameCharacter();
     }
 
-    public static GameMenuButton getGameMenuButton(float xPos, float yPos, int index, GameState state)
-            throws IOException {
-        return new GameMenuButton(new GamePoint(xPos, yPos),
-                ImageLoader.loadMenuButtonImage(GameSourceFilePath.MENU_BUTTON_IMAGE_1, index),
-                state);
-    }
-
+    /**
+     * This function returns an array of sub-images from a given image using
+     * multi-threading.
+     * 
+     * @param image               A BufferedImage object that contains the image
+     *                            from which the subimages will be
+     *                            extracted.
+     * @param selectImageRowIndex The index of the row in the image that contains
+     *                            the button images for the
+     *                            selected state.
+     * @return The method is returning an array of BufferedImages. The number of
+     *         BufferedImages in the
+     *         array is determined by the constant value "pitchesNumber" in the
+     *         GameMenuButton class. Each
+     *         BufferedImage is a subimage of the input image, created using the
+     *         "getSubimage" method. The subimage
+     *         is selected based on the selectImageRowIndex parameter passed to the
+     *         method. The method uses
+     *         multithreading
+     */
     private static BufferedImage[] getGameMenuButton(BufferedImage image, int selectImageRowIndex) {
         Function<Integer, BufferedImage> bufferedImageBuilder = i -> image.getSubimage(
                 i * Buttons.B_WIDTH_DEFAULT.value,
@@ -61,6 +74,18 @@ public class GameElementFactory {
                 .toArray(BufferedImage[]::new);
     }
 
+    /**
+     * This function returns an array of GameMenuButtons created using a cached
+     * thread pool and a future
+     * object.
+     * 
+     * @param xPos An array of floats representing the x-coordinates of the menu
+     *             buttons.
+     * @param yPos The yPos parameter is an array of floats representing the
+     *             y-coordinates of the menu
+     *             buttons.
+     * @return The method is returning an array of GameMenuButton objects.
+     */
     public static GameMenuButton[] getAllMenuButtons(float[] xPos, float[] yPos) throws IOException {
 
         var oriImage = ImageLoader.loadImage(GameSourceFilePath.MENU_BUTTON_IMAGE_1);
