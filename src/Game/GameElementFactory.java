@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-import Game.GUI.UIConstant.Buttons;
+import Game.GUI.UIConstant.MenuButtons;
 import Game.GUI.ui.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.gameBase.GamePoint;
@@ -48,10 +48,10 @@ public class GameElementFactory {
      */
     private static BufferedImage[] getGameMenuButton(BufferedImage image, int selectImageRowIndex) {
         Function<Integer, BufferedImage> bufferedImageBuilder = i -> image.getSubimage(
-                i * Buttons.B_WIDTH_DEFAULT.value,
-                selectImageRowIndex * Buttons.B_HEIGHT_DEFAULT.value,
-                Buttons.B_WIDTH_DEFAULT.value,
-                Buttons.B_HEIGHT_DEFAULT.value);
+                i * MenuButtons.B_WIDTH_DEFAULT.value,
+                selectImageRowIndex * MenuButtons.B_HEIGHT_DEFAULT.value,
+                MenuButtons.B_WIDTH_DEFAULT.value,
+                MenuButtons.B_HEIGHT_DEFAULT.value);
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -93,12 +93,12 @@ public class GameElementFactory {
         Function<Integer, GameMenuButton> gameMenuBuilder = i -> new GameMenuButton(
                 new GamePoint(xPos[i], yPos[i]),
                 getGameMenuButton(oriImage, i),
-                GameState.ALL_GAME_STATES[i]);
+                GameState.MENU_GAME_STATES_CHOOSE[i]);
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         Future<?>[] futures = IntStream
-                .range(0, GameState.ALL_GAME_STATES.length)
+                .range(0, GameState.MENU_GAME_STATES_CHOOSE.length)
                 .mapToObj(i -> executorService.submit(() -> gameMenuBuilder.apply(i)))
                 .toArray(Future<?>[]::new);
 

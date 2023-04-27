@@ -22,4 +22,10 @@ public final class GameSourceFilePath {
 
     // menu background
     public static final String MENU_BACKGROUND_IMAGE = "resource/ui/menu_background.png";
+
+    // pause background
+    public static final String PAUSE_BACKGROUND_IMAGE = "resource/ui/pause_menu.png";
+
+    // sound image button
+    public static final String SOUND_BUTTON_IMAGE = "resource/ui/sound_button.png";
 }

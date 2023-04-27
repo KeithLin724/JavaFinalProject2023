@@ -24,6 +24,22 @@ public class GamePoint extends GameUnitPair {
         super(obj);
     }
 
+    public static GamePoint buildGamePoint(int x, int y) {
+        return new GamePoint(x, y);
+    }
+
+    public static GamePoint buildGamePoint(float x, float y) {
+        return new GamePoint(x, y);
+    }
+
+    public static GamePoint buildGamePoint(GameUnitPair obj) {
+        return new GamePoint(obj);
+    }
+
+    public static GamePoint buildGamePoint(Point obj) {
+        return new GamePoint(obj);
+    }
+
     public void addToX(float xDis) {
         this.x += xDis;
     }

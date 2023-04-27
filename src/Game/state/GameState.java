@@ -22,7 +22,7 @@ public enum GameState {
     private static GameState state = MENU;
     private static final Logger LOGGER = Logger.getLogger(GameState.class.getName());
 
-    public static final GameState[] ALL_GAME_STATES = { PLAYING, OPTIONS, QUITS };
+    public static final GameState[] MENU_GAME_STATES_CHOOSE = { PLAYING, OPTIONS, QUITS };
 
     /**
      * The function returns the current state of the game.

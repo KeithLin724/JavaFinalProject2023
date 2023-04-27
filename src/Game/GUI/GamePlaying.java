@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import Game.GameCharacter;
 import Game.GameSourceFilePath;
+import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.Loader.GameElementLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBackground.GameLevelManager;
@@ -19,6 +20,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     private GameLevelManager gameLevelManager;
     private GameCharacter player;
+
+    private GamePauseDisplayLayer gamePauseDisplayLayer;
+
+    // add
+    private boolean paused = true;
 
     private static final Logger LOGGER = Logger.getLogger(GamePlaying.class.getName());
 
@@ -37,6 +43,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         player.init(200, 200);
         player.setLevelData(gameLevelManager.getGameLevel().getLevel2D());
         player.setLevel(gameLevelManager.getGameLevel());
+
+        gamePauseDisplayLayer = new GamePauseDisplayLayer();
     }
 
     public GameCharacter getPlayer() {
@@ -51,12 +59,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     public void update() {
         this.gameLevelManager.update();
         this.player.update();
+
     }
 
     @Override
     public void render(Graphics g) {
         this.gameLevelManager.render(g);
         this.player.render(g);
+
+        this.gamePauseDisplayLayer.render(g);
     }
 
     @Override
@@ -68,12 +79,16 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (paused) {
+            this.gamePauseDisplayLayer.mousePressed(e);
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        if (paused) {
+            this.gamePauseDisplayLayer.mouseReleased(e);
+        }
     }
 
     @Override
@@ -93,7 +108,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        if (paused) {
+            this.gamePauseDisplayLayer.mouseMoved(e);
+        }
     }
 
     private void keyEventToPlayerMove(KeyEvent e, boolean isMoveIt) {

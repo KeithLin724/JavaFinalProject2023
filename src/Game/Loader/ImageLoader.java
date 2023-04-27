@@ -10,7 +10,10 @@ import java.util.concurrent.Future;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
-import Game.GUI.UIConstant.Buttons;
+import Game.GUI.UIConstant.MenuButtons;
+import Game.GUI.UIConstant.PauseLayerButtons;
+import Game.GUI.ui.GamePauseDisplayLayer;
+import Game.GUI.ui.GameSoundButton;
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
 
@@ -191,10 +194,26 @@ public class ImageLoader {
 
         return IntStream
                 .range(0, pitchesNumber)
-                .mapToObj(i -> imageOri.getSubimage(i * Buttons.B_WIDTH_DEFAULT.value,
-                        selectImageRowIndex * Buttons.B_HEIGHT_DEFAULT.value,
-                        Buttons.B_WIDTH_DEFAULT.value,
-                        Buttons.B_HEIGHT_DEFAULT.value))
+                .mapToObj(i -> imageOri.getSubimage(i * MenuButtons.B_WIDTH_DEFAULT.value,
+                        selectImageRowIndex * MenuButtons.B_HEIGHT_DEFAULT.value,
+                        MenuButtons.B_WIDTH_DEFAULT.value,
+                        MenuButtons.B_HEIGHT_DEFAULT.value))
                 .toArray(BufferedImage[]::new);
+    }
+
+    public static BufferedImage[][] loadSoundButtonImage(String fileName) throws IOException {
+        var imageOri = loadImage(fileName);
+        BufferedImage[][] image = new BufferedImage[GameSoundButton.BUTTON_ROW_NUMBER][GameSoundButton.BUTTON_COLUMN_NUMBER];
+
+        for (int row = 0; row < GameSoundButton.BUTTON_ROW_NUMBER; row++) {
+            for (int col = 0; col < GameSoundButton.BUTTON_COLUMN_NUMBER; col++) {
+
+                int size = PauseLayerButtons.SOUND_SIZE_DEFAULT.value;
+                image[row][col] = imageOri.getSubimage(col * size, row * size, size, size);
+
+            }
+        }
+
+        return image;
     }
 }
