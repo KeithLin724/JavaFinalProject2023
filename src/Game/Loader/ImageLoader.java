@@ -10,10 +10,15 @@ import java.util.concurrent.Future;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
+import Game.GameSourceFilePath;
 import Game.GUI.UIConstant.MenuButtons;
 import Game.GUI.UIConstant.PauseLayerButtons;
+import Game.GUI.UIConstant.URMButtons;
+import Game.GUI.UIConstant.VolumeButtons;
 import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GUI.ui.GameSoundButton;
+import Game.GUI.ui.GameURMButton;
+import Game.GUI.ui.GameVolumeButton;
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
 
@@ -216,4 +221,36 @@ public class ImageLoader {
 
         return image;
     }
+
+    public static BufferedImage[] loadURMButtonImage(int rowIndex) throws IOException {
+        var oriImage = loadImage(GameSourceFilePath.URM_BUTTON_IMAGE);
+
+        return IntStream
+                .range(0, GameURMButton.pitchesNumber)
+                .mapToObj(i -> oriImage.getSubimage(i * URMButtons.URM_SIZE_DEFAULT.value,
+                        rowIndex * URMButtons.URM_SIZE_DEFAULT.value,
+                        URMButtons.URM_SIZE_DEFAULT.value, URMButtons.URM_SIZE_DEFAULT.value))
+                .toArray(BufferedImage[]::new);
+    }
+
+    public static BufferedImage[] loadVolumeButtonImages() throws IOException {
+        var oriImage = loadImage(GameSourceFilePath.VOLUME_BUTTON_IMAGE);
+
+        return IntStream
+                .range(0, GameVolumeButton.pitchesNumber)
+                .mapToObj(i -> oriImage.getSubimage(i * VolumeButtons.VOLUME_DEFAULT_WIDTH.value,
+                        0,
+                        VolumeButtons.VOLUME_DEFAULT_WIDTH.value,
+                        VolumeButtons.VOLUME_DEFAULT_HEIGHT.value))
+                .toArray(BufferedImage[]::new);
+    }
+
+    public static BufferedImage loadVolumeSliderImages() throws IOException {
+        var oriImage = loadImage(GameSourceFilePath.VOLUME_BUTTON_IMAGE);
+
+        return oriImage.getSubimage(3 * VolumeButtons.VOLUME_DEFAULT_WIDTH.value, 0,
+                VolumeButtons.SLIDER_DEFAULT_WIDTH.value,
+                VolumeButtons.VOLUME_DEFAULT_HEIGHT.value);
+    }
+
 }

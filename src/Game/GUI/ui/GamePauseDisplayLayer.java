@@ -7,11 +7,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import Game.GameSourceFilePath;
+import Game.GUI.GamePlaying;
+import Game.GUI.UIConstant.VolumeButtons;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
+import Game.state.GameState;
 import Game.state.MouseState;
 
 import static base.BaseGameConstant.SCALE;
@@ -20,18 +23,44 @@ import static base.BaseGameConstant.GAME_WIDTH;
 public class GamePauseDisplayLayer implements GameStateMethod {
     private BufferedImage backgroundImage;
 
+    private GamePlaying gamePlaying;
+
     private GameUnitPair bgWH;
     private GamePoint bgPoint;
 
     private GameSoundButton musicButton, sfxButton;
+    private GameURMButton menuB, replayB, unpauseB;
+    private GameVolumeButton volumeButtons;
 
-    public GamePauseDisplayLayer() {
+    public GamePauseDisplayLayer(GamePlaying gamePlaying) {
+        this.gamePlaying = gamePlaying;
+
         try {
             loadBackground();
             createSoundButton();
+            createURMButton();
+            createVolumeButtons();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void createVolumeButtons() throws IOException {
+        var volumeBtnPoint = GamePoint.buildGamePoint(309 * SCALE, 278 * SCALE);
+        this.volumeButtons = new GameVolumeButton(volumeBtnPoint,
+                ImageLoader.loadVolumeButtonImages(),
+                ImageLoader.loadVolumeSliderImages());
+
+    }
+
+    private void createURMButton() throws IOException {
+        var menuPoint = GamePoint.buildGamePoint(313 * SCALE, 325 * SCALE);
+        var replayPoint = GamePoint.buildGamePoint(387 * SCALE, 325 * SCALE);
+        var unpausePoint = GamePoint.buildGamePoint(462 * SCALE, 325 * SCALE);
+
+        this.menuB = new GameURMButton(menuPoint, ImageLoader.loadURMButtonImage(2));
+        this.replayB = new GameURMButton(replayPoint, ImageLoader.loadURMButtonImage(1));
+        this.unpauseB = new GameURMButton(unpausePoint, ImageLoader.loadURMButtonImage(0));
     }
 
     private void createSoundButton() {
@@ -57,6 +86,12 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     public void update() {
         this.musicButton.update();
         this.sfxButton.update();
+
+        this.menuB.update();
+        this.replayB.update();
+        this.unpauseB.update();
+
+        this.volumeButtons.update();
     }
 
     @Override
@@ -71,6 +106,14 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         this.musicButton.render(g);
         this.sfxButton.render(g);
 
+        // URM button
+        this.menuB.render(g);
+        this.replayB.render(g);
+        this.unpauseB.render(g);
+
+        // volume button
+        this.volumeButtons.render(g);
+
     }
 
     @Override
@@ -82,22 +125,64 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     public void mousePressed(MouseEvent e) {
         if (this.musicButton.isIn(e)) {
             this.musicButton.setMouseState(MouseState.PRESS);
+        }
 
-        } else if (this.sfxButton.isIn(e)) {
+        else if (this.sfxButton.isIn(e)) {
             this.sfxButton.setMouseState(MouseState.PRESS);
+        }
+
+        else if (this.menuB.isIn(e)) {
+            this.menuB.setMouseState(MouseState.PRESS);
+        }
+
+        else if (this.replayB.isIn(e)) {
+            this.replayB.setMouseState(MouseState.PRESS);
+        }
+
+        else if (this.unpauseB.isIn(e)) {
+            this.unpauseB.setMouseState(MouseState.PRESS);
+        }
+
+        else if (this.volumeButtons.isIn(e)) {
+            this.volumeButtons.setMouseState(MouseState.PRESS);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (this.musicButton.isIn(e) && this.musicButton.mouseState.equals(MouseState.PRESS)) {
+        if (this.musicButton.isIn(e) && this.musicButton.getMouseState().equals(MouseState.PRESS)) {
             this.musicButton.changeMul();
-            this.musicButton.resetState();
-
-        } else if (this.sfxButton.isIn(e) && this.sfxButton.mouseState.equals(MouseState.PRESS)) {
-            this.sfxButton.changeMul();
-            this.sfxButton.resetState();
         }
+
+        else if (this.sfxButton.isIn(e) && this.sfxButton.getMouseState().equals(MouseState.PRESS)) {
+            this.sfxButton.changeMul();
+        }
+
+        else if (this.menuB.isIn(e) && this.menuB.getMouseState().equals(MouseState.PRESS)) {
+            GameState.setState(GameState.MENU);
+            this.gamePlaying.setPaused(false);
+        }
+
+        else if (this.replayB.isIn(e) && this.replayB.getMouseState().equals(MouseState.PRESS)) {
+            System.out.println("level replay");
+        }
+
+        else if (this.unpauseB.isIn(e) && this.unpauseB.getMouseState().equals(MouseState.PRESS)) {
+            this.gamePlaying.setPaused(false);
+        }
+
+        // sound
+        this.musicButton.resetState();
+        this.sfxButton.resetState();
+
+        // URM
+        this.menuB.resetState();
+        this.replayB.resetState();
+        this.unpauseB.resetState();
+
+        // volume buttons
+        this.volumeButtons.resetState();
+
     }
 
     @Override
@@ -112,6 +197,9 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (this.volumeButtons.getMouseState().equals(MouseState.PRESS)) {
+            this.volumeButtons.changeX(e.getX());
+        }
 
     }
 
@@ -120,11 +208,34 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         this.musicButton.resetState();
         this.sfxButton.resetState();
 
+        this.menuB.resetState();
+        this.replayB.resetState();
+        this.unpauseB.resetState();
+
+        this.volumeButtons.resetState();
+
         if (this.musicButton.isIn(e)) {
             this.musicButton.setMouseState(MouseState.OVER);
+        }
 
-        } else if (this.sfxButton.isIn(e)) {
+        else if (this.sfxButton.isIn(e)) {
             this.sfxButton.setMouseState(MouseState.OVER);
+        }
+
+        else if (this.menuB.isIn(e)) {
+            this.menuB.setMouseState(MouseState.OVER);
+        }
+
+        else if (this.replayB.isIn(e)) {
+            this.replayB.setMouseState(MouseState.OVER);
+        }
+
+        else if (this.unpauseB.isIn(e)) {
+            this.unpauseB.setMouseState(MouseState.OVER);
+        }
+
+        else if (this.volumeButtons.isIn(e)) {
+            this.volumeButtons.setMouseState(MouseState.OVER);
         }
     }
 

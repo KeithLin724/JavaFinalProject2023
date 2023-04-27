@@ -23,8 +23,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     private GamePauseDisplayLayer gamePauseDisplayLayer;
 
-    // add
-    private boolean paused = true;
+    private boolean paused = false;
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 
     private static final Logger LOGGER = Logger.getLogger(GamePlaying.class.getName());
 
@@ -44,7 +51,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         player.setLevelData(gameLevelManager.getGameLevel().getLevel2D());
         player.setLevel(gameLevelManager.getGameLevel());
 
-        gamePauseDisplayLayer = new GamePauseDisplayLayer();
+        gamePauseDisplayLayer = new GamePauseDisplayLayer(this);
     }
 
     public GameCharacter getPlayer() {
@@ -57,9 +64,13 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void update() {
+        if (this.paused) {
+            this.gamePauseDisplayLayer.update();
+            return;
+        }
+
         this.gameLevelManager.update();
         this.player.update();
-
     }
 
     @Override
@@ -67,7 +78,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.gameLevelManager.render(g);
         this.player.render(g);
 
-        this.gamePauseDisplayLayer.render(g);
+        if (this.paused) {
+            this.gamePauseDisplayLayer.render(g);
+        }
+
     }
 
     @Override
@@ -103,7 +117,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        if (paused) {
+            this.gamePauseDisplayLayer.mouseDragged(e);
+        }
     }
 
     @Override
@@ -123,6 +139,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             case KeyEvent.VK_SPACE -> this.player.setJump(isMoveIt);
 
             case KeyEvent.VK_BACK_SPACE -> GameState.setState(GameState.MENU);
+
+            case KeyEvent.VK_ESCAPE -> this.paused = (isMoveIt ? !this.paused : this.paused);
 
         }
     }

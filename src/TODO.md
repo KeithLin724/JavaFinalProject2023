@@ -6,11 +6,14 @@ https://www.youtube.com/watch?v=VRpHdSFWGPs
 
 ---
 
-success the basic move and load the image 
 
-end video in 11
+
+end video in 13
 
 ---
+
+## rewrite the base 
+
 
 ### second 
 

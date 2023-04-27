@@ -34,9 +34,9 @@ public class GameSoundButton extends GameButtonBase {
 
     public GameSoundButton(GamePoint point) {
         super(point);
-        this.mouseState = MouseState.NONE;
+
         loadImage();
-        this.initBounds();
+        // this.initBounds();
     }
 
     private void loadImage() {

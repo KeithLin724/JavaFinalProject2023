@@ -1,5 +1,7 @@
 package Game;
 
+import java.io.ObjectOutputStream.PutField;
+
 public final class GameSourceFilePath {
     // main image character path
     // public static final String PLAYER_MAIN_CHARACTER =
@@ -28,4 +30,10 @@ public final class GameSourceFilePath {
 
     // sound image button
     public static final String SOUND_BUTTON_IMAGE = "resource/ui/sound_button.png";
+
+    // urm button
+    public static final String URM_BUTTON_IMAGE = "resource/ui/urm_buttons.png";
+
+    // volume button
+    public static final String VOLUME_BUTTON_IMAGE = "resource/ui/volume_buttons.png";
 }

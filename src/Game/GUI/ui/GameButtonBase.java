@@ -2,7 +2,6 @@ package Game.GUI.ui;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.gameBase.GamePoint;
@@ -17,6 +16,9 @@ public abstract class GameButtonBase implements GameAnimatedDrawer {
 
     public GameButtonBase(GamePoint point) {
         this.point = point;
+        this.mouseState = MouseState.NONE;
+
+        this.initBounds();
     }
 
     public MouseState getMouseState() {
