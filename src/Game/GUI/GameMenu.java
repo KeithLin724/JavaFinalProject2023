@@ -92,7 +92,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     public void mousePressed(MouseEvent e) {
 
         Arrays.stream(this.buttons)
-                .filter(item -> this.isIn(e, item))
+                .filter(item -> item.isIn(e))
                 .findFirst()
                 .ifPresent(item -> item.setMouseState(MouseState.PRESS));
     }
@@ -101,7 +101,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
 
         Arrays.stream(this.buttons)
-                .filter(item -> this.isIn(e, item) && item.getMouseState().equals(MouseState.PRESS))
+                .filter(item -> item.isIn(e) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
                 .ifPresent(item -> item.applyGameState());
 
@@ -109,7 +109,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     }
 
     private void resetButtons() {
-        Arrays.stream(this.buttons).forEach(item -> item.resetMouseState());
+        Arrays.stream(this.buttons).forEach(item -> item.resetState());
     }
 
     @Override
@@ -129,10 +129,10 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        Arrays.stream(this.buttons).forEach(item -> item.resetMouseState());
+        Arrays.stream(this.buttons).forEach(item -> item.resetState());
 
         Arrays.stream(this.buttons)
-                .filter(item -> this.isIn(e, item))
+                .filter(item -> item.isIn(e))
                 .findFirst()
                 .ifPresent(item -> item.setMouseState(MouseState.OVER));
 

@@ -13,21 +13,22 @@ import Game.state.MouseState;
 /**
  * MenuButton
  */
-public class GameMenuButton implements GameAnimatedDrawer {
+public class GameMenuButton extends GameButtonBase implements GameAnimatedDrawer {
     public static final int pitchesNumber = 3;
     private static final int xOffsetCenter = MenuButtons.B_WIDTH.value / 2;
 
-    private GamePoint point;
+    // private GamePoint point;
 
     private GameState state;
 
     private BufferedImage[] images;
 
-    private MouseState mouseState;
+    // private MouseState mouseState;
 
-    private Rectangle bounds;
+    // private Rectangle bounds;
 
     public GameMenuButton(GamePoint point, BufferedImage[] images, GameState state) {
+        super(point);
         this.point = point;
         // this.imageRow = imageRow;
         this.images = images;
@@ -35,10 +36,10 @@ public class GameMenuButton implements GameAnimatedDrawer {
 
         this.mouseState = MouseState.NONE;
 
-        this.initBounds();
     }
 
-    private void initBounds() {
+    @Override
+    protected void initBounds() {
         this.bounds = new Rectangle(
                 (int) this.point.x - xOffsetCenter, (int) this.point.y,
                 MenuButtons.B_WIDTH.value,
@@ -49,9 +50,9 @@ public class GameMenuButton implements GameAnimatedDrawer {
         this.mouseState = mouseState;
     }
 
-    public MouseState getMouseState() {
-        return this.mouseState;
-    }
+    // public MouseState getMouseState() {
+    // return this.mouseState;
+    // }
 
     @Override
     public void update() {
@@ -65,16 +66,12 @@ public class GameMenuButton implements GameAnimatedDrawer {
                 MenuButtons.B_WIDTH.value, MenuButtons.B_HEIGHT.value, null);
     }
 
-    public Rectangle getBounds() {
-        return this.bounds;
-    }
-
     public void applyGameState() {
         GameState.setState(state);
     }
 
-    public void resetMouseState() {
-        this.mouseState = MouseState.NONE;
-    }
+    // public void resetMouseState() {
+    // this.mouseState = MouseState.NONE;
+    // }
 
 }
