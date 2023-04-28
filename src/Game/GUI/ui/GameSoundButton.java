@@ -3,13 +3,9 @@ package Game.GUI.ui;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import Game.GameSourceFilePath;
 import Game.GUI.UIConstant.PauseLayerButtons;
-import Game.Loader.ImageLoader;
 import Game.gameBase.GamePoint;
-import Game.state.MouseState;
 
 public class GameSoundButton extends GameButtonBase {
 
@@ -35,16 +31,11 @@ public class GameSoundButton extends GameButtonBase {
     public GameSoundButton(GamePoint point) {
         super(point);
 
-        loadImage();
-        // this.initBounds();
+        // loadImage();
     }
 
-    private void loadImage() {
-        try {
-            this.soundImages = ImageLoader.loadSoundButtonImage(GameSourceFilePath.SOUND_BUTTON_IMAGE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setSoundImages(BufferedImage[][] soundImages) {
+        this.soundImages = soundImages;
     }
 
     @Override

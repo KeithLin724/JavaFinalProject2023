@@ -7,11 +7,18 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import Game.GUI.UIConstant.MenuButtons;
+import Game.GUI.UIConstant.PauseLayerButtons;
+import Game.GUI.UIConstant.URMButtons;
+import Game.GUI.UIConstant.VolumeButtons;
 import Game.GUI.ui.GameMenuButton;
+import Game.GUI.ui.GameSoundButton;
+import Game.GUI.ui.GameURMButton;
+import Game.GUI.ui.GameVolumeButton;
 import Game.Loader.ImageLoader;
 import Game.gameBase.GamePoint;
 import Game.state.GameState;
@@ -114,5 +121,123 @@ public class GameElementFactory {
                     return null;
                 })
                 .toArray(GameMenuButton[]::new);
+    }
+
+    /**
+     * This function creates two sound buttons for a game with specified images and
+     * positions.
+     * 
+     * @param musicsPoints A GamePoint object representing the position of the music
+     *                     sound button on the
+     *                     game screen.
+     * @param sfxPoints    The location where the sound effects button will be
+     *                     placed on the game screen.
+     * @return An array of GameSoundButton objects, containing a music button and a
+     *         sound effects button.
+     */
+    public static GameSoundButton[] getAllGameSoundButton(GamePoint musicsPoints, GamePoint sfxPoints)
+            throws IOException {
+
+        var imageOri = ImageLoader.loadImage(GameSourceFilePath.SOUND_BUTTON_IMAGE);
+
+        BufferedImage[][] image = new BufferedImage[GameSoundButton.BUTTON_ROW_NUMBER][GameSoundButton.BUTTON_COLUMN_NUMBER];
+
+        for (int row = 0; row < GameSoundButton.BUTTON_ROW_NUMBER; row++) {
+            for (int col = 0; col < GameSoundButton.BUTTON_COLUMN_NUMBER; col++) {
+
+                int size = PauseLayerButtons.SOUND_SIZE_DEFAULT.value;
+                image[row][col] = imageOri.getSubimage(col * size, row * size, size, size);
+
+            }
+        }
+
+        GameSoundButton musicBtn = new GameSoundButton(musicsPoints);
+        musicBtn.setSoundImages(image);
+
+        GameSoundButton sfxBtn = new GameSoundButton(sfxPoints);
+        sfxBtn.setSoundImages(image);
+
+        return new GameSoundButton[] { musicBtn, sfxBtn };
+    }
+
+    private static final BiFunction<BufferedImage, Integer, BufferedImage[]> getURMImageByRow = (image,
+            rowIndex) -> IntStream
+                    .range(0, GameURMButton.pitchesNumber)
+                    .mapToObj(i -> image.getSubimage(i * URMButtons.URM_SIZE_DEFAULT.value,
+                            rowIndex * URMButtons.URM_SIZE_DEFAULT.value,
+                            URMButtons.URM_SIZE_DEFAULT.value,
+                            URMButtons.URM_SIZE_DEFAULT.value))
+                    .toArray(BufferedImage[]::new);
+
+    /**
+     * This Java function returns an array of GameURMButton objects with specified
+     * GamePoint coordinates
+     * and images obtained from a loaded image file.
+     * 
+     * @param menuPt    The location of the "Menu" button on the game screen.
+     * @param replayPt  A GamePoint object representing the coordinates of the
+     *                  replay button in the game.
+     * @param unpausePt The GamePoint object representing the coordinates of the
+     *                  "unpause" button in the
+     *                  game.
+     * @return An array of GameURMButton objects.
+     */
+    public static GameURMButton[] getAllGameURMButton(GamePoint menuPt, GamePoint replayPt, GamePoint unpausePt)
+            throws IOException {
+        var oriImage = ImageLoader.loadImage(GameSourceFilePath.URM_BUTTON_IMAGE);
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        Future<?>[] futures = IntStream
+                .rangeClosed(0, 2)
+                .mapToObj(i -> executorService.submit(() -> getURMImageByRow.apply(oriImage, i)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        var imageCut = Arrays
+                .stream(futures)
+                .map(i -> {
+                    try {
+                        return i.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
+                .toArray(BufferedImage[][]::new);
+
+        return new GameURMButton[] {
+                new GameURMButton(menuPt, imageCut[2]),
+                new GameURMButton(replayPt, imageCut[1]),
+                new GameURMButton(unpausePt, imageCut[0])
+        };
+    }
+
+    /**
+     * The function returns a GameVolumeButton object with images loaded from a file
+     * and positioned at a
+     * given GamePoint.
+     * 
+     * @param point The location on the game screen where the volume button will be
+     *              placed.
+     * @return The method is returning a GameVolumeButton object.
+     */
+    public static GameVolumeButton getAllGameVolumeButton(GamePoint point) throws IOException {
+        var oriImage = ImageLoader.loadImage(GameSourceFilePath.VOLUME_BUTTON_IMAGE);
+
+        var volumeImage = IntStream
+                .range(0, GameVolumeButton.pitchesNumber)
+                .mapToObj(i -> oriImage.getSubimage(i * VolumeButtons.VOLUME_DEFAULT_WIDTH.value,
+                        0,
+                        VolumeButtons.VOLUME_DEFAULT_WIDTH.value,
+                        VolumeButtons.VOLUME_DEFAULT_HEIGHT.value))
+                .toArray(BufferedImage[]::new);
+
+        var sliderImage = oriImage.getSubimage(3 * VolumeButtons.VOLUME_DEFAULT_WIDTH.value, 0,
+                VolumeButtons.SLIDER_DEFAULT_WIDTH.value,
+                VolumeButtons.VOLUME_DEFAULT_HEIGHT.value);
+
+        return new GameVolumeButton(point, volumeImage, sliderImage);
     }
 }

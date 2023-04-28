@@ -13,6 +13,10 @@ public class GameURMButton extends GameButtonBase {
 
     private BufferedImage[] image;
 
+    public void setImage(BufferedImage[] image) {
+        this.image = image;
+    }
+
     public GameURMButton(GamePoint point, BufferedImage[] image) {
         super(point);
 

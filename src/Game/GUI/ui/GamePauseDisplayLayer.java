@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import Game.GameElementFactory;
 import Game.GameSourceFilePath;
 import Game.GUI.GamePlaying;
-import Game.GUI.UIConstant.VolumeButtons;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBase.GameCalculator;
@@ -47,9 +47,8 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
     private void createVolumeButtons() throws IOException {
         var volumeBtnPoint = GamePoint.buildGamePoint(309 * SCALE, 278 * SCALE);
-        this.volumeButtons = new GameVolumeButton(volumeBtnPoint,
-                ImageLoader.loadVolumeButtonImages(),
-                ImageLoader.loadVolumeSliderImages());
+
+        this.volumeButtons = GameElementFactory.getAllGameVolumeButton(volumeBtnPoint);
 
     }
 
@@ -58,22 +57,27 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         var replayPoint = GamePoint.buildGamePoint(387 * SCALE, 325 * SCALE);
         var unpausePoint = GamePoint.buildGamePoint(462 * SCALE, 325 * SCALE);
 
-        this.menuB = new GameURMButton(menuPoint, ImageLoader.loadURMButtonImage(2));
-        this.replayB = new GameURMButton(replayPoint, ImageLoader.loadURMButtonImage(1));
-        this.unpauseB = new GameURMButton(unpausePoint, ImageLoader.loadURMButtonImage(0));
+        var btnResult = GameElementFactory.getAllGameURMButton(menuPoint, replayPoint, unpausePoint);
+
+        this.menuB = btnResult[0];
+        this.replayB = btnResult[1];
+        this.unpauseB = btnResult[2];
     }
 
-    private void createSoundButton() {
+    private void createSoundButton() throws IOException {
         var musicPoint = GamePoint.buildGamePoint(450 * SCALE, 140 * SCALE);
         var sfxPoint = GamePoint.buildGamePoint(450 * SCALE, 186 * SCALE);
 
-        this.musicButton = new GameSoundButton(musicPoint);
-        this.sfxButton = new GameSoundButton(sfxPoint);
+        var btnResult = GameElementFactory.getAllGameSoundButton(musicPoint, sfxPoint);
+
+        this.musicButton = btnResult[0];
+        this.sfxButton = btnResult[1];
 
     }
 
     private void loadBackground() throws IOException {
         this.backgroundImage = ImageLoader.loadImage(GameSourceFilePath.PAUSE_BACKGROUND_IMAGE);
+
         this.bgWH = GameCalculator.calculate(
                 this.backgroundImage.getWidth(), this.backgroundImage.getHeight(),
                 x -> (int) (x * SCALE));

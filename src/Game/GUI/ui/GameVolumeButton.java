@@ -41,6 +41,14 @@ public class GameVolumeButton extends GameButtonBase {
         this.sliderMax = (int) (point.x + VolumeButtons.SLIDER_WIDTH.value - sliderXOffset);
     }
 
+    public void setImage(BufferedImage[] image) {
+        this.image = image;
+    }
+
+    public void setSlider(BufferedImage slider) {
+        this.slider = slider;
+    }
+
     public void changeX(int x) {
         if (x < this.sliderMin) {
             this.buttonX = this.sliderMin;
