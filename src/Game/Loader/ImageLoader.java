@@ -1,7 +1,5 @@
 package Game.Loader;
 
-import static Game.GUI.ui.buttons.GameMenuButton.pitchesNumber;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,15 +10,6 @@ import java.util.concurrent.Future;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
-import Game.GameSourceFilePath;
-import Game.GUI.UIConstant.MenuButtons;
-import Game.GUI.UIConstant.PauseLayerButtons;
-import Game.GUI.UIConstant.URMButtons;
-import Game.GUI.UIConstant.VolumeButtons;
-import Game.GUI.ui.GamePauseDisplayLayer;
-import Game.GUI.ui.buttons.GameSoundButton;
-import Game.GUI.ui.buttons.GameURMButton;
-import Game.GUI.ui.buttons.GameVolumeButton;
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
 
