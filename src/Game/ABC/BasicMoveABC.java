@@ -2,11 +2,9 @@ package Game.ABC;
 
 import java.awt.Color;
 import java.awt.Graphics;
-// import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
-// import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GamePoint;
 import Game.state.PlayerState;
 import logic.input.Direction;

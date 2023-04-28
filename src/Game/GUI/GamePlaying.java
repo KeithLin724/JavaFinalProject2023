@@ -1,53 +1,68 @@
 package Game.GUI;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.util.logging.Logger;
-
+import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GameCharacter;
 import Game.GameSourceFilePath;
-import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.Loader.GameElementLoader;
+import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBackground.GameLevelManager;
 import Game.state.GameState;
 import logic.input.Direction;
 import main.Game;
 
-import static base.BaseGameConstant.GAME_WIDTH;
-import static base.BaseGameConstant.GAME_HEIGHT;
-import static base.BaseGameConstant.TILES_IN_WIDTH;
-import static base.BaseGameConstant.TILES_SIZE;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
+
+import static base.BaseGameConstant.*;
 
 public class GamePlaying extends GameStateBase implements GameStateMethod {
 
+    private static final Logger LOGGER = Logger.getLogger(GamePlaying.class.getName());
+    private final float leftBorder = 0.2f * (float) GAME_WIDTH;
+    private final float rightBorder = 0.8f * (float) GAME_WIDTH;
     private GameLevelManager gameLevelManager;
-    private GameCharacter player;
-
-    private GamePauseDisplayLayer gamePauseDisplayLayer;
-
-    private boolean paused = false;
 
     // about the display gaming
-
+    private GameCharacter player;
+    private GamePauseDisplayLayer gamePauseDisplayLayer;
+    private boolean paused = false;
     private float xLevelOffset;
-    private final float leftBorder = 0.2f * (float)GAME_WIDTH;
-    private final float rightBorder = 0.8f * (float)GAME_WIDTH;
     private int levelTileWide;
     private int maxTileOffset; // not display value
     private int maxLevelOffset; // not display pixel
-
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
-
-    private static final Logger LOGGER = Logger.getLogger(GamePlaying.class.getName());
+    private BufferedImage playingBackgroundImage, bigCloudImage, smallCloudImage;
+    private int[] smallCloudPosArrayY;
+    private int bigCloudNumber;
 
     public GamePlaying(Game game) {
         super(game);
+
+        try {
+            this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE);
+            this.bigCloudImage = ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
+            this.smallCloudImage = ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Random random = new Random();
+
+        smallCloudPosArrayY = IntStream
+                .range(0, 8)
+                .map(i -> (int) (90 * SCALE) + random.nextInt((int) (100 * SCALE)))
+                .toArray();
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 
     public void initClass() throws IOException {
@@ -68,6 +83,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.levelTileWide = gameLevelManager.getGameLevel().getMaxWidth();
         this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
         this.maxLevelOffset = this.maxTileOffset * TILES_SIZE;
+
+        this.bigCloudNumber = (int) Math.round((double) GameEnvironment.BIG_CLOUD_WIDTH.value / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
     }
 
     public GameCharacter getPlayer() {
@@ -96,20 +113,25 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         if (diff > rightBorder) {
             xLevelOffset += diff - rightBorder;
-        }
-
-        else if (diff <= leftBorder) {
+        } else if (diff < leftBorder) {
             xLevelOffset += diff - leftBorder;
         }
 
         this.xLevelOffset = Math.max(Math.min(xLevelOffset, maxLevelOffset), 0);
-
-        this.player.passOffset(this.xLevelOffset);
-        this.gameLevelManager.passOffset(this.xLevelOffset);
     }
 
     @Override
     public void render(Graphics g) {
+        this.gameLevelManager.passOffset(this.xLevelOffset);
+        this.player.passOffset(this.xLevelOffset);
+
+        g.drawImage(this.playingBackgroundImage,
+                0, 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        drawCloud(g);
+
         this.gameLevelManager.render(g);
         this.player.render(g);
 
@@ -117,6 +139,27 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             this.gamePauseDisplayLayer.render(g);
+        }
+
+    }
+
+    private void drawCloud(Graphics g) {
+        for (int i = 0; i < this.bigCloudNumber; i++) {
+            g.drawImage(this.bigCloudImage,
+                    i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.3), // slower
+                    (int) (204 * SCALE),
+                    GameEnvironment.BIG_CLOUD_WIDTH.value,
+                    GameEnvironment.BIG_CLOUD_HEIGHT.value,
+                    null);
+        }
+
+        for (int i = 0; i < this.smallCloudPosArrayY.length; i++) {
+            g.drawImage(this.smallCloudImage,
+                    GameEnvironment.SMALL_CLOUD_WIDTH.value * 4 * i - (int) (xLevelOffset - 0.7), // faster
+                    this.smallCloudPosArrayY[i],
+                    GameEnvironment.SMALL_CLOUD_WIDTH.value,
+                    GameEnvironment.SMALL_CLOUD_HEIGHT.value,
+                    null);
         }
 
     }

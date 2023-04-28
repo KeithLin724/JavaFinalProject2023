@@ -10,6 +10,8 @@ https://www.youtube.com/watch?v=VRpHdSFWGPs
 
 end video in 13
 
+target to video 21
+
 ---
 
 ## read the bg source by each 

@@ -1,7 +1,5 @@
 package Game;
 
-import java.io.ObjectOutputStream.PutField;
-
 public final class GameSourceFilePath {
     // main image character path
     // public static final String PLAYER_MAIN_CHARACTER =
@@ -18,6 +16,13 @@ public final class GameSourceFilePath {
 
     // level 1 path
     public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data_long.png";
+
+    public static final String PLAYING_BACKGROUND_IMAGE = "resource/background/playing_bg_img.png";
+
+    public static final String BIG_CLOUD_IMAGE = "resource/background/big_clouds.png";
+
+    public static final String SMALL_CLOUD_IMAGE = "resource/background/small_clouds.png";
+
 
     // menu button
     public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";

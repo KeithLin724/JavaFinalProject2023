@@ -51,7 +51,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
                 int index = gameLevel1.getImageIndex(col, row);
 
                 g.drawImage(this.bgMapImage[index],
-                        (int)(TILES_SIZE * col - drawXOffset), TILES_SIZE * row,
+                        (int)(TILES_SIZE * col - drawXOffset ), TILES_SIZE * row,
                         TILES_SIZE, TILES_SIZE, null);
             }
         }

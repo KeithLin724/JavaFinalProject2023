@@ -1,16 +1,16 @@
 package main;
 
-import java.awt.Graphics;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Logger;
-
 import Game.GUI.GameMenu;
 import Game.GUI.GamePlaying;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.state.GameState;
 import base.BaseGameConstant;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
@@ -21,7 +21,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     private Thread gameThread;
 
-    private static final double FPS = 150;
+    private static final double FPS = 300;
     private static final double UPS = 200;
 
     private int updates = 0, frames = 0;
@@ -39,8 +39,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     }
 
     private void initClasses() throws IOException {
-        // translator = new TranslatorTester(this);
-
         gamePanel = new GamePanel(this);
         gamePanel.init();
 
@@ -59,47 +57,42 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gameThread.start();
     }
 
-    public Runnable gameLogicUpdateThread() {
-        return () -> {
-            double timePerUpdate = 1000000000.0 / UPS;
-            long currentFrame = System.nanoTime();
-            double deltaU = 0;
-            long lastFrame = System.nanoTime();
+    public void gameLogicUpdateThread() {
+        double timePerUpdate = 1000000000.0 / UPS;
+        long currentFrame = System.nanoTime();
+        double deltaU = 0;
+        long lastFrame = System.nanoTime();
 
-            while (true) {
-                currentFrame = System.nanoTime();
-                deltaU += (currentFrame - lastFrame) / timePerUpdate;
-                lastFrame = currentFrame;
+        while (true) {
+            currentFrame = System.nanoTime();
+            deltaU += (currentFrame - lastFrame) / timePerUpdate;
+            lastFrame = currentFrame;
 
-                if (deltaU >= 1) {
-                    this.update();
-                    updates++;
-                    deltaU--;
-                }
+            if (deltaU >= 1) {
+                this.update();
+                updates++;
+                deltaU--;
             }
-        };
+        }
     }
 
-    public Runnable gameRenderThread() {
-        return () -> {
-            double timePerFrame = 1000000000.0 / FPS;
-            long currentFrame;
-            double deltaF = 0;
-            long lastFrame = System.nanoTime();
+    public void gameRenderThread() {
+        double timePerFrame = 1000000000.0 / FPS;
+        long currentFrame;
+        double deltaF = 0;
+        long lastFrame = System.nanoTime();
 
-            while (true) {
-                currentFrame = System.nanoTime();
-                deltaF += (currentFrame - lastFrame) / timePerFrame;
-                lastFrame = currentFrame;
+        while (true) {
+            currentFrame = System.nanoTime();
+            deltaF += (currentFrame - lastFrame) / timePerFrame;
+            lastFrame = currentFrame;
 
-                if (deltaF >= 1) {
-                    gamePanel.repaint();
-                    frames++;
-                    deltaF--;
-                }
+            if (deltaF >= 1) {
+                gamePanel.repaint();
+                frames++;
+                deltaF--;
             }
-
-        };
+        }
     }
 
     @Override
@@ -118,16 +111,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         // double deltaF = 0;
         // double deltaU = 0;
 
-//        Thread gameLogicThreadRun = new Thread(this.gameLogicUpdateThread());
-//        Thread gameRenderThreadRun = new Thread(this.gameRenderThread());
-//
-//        gameLogicThreadRun.start();
-//        gameRenderThreadRun.start();
-
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        executorService.execute(this.gameLogicUpdateThread());
-        executorService.execute(this.gameRenderThread());
+        executorService.execute(this::gameLogicUpdateThread);
+        executorService.execute(this::gameRenderThread);
 
         executorService.shutdown();
 
