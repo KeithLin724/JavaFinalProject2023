@@ -28,11 +28,6 @@ public class GameElementFactory {
 
     }
 
-    // using file to load the game character data
-    public GameCharacter gameCharacterFactory() {
-        return new GameCharacter();
-    }
-
     /**
      * This function returns an array of sub-images from a given image using
      * multi-threading.

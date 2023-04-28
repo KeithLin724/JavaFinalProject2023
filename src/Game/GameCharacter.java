@@ -34,7 +34,7 @@ public class GameCharacter extends GameCharacterABC
     private int[][] levelData;
     private GameLevel level;
 
-    private int drawXOffset;
+    private float drawXOffset;
 
     public GameCharacter() {
         super();
@@ -55,7 +55,7 @@ public class GameCharacter extends GameCharacterABC
     }
 
     @Override
-    public void passOffset(int offset) {
+    public void passOffset(float offset) {
         this.drawXOffset = offset;
     }
 
@@ -140,7 +140,7 @@ public class GameCharacter extends GameCharacterABC
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                fromPoint.x - drawXOffset, fromPoint.y,
+                (int)(fromPoint.x - drawXOffset), fromPoint.y,
                 TILES_SIZE, TILES_SIZE,
                 null);
 

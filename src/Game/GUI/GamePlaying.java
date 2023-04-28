@@ -33,16 +33,12 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     // about the display gaming
 
-    private int xLevelOffset;
-    private final int leftBorder = (int) (0.2 * GAME_WIDTH);
-    private final int rightBorder = (int) (0.8 * GAME_WIDTH);
+    private float xLevelOffset;
+    private final float leftBorder = 0.2f * (float)GAME_WIDTH;
+    private final float rightBorder = 0.8f * (float)GAME_WIDTH;
     private int levelTileWide;
     private int maxTileOffset; // not display value
     private int maxLevelOffset; // not display pixel
-
-    public boolean isPaused() {
-        return paused;
-    }
 
     public void setPaused(boolean paused) {
         this.paused = paused;
@@ -102,17 +98,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             xLevelOffset += diff - rightBorder;
         }
 
-        else if (diff < leftBorder) {
+        else if (diff <= leftBorder) {
             xLevelOffset += diff - leftBorder;
         }
 
-        if (this.xLevelOffset > maxLevelOffset) {
-            this.xLevelOffset = maxLevelOffset;
-        }
-
-        else if (this.xLevelOffset < 0) {
-            this.xLevelOffset = 0;
-        }
+        this.xLevelOffset = Math.max(Math.min(xLevelOffset, maxLevelOffset), 0);
 
         this.player.passOffset(this.xLevelOffset);
         this.gameLevelManager.passOffset(this.xLevelOffset);

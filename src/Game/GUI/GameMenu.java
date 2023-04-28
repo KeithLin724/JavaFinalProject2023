@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
 
+import Game.GUI.ui.buttons.GameButtonBase;
 import Game.GameElementFactory;
 import Game.GameSourceFilePath;
 import Game.GUI.ui.buttons.GameMenuButton;
@@ -32,7 +33,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private Point menuWH;
     private Point menuBgPoint;
 
-    private static final float[] xMenuArray = { GAME_WIDTH / 2, GAME_WIDTH / 2, GAME_WIDTH / 2 };
+    private static final float[] xMenuArray = { GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F };
     private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
 
     public GameMenu(Game game) {
@@ -60,7 +61,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                 .toIntPoint();
 
         this.menuBgPoint = GameUnitPair
-                .buildGameUnitPair(GAME_WIDTH / 2 - menuWH.x / 2, 45 * SCALE)
+                .buildGameUnitPair(GAME_WIDTH / 2.0F - menuWH.x / 2.0F, 45 * SCALE)
                 .toIntPoint();
     }
 
@@ -82,7 +83,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void update() {
-        Arrays.stream(this.buttons).forEach(item -> item.update());
+        Arrays.stream(this.buttons).forEach(GameMenuButton::update);
     }
 
     @Override
@@ -105,13 +106,13 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
         Arrays.stream(this.buttons)
                 .filter(item -> item.isIn(e) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
-                .ifPresent(item -> item.applyGameState());
+                .ifPresent(GameMenuButton::applyGameState);
 
         this.resetButtons();
     }
 
     private void resetButtons() {
-        Arrays.stream(this.buttons).forEach(item -> item.resetState());
+        Arrays.stream(this.buttons).forEach(GameButtonBase::resetState);
     }
 
     @Override
@@ -131,7 +132,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        Arrays.stream(this.buttons).forEach(item -> item.resetState());
+        Arrays.stream(this.buttons).forEach(GameButtonBase::resetState);
 
         Arrays.stream(this.buttons)
                 .filter(item -> item.isIn(e))

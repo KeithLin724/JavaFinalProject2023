@@ -16,6 +16,7 @@ import Game.GUI.ui.buttons.GameURMButton;
 import Game.GUI.ui.buttons.GameVolumeButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.PLUG.gameDrawer.GameUpdateInterface;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -28,7 +29,7 @@ import static base.BaseGameConstant.GAME_WIDTH;
 public class GamePauseDisplayLayer implements GameStateMethod {
     private BufferedImage backgroundImage;
 
-    private GamePlaying gamePlaying;
+    private final GamePlaying gamePlaying;
 
     private GameUnitPair bgWH;
     private GamePoint bgPoint;
@@ -97,7 +98,7 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
     @Override
     public void update() {
-        this.allButtons.forEach(btn -> btn.update());
+        this.allButtons.forEach(GameUpdateInterface::update);
     }
 
     @Override
@@ -150,7 +151,7 @@ public class GamePauseDisplayLayer implements GameStateMethod {
             this.gamePlaying.setPaused(false);
         }
 
-        this.allButtons.forEach(item -> item.resetState());
+        this.allButtons.forEach(GameButtonBase::resetState);
 
     }
 
@@ -175,7 +176,7 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     @Override
     public void mouseMoved(MouseEvent e) {
         // reset
-        this.allButtons.forEach(item -> item.resetState());
+        this.allButtons.forEach(GameButtonBase::resetState);
 
         // check over
         this.allButtons

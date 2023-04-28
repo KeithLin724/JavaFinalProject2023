@@ -26,7 +26,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
 
     // about display the block where to display
     private GameLevel gameLevel1; // level 1
-    private int drawXOffset;
+    private float drawXOffset;
 
     public GameLevelManager(Game game) throws IOException {
         this.game = game;
@@ -39,7 +39,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
     }
 
     @Override
-    public void passOffset(int offset) {
+    public void passOffset(float offset) {
         this.drawXOffset = offset;
     }
 
@@ -51,7 +51,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
                 int index = gameLevel1.getImageIndex(col, row);
 
                 g.drawImage(this.bgMapImage[index],
-                        TILES_SIZE * col - drawXOffset, TILES_SIZE * row,
+                        (int)(TILES_SIZE * col - drawXOffset), TILES_SIZE * row,
                         TILES_SIZE, TILES_SIZE, null);
             }
         }

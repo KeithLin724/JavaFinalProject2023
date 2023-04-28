@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Graphics;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 import Game.GUI.GameMenu;
@@ -19,10 +21,12 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     private Thread gameThread;
 
-    private static final double FPS = 120;
+    private static final double FPS = 150;
     private static final double UPS = 200;
 
-    private static Logger LOGGER = Logger.getLogger(Game.class.getName());
+    private int updates = 0, frames = 0;
+
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
 
     // construct
     public Game() {
@@ -55,40 +59,96 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gameThread.start();
     }
 
+    public Runnable gameLogicUpdateThread() {
+        return () -> {
+            double timePerUpdate = 1000000000.0 / UPS;
+            long currentFrame = System.nanoTime();
+            double deltaU = 0;
+            long lastFrame = System.nanoTime();
+
+            while (true) {
+                currentFrame = System.nanoTime();
+                deltaU += (currentFrame - lastFrame) / timePerUpdate;
+                lastFrame = currentFrame;
+
+                if (deltaU >= 1) {
+                    this.update();
+                    updates++;
+                    deltaU--;
+                }
+            }
+        };
+    }
+
+    public Runnable gameRenderThread() {
+        return () -> {
+            double timePerFrame = 1000000000.0 / FPS;
+            long currentFrame;
+            double deltaF = 0;
+            long lastFrame = System.nanoTime();
+
+            while (true) {
+                currentFrame = System.nanoTime();
+                deltaF += (currentFrame - lastFrame) / timePerFrame;
+                lastFrame = currentFrame;
+
+                if (deltaF >= 1) {
+                    gamePanel.repaint();
+                    frames++;
+                    deltaF--;
+                }
+            }
+
+        };
+    }
+
     @Override
     public void run() {
 
-        double timePerFrame = 1000000000.0 / FPS;
-        double timePerUpdate = 1000000000.0 / UPS;
+        // double timePerFrame = 1000000000.0 / FPS;
+        // double timePerUpdate = 1000000000.0 / UPS;
 
-        long lastFrame = System.nanoTime();
-        long currentFrame = System.nanoTime();
+        // long lastFrame = System.nanoTime();
+        // long currentFrame = System.nanoTime();
         long lastCheck = System.currentTimeMillis();
 
-        int frames = 0;
-        int updates = 0;
+        // int frames = 0;
+        // int updates = 0;
 
-        double deltaF = 0;
-        double deltaU = 0;
+        // double deltaF = 0;
+        // double deltaU = 0;
+
+//        Thread gameLogicThreadRun = new Thread(this.gameLogicUpdateThread());
+//        Thread gameRenderThreadRun = new Thread(this.gameRenderThread());
+//
+//        gameLogicThreadRun.start();
+//        gameRenderThreadRun.start();
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        executorService.execute(this.gameLogicUpdateThread());
+        executorService.execute(this.gameRenderThread());
+
+        executorService.shutdown();
 
         while (true) {
 
-            currentFrame = System.nanoTime();
-            deltaF += (currentFrame - lastFrame) / timePerFrame;
-            deltaU += (currentFrame - lastFrame) / timePerUpdate;
-            lastFrame = currentFrame;
+            // currentFrame = System.nanoTime();
+            // deltaF += (currentFrame - lastFrame) / timePerFrame;
+            // deltaU += (currentFrame - lastFrame) / timePerUpdate;
+            // lastFrame = currentFrame;
 
-            if (deltaU >= 1) {
-                this.update();
-                updates++;
-                deltaU--;
-            }
+            // if (deltaU >= 1) {
+            // this.update();
+            // updates++;
+            // deltaU--;
+            // }
 
-            if (deltaF >= 1) {
-                gamePanel.repaint();
-                frames++;
-                deltaF--;
-            }
+            // if (deltaF >= 1) {
+            // gamePanel.repaint();
+            // frames++;
+            // deltaF--;
+            // }
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
