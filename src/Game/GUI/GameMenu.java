@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import Game.GameElementFactory;
 import Game.GameSourceFilePath;
-import Game.GUI.ui.GameMenuButton;
+import Game.GUI.ui.buttons.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBase.GameCalculator;

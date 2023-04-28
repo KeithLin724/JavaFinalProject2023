@@ -2,7 +2,7 @@ package Game.GUI;
 
 import java.awt.event.MouseEvent;
 
-import Game.GUI.ui.GameMenuButton;
+import Game.GUI.ui.buttons.GameMenuButton;
 import main.Game;
 
 // this class is saving the game state parameter

@@ -1,11 +1,10 @@
-package Game.GUI.ui;
+package Game.GUI.ui.buttons;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import Game.GUI.UIConstant.MenuButtons;
-import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.gameBase.GamePoint;
 import Game.state.GameState;
 import Game.state.MouseState;
@@ -13,29 +12,22 @@ import Game.state.MouseState;
 /**
  * MenuButton
  */
-public class GameMenuButton extends GameButtonBase implements GameAnimatedDrawer {
+public class GameMenuButton extends GameButtonBase {
     public static final int pitchesNumber = 3;
     private static final int xOffsetCenter = MenuButtons.B_WIDTH.value / 2;
-
-    // private GamePoint point;
 
     private GameState state;
 
     private BufferedImage[] images;
 
-    // private MouseState mouseState;
-
-    // private Rectangle bounds;
-
     public GameMenuButton(GamePoint point, BufferedImage[] images, GameState state) {
         super(point);
         this.point = point;
-        // this.imageRow = imageRow;
+
         this.images = images;
         this.state = state;
 
         this.mouseState = MouseState.NONE;
-
     }
 
     @Override
@@ -46,17 +38,9 @@ public class GameMenuButton extends GameButtonBase implements GameAnimatedDrawer
                 MenuButtons.B_HEIGHT.value);
     }
 
-    public void setMouseState(MouseState mouseState) {
-        this.mouseState = mouseState;
-    }
-
-    // public MouseState getMouseState() {
-    // return this.mouseState;
-    // }
-
     @Override
     public void update() {
-        // this.displayIndex = this.mouseState.toDisplayIndex;
+
     }
 
     @Override
@@ -69,9 +53,5 @@ public class GameMenuButton extends GameButtonBase implements GameAnimatedDrawer
     public void applyGameState() {
         GameState.setState(state);
     }
-
-    // public void resetMouseState() {
-    // this.mouseState = MouseState.NONE;
-    // }
 
 }

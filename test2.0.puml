@@ -1,0 +1,561 @@
+@startuml
+class Game.GUI.GamePlaying {
+- GameLevelManager gameLevelManager
+- GameCharacter player
+- GamePauseDisplayLayer gamePauseDisplayLayer
+- boolean paused
+- {static} Logger LOGGER
++ <<Create>> GamePlaying(Game)
++ boolean isPaused()
++ void setPaused(boolean)
++ void initClass()
++ GameCharacter getPlayer()
++ void windowLostFocus()
++ void update()
++ void render(Graphics)
++ void mouseClicked(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ void mouseEntered(MouseEvent)
++ void mouseExited(MouseEvent)
++ void mouseDragged(MouseEvent)
++ void mouseMoved(MouseEvent)
+- void keyEventToPlayerMove(KeyEvent,boolean)
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+abstract class Game.GUI.ui.GameButtonBase {
+# GamePoint point
+# MouseState mouseState
+# Rectangle bounds
++ <<Create>> GameButtonBase(GamePoint)
++ MouseState getMouseState()
++ void setMouseState(MouseState)
++ Rectangle getBounds()
++ boolean isIn(MouseEvent)
++ void resetState()
+# {abstract}void initBounds()
+}
+class main.Main {
++ {static} void main(String[])
+}
+enum base.loader.FileNameFormatter {
++  TEXT
++  IMAGE
+- String fileType
+~ <<Create>> FileNameFormatter(String)
++ String type()
++ {static} String of(String,FileNameFormatter)
+}
+class Game.DataPass {
++ {static} int[] stringDataToIntArray(String)
++ {static} double[] stringDataToDouble(String)
++ {static} T build(int[],Class<T>)
+}
+class main.Game {
+- GameWindow gameWindow
+- GamePanel gamePanel
+- GameMenu gameMenu
+- GamePlaying gamePlaying
+- Thread gameThread
+- {static} double FPS
+- {static} double UPS
+- {static} Logger LOGGER
++ <<Create>> Game()
+- void initClasses()
++ void runGame()
++ void run()
++ GameMenu getGameMenu()
++ GamePlaying getGamePlaying()
++ void update()
++ void render(Graphics)
++ void windowLostFocus()
+}
+class logic.input.KeyboardInputs {
+- Game game
++ <<Create>> KeyboardInputs(Game)
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+abstract class Game.GUI.GameStateBase {
+# Game game
++ <<Create>> GameStateBase(Game)
++ Game getGame()
++ boolean isIn(MouseEvent,GameMenuButton)
+}
+enum logic.input.Direction {
++  UP
++  DOWN
++  LEFT
++  RIGHT
++  NONE
++ String cmd
++ int index
+~ <<Create>> Direction(String,int)
++ boolean isMoving()
+}
+class Game.GameElementFactory {
+- {static} BiFunction<BufferedImage,Integer,BufferedImage[]> getURMImageByRow
++ <<Create>> GameElementFactory()
++ GameCharacter gameCharacterFactory()
+- {static} BufferedImage[] getGameMenuButton(BufferedImage,int)
++ {static} GameMenuButton[] getAllMenuButtons(float[],float[])
++ {static} GameSoundButton[] getAllGameSoundButton(GamePoint,GamePoint)
++ {static} GameURMButton[] getAllGameURMButton(GamePoint,GamePoint,GamePoint)
++ {static} GameVolumeButton getAllGameVolumeButton(GamePoint)
+}
+class logic.Controller.GameHelpMethods {
+- {static} boolean outOfWindow(float,float)
+- {static} boolean IsSolid(float,float,GameLevel)
++ {static} boolean canMoveHere(GamePoint,float,float,GameLevel)
++ {static} boolean isOnTheFloor(GamePoint,float,float,GameLevel)
+}
+class logic.input.MouseInputs {
+- Game game
++ <<Create>> MouseInputs(Game)
++ void mouseDragged(MouseEvent)
++ void mouseMoved(MouseEvent)
++ void mouseClicked(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ void mouseEntered(MouseEvent)
++ void mouseExited(MouseEvent)
+}
+enum Game.state.GameState {
++  PLAYING
++  MENU
++  OPTIONS
++  QUITS
+- {static} GameState state
+- {static} Logger LOGGER
++ {static} GameState[] MENU_GAME_STATES_CHOOSE
++ {static} GameState getState()
++ {static} void setState(GameState)
+}
+enum Game.gameBase.GameCalculator {
++  ADD
++  SUB
++  MUL
++  DIV
++ {static} GameUnitPair calculate(int,int,GameCalculator,int)
++ {static} GameUnitPair calculate(int,int,GameCalculatorLambda)
+}
+class Game.Loader.ImageNamePath {
++ {static} String PLAYER_MAIN_CHARACTER
++ {static} String imagePath(String,String)
++ {static} String imagePath(String)
+}
+class Game.GameSourceFilePath {
++ {static} String PLAYER_MAIN_CHARACTER_TEXT_FILE
++ {static} String BACKGROUND_IMAGE_PATH
++ {static} String BACKGROUND_SKIN_FOLDER_PATH
++ {static} String BACKGROUND_LEVEL_1
++ {static} String MENU_BUTTON_IMAGE_1
++ {static} String MENU_BACKGROUND_IMAGE
++ {static} String PAUSE_BACKGROUND_IMAGE
++ {static} String SOUND_BUTTON_IMAGE
++ {static} String URM_BUTTON_IMAGE
++ {static} String VOLUME_BUTTON_IMAGE
+}
+class Game.gameBase.GamePoint {
++ <<Create>> GamePoint()
++ <<Create>> GamePoint(int,int)
++ <<Create>> GamePoint(float,float)
++ <<Create>> GamePoint(GameUnitPair)
++ <<Create>> GamePoint(Point)
++ {static} GamePoint buildGamePoint(int,int)
++ {static} GamePoint buildGamePoint(float,float)
++ {static} GamePoint buildGamePoint(GameUnitPair)
++ {static} GamePoint buildGamePoint(Point)
++ void addToX(float)
++ void subToX(float)
++ void mulToX(float)
++ void divToX(float)
++ void addToY(float)
++ void subToY(float)
++ void mulToY(float)
++ void divToY(float)
++ boolean equals(Object)
++ String toString()
++ {static} double distance(GameUnitPair,GameUnitPair)
++ {static} GamePoint add(GameUnitPair,GameUnitPair)
++ {static} GamePoint sub(GameUnitPair,GameUnitPair)
++ {static} GamePoint mul(GameUnitPair,GameUnitPair)
++ {static} double dot(GameUnitPair,GameUnitPair)
+}
+interface Game.PLUG.gameMath.GameLambda {
++ T func(T,T)
+}
+class Game.gameBackground.GameLevelManager {
++ {static} int HEIGHT_BLOCK_NUM
++ {static} int WIDTH_BLOCK_NUM
++ {static} int PIXEL
+- Game game
+- BufferedImage[] bgMapImage
+- GameLevel gameLevel1
++ <<Create>> GameLevelManager(Game)
++ void render(Graphics)
++ GameLevel getGameLevel()
++ void update()
+}
+interface Game.PLUG.gameDrawer.GameUpdateInterface {
++ void update()
+}
+class Game.GUI.ui.GamePauseDisplayLayer {
+- BufferedImage backgroundImage
+- GamePlaying gamePlaying
+- GameUnitPair bgWH
+- GamePoint bgPoint
+- GameSoundButton musicButton
+- GameURMButton menuB
+- GameVolumeButton volumeButtons
++ <<Create>> GamePauseDisplayLayer(GamePlaying)
+- void createVolumeButtons()
+- void createURMButton()
+- void createSoundButton()
+- void loadBackground()
++ void update()
++ void render(Graphics)
++ void mouseClicked(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ void mouseEntered(MouseEvent)
++ void mouseExited(MouseEvent)
++ void mouseDragged(MouseEvent)
++ void mouseMoved(MouseEvent)
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+class Game.GUI.ui.GameSoundButton {
+- BufferedImage[][] soundImages
++ {static} int BUTTON_ROW_NUMBER
++ {static} int BUTTON_COLUMN_NUMBER
+- boolean isMul
++ <<Create>> GameSoundButton(GamePoint)
++ boolean isMul()
++ void setMul(boolean)
++ void changeMul()
++ void setSoundImages(BufferedImage[][])
+# void initBounds()
++ void update()
++ void render(Graphics)
+}
+abstract class Game.ABC.BasicMoveABC {
++ {static} int HIT_BOX_WIDTH
++ {static} int HIT_BOX_HEIGHT
+# PlayerState playerAction
+# boolean attacking
+# GamePoint point
+# float playerSpeed
+# Direction direction
+# int[] dirMove
+# Rectangle2D.Float hitBox
+# float airSpeed
+# float gravity
+# float jumpSpeed
+# float fallSpeedAfterCollision
+# boolean inAir
++ <<Create>> BasicMoveABC()
++ <<Create>> BasicMoveABC(PlayerState,GamePoint,Direction,boolean)
++ {abstract}void updatePosition()
+# void initHitBox(GamePoint,int,int)
+# void initHitBox()
+# void updateHitBox()
++ Rectangle2D.Float getHitBox()
+# void drawHitBox(Graphics)
++ void setX(float)
++ void setY(float)
++ void setXY(float,float)
+# void setPlayerSpeed(float)
++ void setAttacking(boolean)
++ void setPlayerState(PlayerState)
++ void stopDirection()
++ void setDirection(Direction,boolean)
++ void setJump(boolean)
+}
+class Game.Loader.ImageLoader {
+- {static} BiFunction<String,Integer,BufferedImage> loadImageLambda
++ {static} BufferedImage loadImage(String,String)
++ {static} BufferedImage loadImage(String)
+- {static} BufferedImage[] loadCharacterImageByState(String,PlayerState)
++ {static} BufferedImage[][] loadCharacterImage(String,int,int)
++ {static} BufferedImage[] loadBackgroundImage(String,int,int,int)
+}
+class Game.GUI.ui.GameVolumeButton {
++ {static} int pitchesNumber
+- BufferedImage[] image
+- BufferedImage slider
+- int buttonX
+- int sliderMin
+- {static} float sliderXOffset
++ <<Create>> GameVolumeButton(GamePoint,BufferedImage[],BufferedImage)
+# void initBounds()
++ void setImage(BufferedImage[])
++ void setSlider(BufferedImage)
++ void changeX(int)
++ void update()
++ void render(Graphics)
+}
+class main.GamePanel {
+- Game game
+- MouseInputs mouseInputs
+- KeyboardInputs keyboardInputs
++ <<Create>> GamePanel(Game)
++ void init()
++ void paintComponent(Graphics)
++ Game getGame()
+}
+class Game.gameBackground.GameLevel {
+- int[][] levelData
++ <<Create>> GameLevel(int[][])
++ {static} GameLevel loadFromFile(String)
++ int getImageIndex(int,int)
++ int getImageIndex(GameUnitPair)
++ int[][] getLevel2D()
+}
+abstract class Game.ABC.GameCharacterABC {
+# BufferedImage[][] animations
+# int aniTick
+# int imgScaleX
++ <<Create>> GameCharacterABC()
++ <<Create>> GameCharacterABC(AniData,ImageScaleData,GamePlayerSpeedData)
++ void setAniThing(AniData)
++ void setImageScale(ImageScaleData)
++ void setGamePlayerSpeedData(GamePlayerSpeedData)
++ void setAnimation(BufferedImage[][])
+# void resetAniTick()
++ BufferedImage getAnimationImage(PlayerState,int)
+- int scaleFunction(int)
++ GameUnitPair getImageScalePoint(BufferedImage)
+}
+class Game.GUI.GameMenu {
+- {static} int MENU_BUTTON_NUMBER
+- GameMenuButton[] buttons
+- BufferedImage backgroundImage
+- Point menuWH
+- Point menuBgPoint
+- {static} float[] xMenuArray
+- {static} float[] yMenuArray
++ <<Create>> GameMenu(Game)
+- void loadGameMenuBackgroundImage()
+- void loadGameMenuButton()
++ void render(Graphics)
++ void update()
++ void mouseClicked(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
+- void resetButtons()
++ void mouseEntered(MouseEvent)
++ void mouseExited(MouseEvent)
++ void mouseDragged(MouseEvent)
++ void mouseMoved(MouseEvent)
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+class Game.gameBase.GameUnitPair {
++ float x
++ <<Create>> GameUnitPair()
++ <<Create>> GameUnitPair(int,int)
++ <<Create>> GameUnitPair(float,float)
++ <<Create>> GameUnitPair(Point)
++ <<Create>> GameUnitPair(GameUnitPair)
++ {static} GameUnitPair buildGameUnitPair(int,int)
++ {static} GameUnitPair buildGameUnitPair(float,float)
++ {static} GameUnitPair buildGameUnitPair(Point)
++ GameUnitPair getPoint()
++ Point toIntPoint()
++ void setAll(float,float)
++ GameUnitPair getSizePoint()
++ void copy(GameUnitPair)
++ void copy(Point)
++ GameUnitPair add(float)
++ GameUnitPair sub(float)
++ GameUnitPair mul(float)
++ GameUnitPair div(float)
+}
+class Game.builder.GameCharacterBuilder {
+- GameCharacter gameCharacter
++ <<Create>> GameCharacterBuilder()
++ GameCharacterBuilder setAniData(AniData)
++ GameCharacterBuilder setImageScale(ImageScaleData)
++ GameCharacterBuilder setGamePlayerSpeedData(GamePlayerSpeedData)
++ GameCharacterBuilder setAnimationImage(String,int,int)
++ GameCharacter build()
+}
+class Game.GUI.ui.GameURMButton {
++ {static} int pitchesNumber
+- BufferedImage[] image
++ <<Create>> GameURMButton(GamePoint,BufferedImage[])
++ void setImage(BufferedImage[])
++ void update()
++ void render(Graphics)
+# void initBounds()
+}
+class Game.Loader.GameElementLoader {
++ GameCharacter gameCharacter()
++ {static} GameCharacter getTestingGameCharacter()
++ {static} GameCharacter getTestingGameCharacter(String)
++ {static} BufferedImage[] loadBackgroundSkinImageFromTextList(String)
++ {static} GameCharacter loadCharacterByPath(String)
++ {static} int[][] loadGameLevelData(String,int,int)
+}
+class Game.GUI.ui.GameMenuButton {
++ {static} int pitchesNumber
+- {static} int xOffsetCenter
+- GameState state
+- BufferedImage[] images
++ <<Create>> GameMenuButton(GamePoint,BufferedImage[],GameState)
+# void initBounds()
++ void update()
++ void render(Graphics)
++ void applyGameState()
+}
+class main.GameWindow {
++ <<Create>> GameWindow()
++ void init(GamePanel)
+- WindowFocusListener settingWindowFocusListener(GamePanel)
+}
+class Game.GUI.UIConstant {
+}
+enum Game.GUI.MenuButtons {
++  B_WIDTH_DEFAULT
++  B_HEIGHT_DEFAULT
++  B_WIDTH
++  B_HEIGHT
++ int value
+~ <<Create>> MenuButtons(int)
+}
+enum Game.GUI.PauseLayerButtons {
++  SOUND_SIZE_DEFAULT
++  SOUND_SIZE
++ int value
+~ <<Create>> PauseLayerButtons(int)
+}
+enum Game.GUI.URMButtons {
++  URM_SIZE_DEFAULT
++  URM_SIZE
++ int value
+~ <<Create>> URMButtons(int)
+}
+enum Game.GUI.VolumeButtons {
++  VOLUME_DEFAULT_WIDTH
++  VOLUME_DEFAULT_HEIGHT
++  SLIDER_DEFAULT_WIDTH
++  VOLUME_WIDTH
++  VOLUME_HEIGHT
++  SLIDER_WIDTH
++ int value
+~ <<Create>> VolumeButtons(int)
+}
+enum Game.state.PlayerState {
++  IDLE
++  MOVING
++  JUMP
++  ATTACKING
++  HIT
++  FALLING
++ int num
++ int frameNumber
++ String imageString
++ {static} PlayerState[] ALL_PLAYER_STATES
+~ <<Create>> PlayerState(int,int,String)
+}
+class Game.GameCharacter {
+- {static} Logger LOGGER
+- int[][] levelData
+- GameLevel level
++ <<Create>> GameCharacter()
++ <<Create>> GameCharacter(AniData,ImageScaleData,GamePlayerSpeedData)
++ void initWithPoint_testing(float,float)
++ void init(float,float)
+- void updateXPos(int)
+- void updateYPos()
++ void updatePosition()
+- void jump()
+- void resetInAir()
++ void render(Graphics)
++ void setAnimationImage(String,int,int)
++ void setAnimationImage()
++ void setAnimationState()
++ void setLevelData(int[][])
++ void setLevel(GameLevel)
++ void updateAnimationTick()
++ void update()
+}
+interface Game.PLUG.gameMath.GameCalculatorLambda {
++ int calculate(int)
+}
+interface Game.PLUG.GameCharacterInterface {
++ void setAnimationImage()
++ void setAnimationState()
++ void updateAnimationTick()
+}
+class base.loader.BaseLoader {
+- {static} Logger LOGGER
+- {static} String pathToAbsolutePath(String)
++ {static} InputStream loadFile(String)
++ {static} BufferedImage convertToImage(InputStream)
++ {static} BufferedImage loadImage(String)
++ {static} URI getURI(Class<T>,String)
++ {static} List<String> loadTextFile(String)
+}
+class base.BaseGameConstant {
++ {static} int TILES_DEFAULT_SIZE
++ {static} float SCALE
++ {static} int TILES_IN_WIDTH
++ {static} int TILES_IN_HEIGHT
++ {static} int TILES_SIZE
++ {static} int GAME_WIDTH
++ {static} int GAME_HEIGHT
+}
+enum Game.state.MouseState {
++  OVER
++  PRESS
++  NONE
++ int toDisplayIndex
+~ <<Create>> MouseState(int)
+}
+interface Game.PLUG.GameStateMethod {
+}
+interface Game.PLUG.gameDrawer.GameAnimatedDrawer {
+}
+interface Game.PLUG.gameDrawer.GameRenderInterface {
++ void render(Graphics)
+}
+
+
+Game.PLUG.GameStateMethod <|.. Game.GUI.GamePlaying
+Game.GUI.GameStateBase <|-- Game.GUI.GamePlaying
+Game.PLUG.gameDrawer.GameAnimatedDrawer <|.. Game.GUI.ui.GameButtonBase
+main.Runnable <|.. main.Game
+Game.PLUG.gameDrawer.GameAnimatedDrawer <|.. main.Game
+base.BaseGameConstant <|-- main.Game
+java.awt.event.KeyListener <|.. logic.input.KeyboardInputs
+java.awt.event.MouseListener <|.. logic.input.MouseInputs
+java.awt.event.MouseMotionListener <|.. logic.input.MouseInputs
+Game.gameBase.GameUnitPair <|-- Game.gameBase.GamePoint
+Game.PLUG.gameDrawer.GameAnimatedDrawer <|.. Game.gameBackground.GameLevelManager
+Game.PLUG.GameStateMethod <|.. Game.GUI.ui.GamePauseDisplayLayer
+Game.GUI.ui.GameButtonBase <|-- Game.GUI.ui.GameSoundButton
+Game.GUI.ui.GameButtonBase <|-- Game.GUI.ui.GameVolumeButton
+javax.swing.JPanel <|-- main.GamePanel
+Game.ABC.BasicMoveABC <|-- Game.ABC.GameCharacterABC
+Game.PLUG.GameStateMethod <|.. Game.GUI.GameMenu
+Game.GUI.GameStateBase <|-- Game.GUI.GameMenu
+Game.GUI.ui.GameButtonBase <|-- Game.GUI.ui.GameURMButton
+Game.GUI.ui.GameButtonBase <|-- Game.GUI.ui.GameMenuButton
+javax.swing.JFrame <|-- main.GameWindow
+Game.PLUG.GameCharacterInterface <|.. Game.GameCharacter
+Game.PLUG.gameDrawer.GameAnimatedDrawer <|.. Game.GameCharacter
+Game.ABC.GameCharacterABC <|-- Game.GameCharacter
+Game.PLUG.gameDrawer.GameAnimatedDrawer <|-- Game.PLUG.GameStateMethod
+java.awt.event.MouseListener <|-- Game.PLUG.GameStateMethod
+java.awt.event.MouseMotionListener <|-- Game.PLUG.GameStateMethod
+java.awt.event.KeyListener <|-- Game.PLUG.GameStateMethod
+Game.PLUG.gameDrawer.GameUpdateInterface <|-- Game.PLUG.gameDrawer.GameAnimatedDrawer
+Game.PLUG.gameDrawer.GameRenderInterface <|-- Game.PLUG.gameDrawer.GameAnimatedDrawer
+@enduml

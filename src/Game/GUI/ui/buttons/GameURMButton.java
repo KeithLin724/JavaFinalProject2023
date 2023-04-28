@@ -1,4 +1,4 @@
-package Game.GUI.ui;
+package Game.GUI.ui.buttons;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
