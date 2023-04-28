@@ -20,14 +20,14 @@ public enum PlayerState {
     HIT(4, 2, "HIT_"),
     FALLING(5, 2, "FALLING_");
 
-    public final int num;
+    public final int saveArrayIndex;
     public final int frameNumber;
     public final String imageString;
 
     public static final PlayerState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, ATTACKING, FALLING };
 
     PlayerState(int number, int frameNumber, String imageString) {
-        this.num = number;
+        this.saveArrayIndex = number;
         this.frameNumber = frameNumber;
         this.imageString = imageString;
     }

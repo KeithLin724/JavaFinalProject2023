@@ -17,13 +17,16 @@ public final class GameSourceFilePath {
     public static final String BACKGROUND_SKIN_FOLDER_PATH = "resource/skin";
 
     // level 1 path
-    public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data.png";
+    public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data_long.png";
 
     // menu button
     public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";
 
     // menu background
     public static final String MENU_BACKGROUND_IMAGE = "resource/ui/menu_background.png";
+
+    // menu select frame background
+    public static final String MENU_SELECT_BACKGROUND_IMAGE = "resource/background/background_menu.png";
 
     // pause background
     public static final String PAUSE_BACKGROUND_IMAGE = "resource/ui/pause_menu.png";
@@ -36,4 +39,5 @@ public final class GameSourceFilePath {
 
     // volume button
     public static final String VOLUME_BUTTON_IMAGE = "resource/ui/volume_buttons.png";
+
 }

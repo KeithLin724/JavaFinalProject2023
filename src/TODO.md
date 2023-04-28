@@ -12,7 +12,9 @@ end video in 13
 
 ---
 
-## rewrite the base 
+## read the bg source by each 
+
+## add some file for the dir of the game source ,eg background , level etc , and scare 
 
 
 ### second 

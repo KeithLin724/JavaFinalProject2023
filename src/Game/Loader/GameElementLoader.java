@@ -107,8 +107,8 @@ public class GameElementLoader {
     public static int[][] loadGameLevelData(String fileName, int checkHeightBlock, int checkWidthBlock)
             throws IOException {
 
-        int[][] levelData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage levelImage = ImageLoader.loadImage(fileName);
+        int[][] levelData = new int[levelImage.getHeight()][levelImage.getWidth()];
 
         for (int row = 0; row < levelImage.getHeight(); row++) {
             for (int col = 0; col < levelImage.getWidth(); col++) {

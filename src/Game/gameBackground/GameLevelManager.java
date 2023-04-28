@@ -7,13 +7,14 @@ import java.io.IOException;
 import Game.GameSourceFilePath;
 import Game.Loader.ImageLoader;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.PLUG.gameDrawer.GameRenderOffsetPass;
 import main.Game;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
 // https://www.youtube.com/watch?v=et5JeT-ESKk&list=PL4rzdwizLaxYmltJQRjq18a9gsSyEQQ-0&index=9
 
-public class GameLevelManager implements GameAnimatedDrawer {
+public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPass {
 
     public static final int HEIGHT_BLOCK_NUM = 4;
     public static final int WIDTH_BLOCK_NUM = 12;
@@ -25,6 +26,7 @@ public class GameLevelManager implements GameAnimatedDrawer {
 
     // about display the block where to display
     private GameLevel gameLevel1; // level 1
+    private int drawXOffset;
 
     public GameLevelManager(Game game) throws IOException {
         this.game = game;
@@ -37,14 +39,19 @@ public class GameLevelManager implements GameAnimatedDrawer {
     }
 
     @Override
+    public void passOffset(int offset) {
+        this.drawXOffset = offset;
+    }
+
+    @Override
     public void render(Graphics g) {
 
         for (int row = 0; row < Game.TILES_IN_HEIGHT; row++) {
-            for (int col = 0; col < Game.TILES_IN_WIDTH; col++) {
+            for (int col = 0; col < this.gameLevel1.getMaxWidth(); col++) {
                 int index = gameLevel1.getImageIndex(col, row);
 
                 g.drawImage(this.bgMapImage[index],
-                        TILES_SIZE * col, TILES_SIZE * row,
+                        TILES_SIZE * col - drawXOffset, TILES_SIZE * row,
                         TILES_SIZE, TILES_SIZE, null);
             }
         }
@@ -59,4 +66,5 @@ public class GameLevelManager implements GameAnimatedDrawer {
     public void update() {
 
     }
+
 }

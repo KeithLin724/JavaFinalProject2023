@@ -84,7 +84,8 @@ public class ImageLoader {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        Future<?>[] futures = IntStream.range(0, playerState.frameNumber)
+        Future<?>[] futures = IntStream
+                .range(0, playerState.frameNumber)
                 .mapToObj(i -> executorService
                         .submit(() -> loadImageLambda.apply(folderName + playerState.imageString, i)))
                 .toArray(Future<?>[]::new);
@@ -99,7 +100,8 @@ public class ImageLoader {
                         e.printStackTrace();
                     }
                     return null;
-                }).toArray(BufferedImage[]::new);
+                })
+                .toArray(BufferedImage[]::new);
     }
 
     /**
@@ -119,7 +121,7 @@ public class ImageLoader {
 
         Future<?>[] futures = Arrays.stream(PlayerState.ALL_PLAYER_STATES)
                 .map(state -> executorService
-                        .submit(() -> animations[state.num] = loadCharacterImageByState(folderName, state)))
+                        .submit(() -> animations[state.saveArrayIndex] = loadCharacterImageByState(folderName, state)))
                 .toArray(Future<?>[]::new);
 
         executorService.shutdown();

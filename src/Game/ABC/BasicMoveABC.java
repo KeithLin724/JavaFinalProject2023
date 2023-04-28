@@ -84,10 +84,10 @@ public abstract class BasicMoveABC {
         return this.hitBox;
     }
 
-    protected void drawHitBox(Graphics g) {
+    protected void drawHitBox(Graphics g, int xOffset) {
         // for debugging
         g.setColor(Color.PINK);
-        g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+        g.drawRect((int) hitBox.x - xOffset, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     ////////////////////

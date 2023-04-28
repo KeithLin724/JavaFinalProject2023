@@ -1,5 +1,6 @@
 package Game.GUI;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -16,6 +17,11 @@ import Game.state.GameState;
 import logic.input.Direction;
 import main.Game;
 
+import static base.BaseGameConstant.GAME_WIDTH;
+import static base.BaseGameConstant.GAME_HEIGHT;
+import static base.BaseGameConstant.TILES_IN_WIDTH;
+import static base.BaseGameConstant.TILES_SIZE;
+
 public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     private GameLevelManager gameLevelManager;
@@ -24,6 +30,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private GamePauseDisplayLayer gamePauseDisplayLayer;
 
     private boolean paused = false;
+
+    // about the display gaming
+
+    private int xLevelOffset;
+    private final int leftBorder = (int) (0.2 * GAME_WIDTH);
+    private final int rightBorder = (int) (0.8 * GAME_WIDTH);
+    private int levelTileWide;
+    private int maxTileOffset; // not display value
+    private int maxLevelOffset; // not display pixel
 
     public boolean isPaused() {
         return paused;
@@ -52,6 +67,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         player.setLevel(gameLevelManager.getGameLevel());
 
         gamePauseDisplayLayer = new GamePauseDisplayLayer(this);
+
+        // about the window display number
+        this.levelTileWide = gameLevelManager.getGameLevel().getMaxWidth();
+        this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
+        this.maxLevelOffset = this.maxTileOffset * TILES_SIZE;
     }
 
     public GameCharacter getPlayer() {
@@ -71,6 +91,31 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         this.gameLevelManager.update();
         this.player.update();
+        checkCloseToBorder();
+    }
+
+    private void checkCloseToBorder() {
+        var playerX = this.player.getHitBox().x;
+        var diff = playerX - this.xLevelOffset;
+
+        if (diff > rightBorder) {
+            xLevelOffset += diff - rightBorder;
+        }
+
+        else if (diff < leftBorder) {
+            xLevelOffset += diff - leftBorder;
+        }
+
+        if (this.xLevelOffset > maxLevelOffset) {
+            this.xLevelOffset = maxLevelOffset;
+        }
+
+        else if (this.xLevelOffset < 0) {
+            this.xLevelOffset = 0;
+        }
+
+        this.player.passOffset(this.xLevelOffset);
+        this.gameLevelManager.passOffset(this.xLevelOffset);
     }
 
     @Override
@@ -79,6 +124,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.player.render(g);
 
         if (this.paused) {
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             this.gamePauseDisplayLayer.render(g);
         }
 

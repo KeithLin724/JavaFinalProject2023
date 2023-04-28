@@ -20,14 +20,14 @@ import Game.state.MouseState;
 import main.Game;
 
 import static base.BaseGameConstant.GAME_WIDTH;
-// import static base.BaseGameConstant.GAME_HEIGHT;
+import static base.BaseGameConstant.GAME_HEIGHT;
 import static base.BaseGameConstant.SCALE;
 
 public class GameMenu extends GameStateBase implements GameStateMethod {
     private static final int MENU_BUTTON_NUMBER = 3;
 
     private GameMenuButton[] buttons = new GameMenuButton[MENU_BUTTON_NUMBER];
-    private BufferedImage backgroundImage;
+    private BufferedImage backgroundImage, backgroundMenuImage;
 
     private Point menuWH;
     private Point menuBgPoint;
@@ -37,16 +37,21 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     public GameMenu(Game game) {
         super(game);
-        this.loadGameMenuButton();
-        this.loadGameMenuBackgroundImage();
-    }
-
-    private void loadGameMenuBackgroundImage() {
         try {
-            this.backgroundImage = ImageLoader.loadImage(GameSourceFilePath.MENU_BACKGROUND_IMAGE);
-        } catch (IOException e) {
+            this.loadGameMenuButton();
+            this.loadGameMenuBackgroundImage();
+            this.loadGameMenuSelectBackgroundImage();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadGameMenuSelectBackgroundImage() throws IOException {
+        this.backgroundMenuImage = ImageLoader.loadImage(GameSourceFilePath.MENU_SELECT_BACKGROUND_IMAGE);
+    }
+
+    private void loadGameMenuBackgroundImage() throws IOException {
+        this.backgroundImage = ImageLoader.loadImage(GameSourceFilePath.MENU_BACKGROUND_IMAGE);
 
         this.menuWH = GameCalculator
                 .calculate(
@@ -59,17 +64,14 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                 .toIntPoint();
     }
 
-    private void loadGameMenuButton() {
-        try {
-            buttons = GameElementFactory.getAllMenuButtons(xMenuArray, yMenuArray);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    private void loadGameMenuButton() throws IOException {
+        buttons = GameElementFactory.getAllMenuButtons(xMenuArray, yMenuArray);
     }
 
     @Override
     public void render(Graphics g) {
+        g.drawImage(this.backgroundMenuImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+
         g.drawImage(backgroundImage,
                 this.menuBgPoint.x, this.menuBgPoint.y,
                 this.menuWH.x, this.menuWH.y,
