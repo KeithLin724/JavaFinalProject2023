@@ -1,4 +1,4 @@
-resource/mainCharacter/
+resource/cpp/
 6 6
 0 0 35
 0 0 10

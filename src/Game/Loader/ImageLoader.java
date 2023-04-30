@@ -115,7 +115,8 @@ public class ImageLoader {
     public static BufferedImage[][] loadCharacterImage(String folderName, int characterState, int frameNumber)
             throws IOException {
 
-        BufferedImage[][] animations = new BufferedImage[characterState][]; // frameNumber
+        // var len = PlayerState.ALL_PLAYER_STATES.length;
+        BufferedImage[][] animations = new BufferedImage[PlayerState.ALL_PLAYER_STATES.length][]; // frameNumber
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 

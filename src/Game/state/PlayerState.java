@@ -13,18 +13,19 @@ package Game.state;
  * current state.
  */
 public enum PlayerState {
-    IDLE(0, 6, "IDLE_"),
-    MOVING(1, 2, "MOVE_"),
-    JUMP(2, 2, "JUMP_"),
-    ATTACKING(3, 3, "ATTACK_"),
-    HIT(4, 2, "HIT_"),
-    FALLING(5, 2, "FALLING_");
+    IDLE(0, 5, "IDLE_"),
+    MOVING(1, 3, "MOVE_"),
+    JUMP(2, 7, "JUMP_"),
+    FALLING(3, 7, "FALL_"),
+    ATTACKING(4, 3, "ATTACK_"),
+    HIT(5, 5, "HIT_"),
+    DEAD(6, 5, "DEAD_");
 
     public final int saveArrayIndex;
     public final int frameNumber;
     public final String imageString;
 
-    public static final PlayerState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, ATTACKING, FALLING };
+    public static final PlayerState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, FALLING, ATTACKING, HIT, DEAD };
 
     PlayerState(int number, int frameNumber, String imageString) {
         this.saveArrayIndex = number;
