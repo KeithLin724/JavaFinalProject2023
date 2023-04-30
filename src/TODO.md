@@ -27,3 +27,5 @@ add the HP bar and watch the video,
  
 ### HOPE:
 open the online play and the source can download it 
+
+### https://stackoverflow.com/questions/57857855/could-not-find-or-load-main-class-vs-code
