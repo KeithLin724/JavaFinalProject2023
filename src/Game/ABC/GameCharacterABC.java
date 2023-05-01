@@ -103,7 +103,7 @@ public abstract class GameCharacterABC extends BasicMoveABC {
      * @return A BufferedImage object.
      */
     public BufferedImage getAnimationImage(PlayerState characterState, int frameIndex) {
-        return this.animations[characterState.num][frameIndex % characterState.frameNumber];
+        return this.animations[characterState.saveArrayIndex][frameIndex % characterState.frameNumber];
     }
 
     /**

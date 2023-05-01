@@ -15,10 +15,14 @@ import java.util.logging.Logger;
  */
 public enum GameState {
     PLAYING,
-    MENU;
+    MENU,
+    OPTIONS,
+    QUITS;
 
     private static GameState state = MENU;
     private static final Logger LOGGER = Logger.getLogger(GameState.class.getName());
+
+    public static final GameState[] MENU_GAME_STATES_CHOOSE = { PLAYING, OPTIONS, QUITS };
 
     /**
      * The function returns the current state of the game.

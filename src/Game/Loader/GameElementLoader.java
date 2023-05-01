@@ -59,6 +59,13 @@ public class GameElementLoader {
         return loadResult.toArray(BufferedImage[]::new);
     }
 
+    /**
+     * This function loads a game character from a file path and returns it.
+     * 
+     * @param fileName The name of the file that contains the data needed to load a
+     *                 GameCharacter object.
+     * @return The method is returning a GameCharacter object.
+     */
     public static GameCharacter loadCharacterByPath(String fileName)
             throws IOException, URISyntaxException, NoSuchMethodException, SecurityException, InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -107,8 +114,8 @@ public class GameElementLoader {
     public static int[][] loadGameLevelData(String fileName, int checkHeightBlock, int checkWidthBlock)
             throws IOException {
 
-        int[][] levelData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
         BufferedImage levelImage = ImageLoader.loadImage(fileName);
+        int[][] levelData = new int[levelImage.getHeight()][levelImage.getWidth()];
 
         for (int row = 0; row < levelImage.getHeight(); row++) {
             for (int col = 0; col < levelImage.getWidth(); col++) {

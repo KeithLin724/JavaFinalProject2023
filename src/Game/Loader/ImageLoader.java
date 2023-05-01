@@ -2,6 +2,13 @@ package Game.Loader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.BiFunction;
+import java.util.stream.IntStream;
 
 import Game.state.PlayerState;
 import base.loader.BaseLoader;
@@ -33,9 +40,31 @@ public class ImageLoader {
     }
 
     /**
-     * This function loads a set of character images based on the player's state and
-     * returns them as an
-     * array of BufferedImages.
+     * This is a lambda expression that defines a function that takes in a String
+     * and an Integer as
+     * parameters and returns a BufferedImage. It is used in the
+     * `loadCharacterImageByState` method to load
+     * a set of character images based on the player's state. The lambda expression
+     * takes the `fileName`
+     * parameter and appends the integer `i` to it to create the full file name for
+     * each frame of the
+     * animation. It then calls the `loadImage` method to load the image and returns
+     * it as a BufferedImage.
+     * If an IOException occurs during the loading process, it prints the stack
+     * trace and returns null.
+     */
+    private static final BiFunction<String, Integer, BufferedImage> loadImageLambda = (fileName, i) -> {
+        try {
+            return ImageLoader.loadImage(ImageNamePath.imagePath(fileName + i));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    };
+
+    /**
+     * The function loads character images based on their state using
+     * multithreading.
      * 
      * @param folderName  The name of the folder where the character images are
      *                    stored.
@@ -43,19 +72,36 @@ public class ImageLoader {
      *                    states a player character
      *                    can be in, such as standing, walking, jumping, etc. It
      *                    contains information about the number of
-     *                    frames in the animation and the name of the image file for
+     *                    frames in the animation and the file name of the image for
      *                    each frame.
-     * @return The method is returning an array of BufferedImages.
+     * @return The method is returning an array of BufferedImages, which are loaded
+     *         from image files based
+     *         on the provided folder name and player state. The images are loaded
+     *         using a lambda function and a
+     *         thread pool to improve performance.
      */
-    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState)
-            throws IOException {
-        BufferedImage[] stateImages = new BufferedImage[playerState.frameNumber];
+    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState) {
 
-        for (int i = 0; i < playerState.frameNumber; i++) {
-            stateImages[i] = ImageLoader.loadImage(folderName, playerState.imageString + i);
-        }
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
-        return stateImages;
+        Future<?>[] futures = IntStream
+                .range(0, playerState.frameNumber)
+                .mapToObj(i -> executorService
+                        .submit(() -> loadImageLambda.apply(folderName + playerState.imageString, i)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        return Arrays.stream(futures)
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                })
+                .toArray(BufferedImage[]::new);
     }
 
     /**
@@ -69,13 +115,26 @@ public class ImageLoader {
     public static BufferedImage[][] loadCharacterImage(String folderName, int characterState, int frameNumber)
             throws IOException {
 
-        BufferedImage[][] animations = new BufferedImage[characterState][]; // frameNumber
+        // var len = PlayerState.ALL_PLAYER_STATES.length;
+        BufferedImage[][] animations = new BufferedImage[PlayerState.ALL_PLAYER_STATES.length][]; // frameNumber
 
-        animations[PlayerState.IDLE.num] = loadCharacterImageByState(folderName, PlayerState.IDLE);
-        animations[PlayerState.JUMP.num] = loadCharacterImageByState(folderName, PlayerState.JUMP);
-        animations[PlayerState.FALLING.num] = loadCharacterImageByState(folderName, PlayerState.FALLING);
-        animations[PlayerState.ATTACKING.num] = loadCharacterImageByState(folderName, PlayerState.ATTACKING);
-        animations[PlayerState.MOVING.num] = loadCharacterImageByState(folderName, PlayerState.MOVING);
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        Future<?>[] futures = Arrays.stream(PlayerState.ALL_PLAYER_STATES)
+                .map(state -> executorService
+                        .submit(() -> animations[state.saveArrayIndex] = loadCharacterImageByState(folderName, state)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        try {
+            // Wait for all tasks to complete
+            for (var future : futures) {
+                future.get();
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
         return animations;
     }
@@ -112,4 +171,5 @@ public class ImageLoader {
 
         return mapBlock;
     }
+
 }

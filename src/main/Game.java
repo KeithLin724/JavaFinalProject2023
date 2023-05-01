@@ -1,14 +1,16 @@
 package main;
 
-import java.awt.Graphics;
-import java.io.IOException;
-import java.util.logging.Logger;
-
 import Game.GUI.GameMenu;
 import Game.GUI.GamePlaying;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.state.GameState;
 import base.BaseGameConstant;
+
+import java.awt.*;
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
@@ -22,7 +24,9 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     private static final double FPS = 120;
     private static final double UPS = 200;
 
-    private static Logger LOGGER = Logger.getLogger(Game.class.getName());
+    private int updates = 0, frames = 0;
+
+    private static final Logger LOGGER = Logger.getLogger(Game.class.getName());
 
     // construct
     public Game() {
@@ -35,8 +39,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     }
 
     private void initClasses() throws IOException {
-        // translator = new TranslatorTester(this);
-
         gamePanel = new GamePanel(this);
         gamePanel.init();
 
@@ -55,26 +57,14 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gameThread.start();
     }
 
-    @Override
-    public void run() {
-
-        double timePerFrame = 1000000000.0 / FPS;
+    public void gameLogicUpdateThread() {
         double timePerUpdate = 1000000000.0 / UPS;
-
-        long lastFrame = System.nanoTime();
         long currentFrame = System.nanoTime();
-        long lastCheck = System.currentTimeMillis();
-
-        int frames = 0;
-        int updates = 0;
-
-        double deltaF = 0;
         double deltaU = 0;
+        long lastFrame = System.nanoTime();
 
         while (true) {
-
             currentFrame = System.nanoTime();
-            deltaF += (currentFrame - lastFrame) / timePerFrame;
             deltaU += (currentFrame - lastFrame) / timePerUpdate;
             lastFrame = currentFrame;
 
@@ -83,12 +73,69 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
                 updates++;
                 deltaU--;
             }
+        }
+    }
+
+    public void gameRenderThread() {
+        double timePerFrame = 1000000000.0 / FPS;
+        long currentFrame;
+        double deltaF = 0;
+        long lastFrame = System.nanoTime();
+
+        while (true) {
+            currentFrame = System.nanoTime();
+            deltaF += (currentFrame - lastFrame) / timePerFrame;
+            lastFrame = currentFrame;
 
             if (deltaF >= 1) {
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
             }
+        }
+    }
+
+    @Override
+    public void run() {
+
+        // double timePerFrame = 1000000000.0 / FPS;
+        // double timePerUpdate = 1000000000.0 / UPS;
+
+        // long lastFrame = System.nanoTime();
+        // long currentFrame = System.nanoTime();
+        long lastCheck = System.currentTimeMillis();
+
+        // int frames = 0;
+        // int updates = 0;
+
+        // double deltaF = 0;
+        // double deltaU = 0;
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        executorService.execute(this::gameLogicUpdateThread);
+        executorService.execute(this::gameRenderThread);
+
+        executorService.shutdown();
+
+        while (true) {
+
+            // currentFrame = System.nanoTime();
+            // deltaF += (currentFrame - lastFrame) / timePerFrame;
+            // deltaU += (currentFrame - lastFrame) / timePerUpdate;
+            // lastFrame = currentFrame;
+
+            // if (deltaU >= 1) {
+            // this.update();
+            // updates++;
+            // deltaU--;
+            // }
+
+            // if (deltaF >= 1) {
+            // gamePanel.repaint();
+            // frames++;
+            // deltaF--;
+            // }
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();

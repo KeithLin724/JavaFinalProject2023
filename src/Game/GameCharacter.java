@@ -15,6 +15,8 @@ import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.GameCharacterInterface;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.PLUG.gameDrawer.GameRenderInterface;
+import Game.PLUG.gameDrawer.GameRenderOffsetPass;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 import Game.state.PlayerState;
@@ -24,12 +26,15 @@ import static logic.Controller.GameHelpMethods.canMoveHere;
 import static logic.Controller.GameHelpMethods.*;
 
 // for put the game character skin
-public class GameCharacter extends GameCharacterABC implements GameCharacterInterface, GameAnimatedDrawer {
+public class GameCharacter extends GameCharacterABC
+        implements GameCharacterInterface, GameAnimatedDrawer, GameRenderOffsetPass {
 
     private static final Logger LOGGER = Logger.getLogger(GameCharacter.class.getName());
 
     private int[][] levelData;
     private GameLevel level;
+
+    private float drawXOffset;
 
     public GameCharacter() {
         super();
@@ -47,6 +52,11 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
     public void init(float x, float y) {
         this.setXY(x, y);
         // this.setAnimationImage();
+    }
+
+    @Override
+    public void passOffset(float offset) {
+        this.drawXOffset = offset;
     }
 
     private void updateXPos(int xSpeed) {
@@ -94,6 +104,10 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
             return;
         }
 
+        // if (this.dirMove[2] + this.dirMove[3] == 0) {
+        // this.setPlayerState(PlayerState.IDLE);
+        // }
+
         // check is it in air
         if (!this.inAir && !isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
             this.inAir = true;
@@ -126,11 +140,11 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                fromPoint.x, fromPoint.y,
+                (int) (fromPoint.x - drawXOffset), fromPoint.y,
                 TILES_SIZE, TILES_SIZE,
                 null);
 
-        this.drawHitBox(g);
+        this.drawHitBox(g, drawXOffset);
 
     }
 
@@ -154,7 +168,8 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
         PlayerState startAni = playerAction;
 
         if (!playerAction.equals(PlayerState.JUMP)) {
-            playerAction = (this.direction.isMoving() ? PlayerState.MOVING : PlayerState.IDLE);
+            playerAction = (this.direction.isMoving() && (this.dirMove[2] + this.dirMove[3] != 0) ? PlayerState.MOVING
+                    : PlayerState.IDLE);
         }
 
         if (this.inAir) {
@@ -199,7 +214,7 @@ public class GameCharacter extends GameCharacterABC implements GameCharacterInte
             if (aniIndex >= playerAction.frameNumber) {
                 aniIndex = 0;
                 attacking = false;
-                aniSpeed = 35;
+                aniSpeed = 80;
             }
         }
     }

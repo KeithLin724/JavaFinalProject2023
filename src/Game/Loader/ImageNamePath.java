@@ -16,4 +16,18 @@ public final class ImageNamePath {
     public static String imagePath(String folderName, String fileName) {
         return FileNameFormatter.of(folderName + fileName, FileNameFormatter.IMAGE);
     }
+
+    /**
+     * The function returns a formatted image path based on the given file name.
+     * 
+     * @param fileName The name of the image file, including the file extension
+     *                 (e.g. "myImage.jpg").
+     * @return The method `imagePath` returns a formatted image file name based on
+     *         the input `fileName`.
+     *         The formatting is done using the `FileNameFormatter` class and the
+     *         `IMAGE` constant.
+     */
+    public static String imagePath(String fileName) {
+        return FileNameFormatter.of(fileName, FileNameFormatter.IMAGE);
+    }
 }

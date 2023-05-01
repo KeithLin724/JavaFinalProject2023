@@ -29,8 +29,8 @@ public class GameHelpMethods {
      *         true if they are outside, and
      *         false if they are inside the window.
      */
-    private static boolean outOfWindow(float x, float y) {
-        if (x < 0 || x >= GAME_WIDTH) {
+    private static boolean outOfWindow(float x, float y, float maxLength) {
+        if (x < 0 || x >= maxLength * TILES_SIZE) {
             return true;
         }
 
@@ -41,7 +41,7 @@ public class GameHelpMethods {
     }
 
     private static boolean IsSolid(float x, float y, GameLevel level) {
-        if (outOfWindow(x, y)) {
+        if (outOfWindow(x, y, level.getMaxWidth())) {
             return true;
         }
 

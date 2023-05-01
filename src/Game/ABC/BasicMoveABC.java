@@ -2,11 +2,9 @@ package Game.ABC;
 
 import java.awt.Color;
 import java.awt.Graphics;
-// import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
-// import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GamePoint;
 import Game.state.PlayerState;
 import logic.input.Direction;
@@ -84,10 +82,10 @@ public abstract class BasicMoveABC {
         return this.hitBox;
     }
 
-    protected void drawHitBox(Graphics g) {
+    protected void drawHitBox(Graphics g, float xOffset) {
         // for debugging
         g.setColor(Color.PINK);
-        g.drawRect((int) hitBox.x, (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+        g.drawRect((int) (hitBox.x - xOffset), (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
     }
 
     ////////////////////
@@ -138,7 +136,7 @@ public abstract class BasicMoveABC {
 
         if (direction != Direction.NONE) {
             int index = direction.index, isMovingNum = (isMoving ? 1 : 0);
-            this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed);
+            this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed * SCALE);
         }
 
         this.setPlayerState(PlayerState.MOVING);
