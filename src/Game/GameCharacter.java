@@ -140,7 +140,7 @@ public class GameCharacter extends GameCharacterABC
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                (int)(fromPoint.x - drawXOffset), fromPoint.y,
+                (int) (fromPoint.x - drawXOffset), fromPoint.y,
                 TILES_SIZE, TILES_SIZE,
                 null);
 
@@ -214,7 +214,7 @@ public class GameCharacter extends GameCharacterABC
             if (aniIndex >= playerAction.frameNumber) {
                 aniIndex = 0;
                 attacking = false;
-                aniSpeed = 35;
+                aniSpeed = 80;
             }
         }
     }

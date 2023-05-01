@@ -59,6 +59,13 @@ public class GameElementLoader {
         return loadResult.toArray(BufferedImage[]::new);
     }
 
+    /**
+     * This function loads a game character from a file path and returns it.
+     * 
+     * @param fileName The name of the file that contains the data needed to load a
+     *                 GameCharacter object.
+     * @return The method is returning a GameCharacter object.
+     */
     public static GameCharacter loadCharacterByPath(String fileName)
             throws IOException, URISyntaxException, NoSuchMethodException, SecurityException, InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {

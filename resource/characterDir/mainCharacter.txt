@@ -1,5 +1,5 @@
-resource/cpp/
+resource/java/
 6 6
-0 0 35
+0 0 60
 0 0 10
 2.0f
