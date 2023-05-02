@@ -1,7 +1,6 @@
 package Game.GUI;
 
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -15,6 +14,7 @@ import Game.GUI.ui.buttons.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBase.GameCalculator;
+import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
 import Game.state.GameState;
 import Game.state.MouseState;
@@ -30,8 +30,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private GameMenuButton[] buttons = new GameMenuButton[MENU_BUTTON_NUMBER];
     private BufferedImage backgroundImage, backgroundMenuImage;
 
-    private Point menuWH;
-    private Point menuBgPoint;
+    private GameUnitPair menuWH;
+    private GamePoint menuBgPoint;
 
     private static final float[] xMenuArray = { GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F };
     private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
@@ -54,15 +54,11 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private void loadGameMenuBackgroundImage() throws IOException {
         this.backgroundImage = ImageLoader.loadImage(GameSourceFilePath.MENU_BACKGROUND_IMAGE);
 
-        this.menuWH = GameCalculator
-                .calculate(
-                        this.backgroundImage.getWidth(), this.backgroundImage.getHeight(),
-                        x -> (int) (x * SCALE))
-                .toIntPoint();
+        this.menuWH = GameCalculator.calculate(
+                this.backgroundImage.getWidth(), this.backgroundImage.getHeight(),
+                x -> (int) (x * SCALE));
 
-        this.menuBgPoint = GameUnitPair
-                .buildGameUnitPair(GAME_WIDTH / 2.0F - menuWH.x / 2.0F, 45 * SCALE)
-                .toIntPoint();
+        this.menuBgPoint = GamePoint.buildGamePoint(GAME_WIDTH / 2.0F - menuWH.x / 2.0F, 45 * SCALE);
     }
 
     private void loadGameMenuButton() throws IOException {
@@ -74,8 +70,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
         g.drawImage(this.backgroundMenuImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
         g.drawImage(backgroundImage,
-                this.menuBgPoint.x, this.menuBgPoint.y,
-                this.menuWH.x, this.menuWH.y,
+                this.menuBgPoint.getIntX(), this.menuBgPoint.getIntY(),
+                this.menuWH.getIntW(), this.menuWH.getIntH(),
                 null);
 
         Arrays.stream(this.buttons).forEach(item -> item.render(g));

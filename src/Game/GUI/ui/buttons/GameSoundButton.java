@@ -40,8 +40,8 @@ public class GameSoundButton extends GameButtonBase {
 
     @Override
     protected void initBounds() {
-        this.bounds = new Rectangle((int) this.point.x,
-                (int) this.point.y, PauseLayerButtons.SOUND_SIZE.value,
+        this.bounds = new Rectangle(this.point.getIntX(), this.point.getIntY(),
+                PauseLayerButtons.SOUND_SIZE.value,
                 PauseLayerButtons.SOUND_SIZE.value);
     }
 
@@ -53,10 +53,9 @@ public class GameSoundButton extends GameButtonBase {
     @Override
     public void render(Graphics g) {
         g.drawImage(this.soundImages[!isMul ? 0 : 1][this.mouseState.toDisplayIndex],
-                (int) this.point.x, (int) this.point.y,
+                this.point.getIntX(), this.point.getIntY(),
                 PauseLayerButtons.SOUND_SIZE.value,
                 PauseLayerButtons.SOUND_SIZE.value,
                 null);
-
     }
 }
