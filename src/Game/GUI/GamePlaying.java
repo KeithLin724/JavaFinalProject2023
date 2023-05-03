@@ -52,7 +52,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             e.printStackTrace();
         }
 
-
         Random random = new Random();
 
         smallCloudPosArrayY = IntStream
@@ -84,7 +83,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
         this.maxLevelOffset = this.maxTileOffset * TILES_SIZE;
 
-        this.bigCloudNumber = (int) Math.round((double) GameEnvironment.BIG_CLOUD_WIDTH.value / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
+        this.bigCloudNumber = (int) Math.round((double) GameEnvironment.BIG_CLOUD_WIDTH.value
+                / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
     }
 
     public GameCharacter getPlayer() {
@@ -146,7 +146,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private void drawCloud(Graphics g) {
         for (int i = 0; i < this.bigCloudNumber; i++) {
             g.drawImage(this.bigCloudImage,
-                    i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.3), // slower
+                    i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), // slower
                     (int) (204 * SCALE),
                     GameEnvironment.BIG_CLOUD_WIDTH.value,
                     GameEnvironment.BIG_CLOUD_HEIGHT.value,
