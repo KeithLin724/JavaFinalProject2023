@@ -107,8 +107,8 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
         // background
         g.drawImage(this.backgroundImage,
-                (int) this.bgPoint.x, (int) this.bgPoint.y,
-                (int) this.bgWH.x, (int) this.bgWH.y,
+                this.bgPoint.getIntX(), this.bgPoint.getIntY(),
+                this.bgWH.getIntW(), this.bgWH.getIntH(),
                 null);
 
         this.allButtons.forEach(btn -> btn.render(g));

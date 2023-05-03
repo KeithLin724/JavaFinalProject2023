@@ -23,7 +23,8 @@ public class GameVolumeButton extends GameButtonBase {
         // this.point.addToX(this.point.x + VolumeButtons.SLIDER_WIDTH.value / 2.0F);
         this.buttonX = (int) (this.point.x + VolumeButtons.SLIDER_WIDTH.value / 2.0F);
 
-        this.bounds = new Rectangle(this.buttonX, (int) this.point.y,
+        this.bounds = new Rectangle(
+                this.buttonX, this.point.getIntY(),
                 VolumeButtons.VOLUME_WIDTH.value,
                 VolumeButtons.VOLUME_HEIGHT.value);
 
@@ -75,14 +76,16 @@ public class GameVolumeButton extends GameButtonBase {
     @Override
     public void render(Graphics g) {
         g.drawImage(slider,
-                (int) this.point.x, (int) this.point.y,
+                this.point.getIntX(), this.point.getIntY(),
                 VolumeButtons.SLIDER_WIDTH.value,
-                VolumeButtons.VOLUME_HEIGHT.value, null);
+                VolumeButtons.VOLUME_HEIGHT.value,
+                null);
 
         g.drawImage(this.image[this.mouseState.toDisplayIndex],
-                (int) (buttonX - sliderXOffset), (int) this.point.y,
+                (int) (buttonX - sliderXOffset), this.point.getIntY(),
                 VolumeButtons.VOLUME_WIDTH.value,
-                VolumeButtons.VOLUME_HEIGHT.value, null);
+                VolumeButtons.VOLUME_HEIGHT.value,
+                null);
     }
 
 }

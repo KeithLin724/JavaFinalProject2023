@@ -31,7 +31,7 @@ public class GameURMButton extends GameButtonBase {
     @Override
     public void render(Graphics g) {
         g.drawImage(this.image[this.mouseState.toDisplayIndex],
-                (int) this.point.x, (int) this.point.y,
+                this.point.getIntX(), this.point.getIntY(),
                 URMButtons.URM_SIZE.value, URMButtons.URM_SIZE.value,
                 null);
 
@@ -40,7 +40,7 @@ public class GameURMButton extends GameButtonBase {
     @Override
     protected void initBounds() {
         this.bounds = new Rectangle(
-                (int) this.point.x, (int) this.point.y,
+                this.point.getIntX(), this.point.getIntY(),
                 URMButtons.URM_SIZE.value, URMButtons.URM_SIZE.value);
     }
 

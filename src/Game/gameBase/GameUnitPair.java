@@ -92,4 +92,51 @@ public class GameUnitPair {
         return new GameUnitPair(this.x / scale, this.y / scale);
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getX() {
+        return this.x;
+    }
+
+    public float getY() {
+        return this.y;
+    }
+
+    public int getIntX() {
+        return (int) this.x;
+    }
+
+    public int getIntY() {
+        return (int) this.y;
+    }
+
+    public void setW(float w) {
+        this.x = w;
+    }
+
+    public void setH(float h) {
+        this.y = h;
+    }
+
+    public float getW() {
+        return this.x;
+    }
+
+    public float getH() {
+        return this.y;
+    }
+
+    public int getIntW() {
+        return (int) this.x;
+    }
+
+    public int getIntH() {
+        return (int) this.y;
+    }
 }

@@ -33,7 +33,7 @@ public class GameMenuButton extends GameButtonBase {
     @Override
     protected void initBounds() {
         this.bounds = new Rectangle(
-                (int) this.point.x - xOffsetCenter, (int) this.point.y,
+                (int) this.point.getX() - xOffsetCenter, this.point.getIntY(),
                 MenuButtons.B_WIDTH.value,
                 MenuButtons.B_HEIGHT.value);
     }
@@ -46,7 +46,7 @@ public class GameMenuButton extends GameButtonBase {
     @Override
     public void render(Graphics g) {
         g.drawImage(this.images[this.mouseState.toDisplayIndex],
-                (int) this.point.x - xOffsetCenter, (int) this.point.y,
+                (int) this.point.getX() - xOffsetCenter, this.point.getIntY(),
                 MenuButtons.B_WIDTH.value, MenuButtons.B_HEIGHT.value, null);
     }
 
