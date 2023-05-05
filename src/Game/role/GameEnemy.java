@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
+import Game.role.ABC.GameCharacterABC;
 import Game.role.ABC.GameEnemyABC;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
@@ -23,6 +24,8 @@ public class GameEnemy extends GameEnemyABC {
     private static GameLevel levelData;
 
     private boolean firstUpdate = true;
+
+    private GameCharacterABC player;
 
     private static final float walkSpeed = 0.5f * SCALE;
 
@@ -59,19 +62,31 @@ public class GameEnemy extends GameEnemyABC {
         GameEnemy.drawXOffset = xOffset;
     }
 
-    @Override
-    public void updatePosition() {
-
+    public void passPlayer(GameCharacterABC player) {
+        this.player = player;
     }
 
     @Override
     public void update() {
         super.update();
-        this.updateMove();
+        // this.updateMove();
     }
 
-    private void updateMove() {
+    @Override
+    public void render(Graphics g) {
+        var nowImage = this.getAnimationImage(this.gameCharacterState, this.aniIndex);
+        var fromPoint = this.point.toIntPoint();
 
+        g.drawImage(nowImage,
+                (int) (fromPoint.x - GameEnemy.drawXOffset), fromPoint.y,
+                TILES_SIZE, TILES_SIZE,
+                null);
+
+        // this.drawHitBox(g, GameEnemy.drawXOffset);
+    }
+
+    @Override
+    public void updatePosition() {
         boolean firstUpdateStatement = this.firstUpdate
                 && !isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData);
 
@@ -84,40 +99,52 @@ public class GameEnemy extends GameEnemyABC {
         this.updateXPos();
     }
 
+    private void moveX() {
+        float xSpeed = 0;
+        switch (this.direction) {
+            case LEFT -> {
+                xSpeed = -walkSpeed;
+            }
+            case RIGHT -> {
+                xSpeed = walkSpeed;
+            }
+
+            default -> {
+                // None
+            }
+        }
+        GamePoint speedPoint = new GamePoint(xSpeed, 0);
+
+        GamePoint nextXPoint = GamePoint.add(point, speedPoint);
+
+        boolean xCheckStatement = canMoveHere(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData); // &&
+
+        if (xCheckStatement) {
+            if (isOnTheFloor(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
+                this.point.addToX(xSpeed);
+                return;
+            }
+
+        }
+        changeDirection();
+    }
+
     private void updateXPos() {
         switch (this.gameCharacterState) {
             case IDLE -> {
-                this.setPlayerState(GameCharacterState.MOVING);
+                this.newEnemyState(GameCharacterState.MOVING);
             }
 
             case MOVING -> {
-                float xSpeed = 0;
-                switch (this.direction) {
-                    case LEFT -> {
-                        xSpeed = -walkSpeed;
-                    }
-                    case RIGHT -> {
-                        xSpeed = walkSpeed;
-                    }
-
-                    default -> {
-                        // None
-                    }
+                if (canSeePlayer(levelData, this.player)) {
+                    turnTowardsPlayer(player);
                 }
-                GamePoint speedPoint = new GamePoint(xSpeed, 0);
 
-                GamePoint nextXPoint = GamePoint.add(point, speedPoint);
-
-                boolean xCheckStatement = canMoveHere(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData); // &&
-
-                if (xCheckStatement) {
-                    if (isOnTheFloor(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
-                        this.point.addToX(xSpeed);
-                        return;
-                    }
-
+                if (isPlayerCloseForAttack(player)) {
+                    this.newEnemyState(GameCharacterState.ATTACKING);
                 }
-                changeDirection();
+
+                this.moveX();
             }
 
             default -> {
@@ -126,21 +153,6 @@ public class GameEnemy extends GameEnemyABC {
 
         }
 
-    }
-
-    private void changeDirection() {
-        switch (this.direction) {
-            case LEFT -> {
-                this.direction = Direction.RIGHT;
-            }
-            case RIGHT -> {
-                this.direction = Direction.LEFT;
-            }
-
-            default -> {
-                // None
-            }
-        }
     }
 
     private void updateYPos() {
@@ -167,19 +179,6 @@ public class GameEnemy extends GameEnemyABC {
         } else {
             airSpeed = fallSpeedAfterCollision;
         }
-    }
-
-    @Override
-    public void render(Graphics g) {
-        var nowImage = this.getAnimationImage(this.gameCharacterState, this.aniIndex);
-        var fromPoint = this.point.toIntPoint();
-
-        g.drawImage(nowImage,
-                (int) (fromPoint.x - GameEnemy.drawXOffset), fromPoint.y,
-                TILES_SIZE, TILES_SIZE,
-                null);
-
-        // this.drawHitBox(g, GameEnemy.drawXOffset);
     }
 
     @Override

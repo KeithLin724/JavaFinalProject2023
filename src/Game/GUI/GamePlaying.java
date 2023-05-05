@@ -114,6 +114,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.player.update();
 
         GameEnemyManager.passLevelData(this.gameLevelManager.getGameLevel());
+        this.gameEnemyManager.passPlayer(player);
         this.gameEnemyManager.update();
 
         checkCloseToBorder();

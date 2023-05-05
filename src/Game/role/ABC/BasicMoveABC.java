@@ -97,6 +97,10 @@ public abstract class BasicMoveABC {
         this.point.y = y;
     }
 
+    public GamePoint getGamePoint() {
+        return this.point;
+    }
+
     public void setXY(float x, float y) {
         this.point.setAll(x, y);
     }
@@ -109,7 +113,7 @@ public abstract class BasicMoveABC {
         this.attacking = attacking;
     }
 
-    public void setPlayerState(GameCharacterState playerState) {
+    public void setCharacterState(GameCharacterState playerState) {
         this.gameCharacterState = playerState;
     }
 
@@ -138,11 +142,11 @@ public abstract class BasicMoveABC {
             this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed * SCALE);
         }
 
-        this.setPlayerState(GameCharacterState.MOVING);
+        this.setCharacterState(GameCharacterState.MOVING);
 
         if (Arrays.stream(this.dirMove).allMatch(x -> x == 0)) {
             this.direction = Direction.NONE;
-            this.setPlayerState(GameCharacterState.IDLE);
+            this.setCharacterState(GameCharacterState.IDLE);
         }
     }
 

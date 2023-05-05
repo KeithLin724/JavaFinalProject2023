@@ -14,6 +14,7 @@ import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.role.GameEnemy;
+import Game.role.ABC.GameCharacterABC;
 
 import static Game.gameBackground.GameLevelManager.HEIGHT_BLOCK_NUM;
 import static Game.gameBackground.GameLevelManager.WIDTH_BLOCK_NUM;
@@ -25,6 +26,7 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     private GamePlaying gamePlaying;
     private BufferedImage[][] enemyImage;
     private List<GameEnemy> enemyArr = new ArrayList<>();
+    private GameCharacterABC player;
 
     public GameEnemyManager(GamePlaying gamePlaying) {
         this.gamePlaying = gamePlaying;
@@ -65,9 +67,17 @@ public class GameEnemyManager implements GameAnimatedDrawer {
         GameEnemy.passLevelData(levelData);
     }
 
+    public void passPlayer(GameCharacterABC player) {
+        this.player = player;
+    }
+
     @Override
     public void update() {
-        enemyArr.forEach(GameEnemy::update);
+        enemyArr.forEach(
+                (item) -> {
+                    item.passPlayer(this.player);
+                    item.update();
+                }); // GameEnemy::update
         // enemyArr.get(0).update();
     }
 
