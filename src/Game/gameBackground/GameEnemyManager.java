@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Game.GameSourceFilePath;
@@ -39,8 +40,9 @@ public class GameEnemyManager implements GameAnimatedDrawer {
                     HEIGHT_BLOCK_NUM,
                     WIDTH_BLOCK_NUM,
                     enemyImage);
+
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "add enemies error", e);
         }
 
         LOGGER.info("enemies number : " + this.enemyArr.size());
@@ -50,8 +52,9 @@ public class GameEnemyManager implements GameAnimatedDrawer {
         try {
             this.enemyImage = ImageLoader.loadCharacterImage(GameSourceFilePath.ENEMIES_FOLDER_PATH, 0, 0);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "load enemy image error", e);
         }
+        LOGGER.info("load enemy image success");
     }
 
     public static void passOffset(float xOffset) {
