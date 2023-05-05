@@ -23,7 +23,6 @@ public final class GameSourceFilePath {
 
     public static final String SMALL_CLOUD_IMAGE = "resource/background/small_clouds.png";
 
-
     // menu button
     public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";
 
@@ -45,4 +44,6 @@ public final class GameSourceFilePath {
     // volume button
     public static final String VOLUME_BUTTON_IMAGE = "resource/ui/volume_buttons.png";
 
+    // for testing : enemies
+    public static final String ENEMIES_TEXT_FILE_PATH = "resource/characterDir/enemies.txt";
 }

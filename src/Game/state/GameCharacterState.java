@@ -1,7 +1,8 @@
 package Game.state;
 
 /**
- * This is an enum class named `PlayerState` that defines the different states a
+ * This is an enum class named `GameCharacterState` that defines the different
+ * states a
  * player can be in a
  * game. Each state is assigned a number and has a method
  * `getAnimationFrameNumbs()` that returns the
@@ -12,7 +13,7 @@ package Game.state;
  * method returns the appropriate number of animation frames based on the
  * current state.
  */
-public enum PlayerState {
+public enum GameCharacterState {
     IDLE(0, 5, "IDLE_"),
     MOVING(1, 3, "MOVE_"),
     JUMP(2, 7, "JUMP_"),
@@ -25,9 +26,9 @@ public enum PlayerState {
     public final int frameNumber;
     public final String imageString;
 
-    public static final PlayerState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, FALLING, ATTACKING, HIT, DEAD };
+    public static final GameCharacterState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, FALLING, ATTACKING, HIT, DEAD };
 
-    PlayerState(int number, int frameNumber, String imageString) {
+    GameCharacterState(int number, int frameNumber, String imageString) {
         this.saveArrayIndex = number;
         this.frameNumber = frameNumber;
         this.imageString = imageString;

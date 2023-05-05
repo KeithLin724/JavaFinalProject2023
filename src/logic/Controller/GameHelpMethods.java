@@ -4,12 +4,10 @@ import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 
 import static base.BaseGameConstant.GAME_WIDTH;
+import static Game.role.ABC.BasicMoveABC.HIT_BOX_HEIGHT;
+import static Game.role.ABC.BasicMoveABC.HIT_BOX_WIDTH;
 import static base.BaseGameConstant.GAME_HEIGHT;
 import static base.BaseGameConstant.TILES_SIZE;
-
-import static Game.ABC.BasicMoveABC.HIT_BOX_WIDTH;
-import static Game.ABC.BasicMoveABC.HIT_BOX_HEIGHT;
-// this class for put some logic 
 
 public class GameHelpMethods {
 

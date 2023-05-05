@@ -1,4 +1,4 @@
-package Game;
+package Game.role;
 
 import java.awt.Graphics;
 import java.io.IOException;
@@ -6,20 +6,19 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Game.ABC.GameCharacterABC;
+import Game.DataPass;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
 import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
-import Game.PLUG.GameCharacterInterface;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
-import Game.PLUG.gameDrawer.GameRenderInterface;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
-import Game.state.PlayerState;
+import Game.role.ABC.GameCharacterABC;
+import Game.state.GameCharacterState;
 
 import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.canMoveHere;
@@ -96,7 +95,7 @@ public class GameCharacter extends GameCharacterABC
     @Override
     public void updatePosition() {
         // moving
-        if (this.playerAction == PlayerState.JUMP) {
+        if (this.gameCharacterState == GameCharacterState.JUMP) {
             jump();
         }
         // check left right
@@ -136,7 +135,7 @@ public class GameCharacter extends GameCharacterABC
 
     @Override
     public void render(Graphics g) {
-        var nowImage = this.getAnimationImage(this.playerAction, this.aniIndex);
+        var nowImage = this.getAnimationImage(this.gameCharacterState, this.aniIndex);
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
@@ -165,16 +164,17 @@ public class GameCharacter extends GameCharacterABC
     @Override
     public void setAnimationState() {
 
-        PlayerState startAni = playerAction;
+        GameCharacterState startAni = gameCharacterState;
 
-        if (!playerAction.equals(PlayerState.JUMP)) {
-            playerAction = (this.direction.isMoving() && (this.dirMove[2] + this.dirMove[3] != 0) ? PlayerState.MOVING
-                    : PlayerState.IDLE);
+        if (!gameCharacterState.equals(GameCharacterState.JUMP)) {
+            gameCharacterState = (this.direction.isMoving() && (this.dirMove[2] + this.dirMove[3] != 0)
+                    ? GameCharacterState.MOVING
+                    : GameCharacterState.IDLE);
         }
 
         if (this.inAir) {
             // System.out.println(this.playerAction);
-            this.playerAction = (airSpeed < 0 ? PlayerState.JUMP : PlayerState.FALLING);
+            this.gameCharacterState = (airSpeed < 0 ? GameCharacterState.JUMP : GameCharacterState.FALLING);
             // if (airSpeed < 0) {
             // this.playerAction = PlayerState.JUMP;
             // } else {
@@ -184,10 +184,10 @@ public class GameCharacter extends GameCharacterABC
 
         if (attacking) {
             aniSpeed = 20;
-            playerAction = PlayerState.ATTACKING;
+            gameCharacterState = GameCharacterState.ATTACKING;
         }
 
-        if (startAni != playerAction) {
+        if (startAni != gameCharacterState) {
             this.resetAniTick();
         }
     }
@@ -205,19 +205,18 @@ public class GameCharacter extends GameCharacterABC
         }
     }
 
-    @Override
-    public void updateAnimationTick() {
-        aniTick++;
-        if (aniTick >= aniSpeed) {
-            aniTick = 0;
-            aniIndex++;
-            if (aniIndex >= playerAction.frameNumber) {
-                aniIndex = 0;
-                attacking = false;
-                aniSpeed = 80;
-            }
-        }
-    }
+    // public void updateAnimationTick() {
+    // aniTick++;
+    // if (aniTick >= aniSpeed) {
+    // aniTick = 0;
+    // aniIndex++;
+    // if (aniIndex >= gameCharacterState.frameNumber) {
+    // aniIndex = 0;
+    // attacking = false;
+    // aniSpeed = 80;
+    // }
+    // }
+    // }
 
     @Override
     public void update() {

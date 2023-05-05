@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 
-import Game.state.PlayerState;
+import Game.state.GameCharacterState;
 import base.loader.BaseLoader;
 
 public class ImageLoader {
@@ -80,7 +80,7 @@ public class ImageLoader {
      *         using a lambda function and a
      *         thread pool to improve performance.
      */
-    private static BufferedImage[] loadCharacterImageByState(String folderName, PlayerState playerState) {
+    private static BufferedImage[] loadCharacterImageByState(String folderName, GameCharacterState playerState) {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -116,11 +116,11 @@ public class ImageLoader {
             throws IOException {
 
         // var len = PlayerState.ALL_PLAYER_STATES.length;
-        BufferedImage[][] animations = new BufferedImage[PlayerState.ALL_PLAYER_STATES.length][]; // frameNumber
+        BufferedImage[][] animations = new BufferedImage[GameCharacterState.ALL_PLAYER_STATES.length][]; // frameNumber
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        Future<?>[] futures = Arrays.stream(PlayerState.ALL_PLAYER_STATES)
+        Future<?>[] futures = Arrays.stream(GameCharacterState.ALL_PLAYER_STATES)
                 .map(state -> executorService
                         .submit(() -> animations[state.saveArrayIndex] = loadCharacterImageByState(folderName, state)))
                 .toArray(Future<?>[]::new);

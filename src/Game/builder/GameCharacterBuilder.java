@@ -1,10 +1,10 @@
 package Game.builder;
 
-import Game.GameCharacter;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
+import Game.role.GameCharacter;
 
 /**
  * The GameCharacterBuilder class uses the builder pattern to construct a

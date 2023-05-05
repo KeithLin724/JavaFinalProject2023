@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.DataPass;
-import Game.GameCharacter;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.builder.GameCharacterBuilder;
+import Game.role.GameCharacter;
 import base.loader.BaseLoader;
 
 import static base.BaseGameConstant.TILES_IN_HEIGHT;

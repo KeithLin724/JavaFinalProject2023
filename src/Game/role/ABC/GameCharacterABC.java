@@ -1,4 +1,4 @@
-package Game.ABC;
+package Game.role.ABC;
 
 import java.awt.image.BufferedImage;
 
@@ -8,7 +8,7 @@ import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
-import Game.state.PlayerState;
+import Game.state.GameCharacterState;
 
 public abstract class GameCharacterABC extends BasicMoveABC {
 
@@ -82,9 +82,32 @@ public abstract class GameCharacterABC extends BasicMoveABC {
         this.animations = image;
     }
 
+    /**
+     * The function resets the animation tick and index to zero.
+     */
     protected void resetAniTick() {
         this.aniTick = 0;
         this.aniIndex = 0;
+    }
+
+    /**
+     * This function updates the animation tick and index for a game character and
+     * sets the attacking flag
+     * to false when the animation is complete.
+     */
+    protected void updateAnimationTick() {
+        this.aniTick++;
+
+        if (this.aniTick >= this.aniSpeed) {
+            this.aniTick = 0;
+            this.aniIndex++;
+
+            if (this.aniIndex >= gameCharacterState.frameNumber) {
+                this.aniIndex = 0;
+                this.attacking = false;
+                this.aniSpeed = 80;
+            }
+        }
     }
 
     /**
@@ -102,7 +125,7 @@ public abstract class GameCharacterABC extends BasicMoveABC {
      *                       to retrieve from the animations array.
      * @return A BufferedImage object.
      */
-    public BufferedImage getAnimationImage(PlayerState characterState, int frameIndex) {
+    public BufferedImage getAnimationImage(GameCharacterState characterState, int frameIndex) {
         return this.animations[characterState.saveArrayIndex][frameIndex % characterState.frameNumber];
     }
 
@@ -134,4 +157,5 @@ public abstract class GameCharacterABC extends BasicMoveABC {
                 animationsImage.getWidth(), animationsImage.getHeight(),
                 this::scaleFunction);
     }
+
 }

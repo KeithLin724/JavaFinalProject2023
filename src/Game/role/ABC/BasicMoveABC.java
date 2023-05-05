@@ -1,4 +1,4 @@
-package Game.ABC;
+package Game.role.ABC;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
 import Game.gameBase.GamePoint;
-import Game.state.PlayerState;
+import Game.state.GameCharacterState;
 import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;
@@ -16,7 +16,7 @@ public abstract class BasicMoveABC {
     public static final int HIT_BOX_WIDTH = TILES_SIZE - 7;
     public static final int HIT_BOX_HEIGHT = TILES_SIZE - 7;
 
-    protected PlayerState playerAction;
+    protected GameCharacterState gameCharacterState;
     protected boolean attacking;
 
     protected GamePoint point;
@@ -38,7 +38,7 @@ public abstract class BasicMoveABC {
     public abstract void updatePosition();
 
     public BasicMoveABC() {
-        this.playerAction = PlayerState.IDLE;
+        this.gameCharacterState = GameCharacterState.IDLE;
         this.attacking = false;
         this.direction = Direction.NONE;
         this.point = new GamePoint();
@@ -46,8 +46,8 @@ public abstract class BasicMoveABC {
         this.initHitBox();
     }
 
-    public BasicMoveABC(PlayerState playerAction, GamePoint point, Direction direction, boolean attacking) {
-        this.playerAction = playerAction;
+    public BasicMoveABC(GameCharacterState playerAction, GamePoint point, Direction direction, boolean attacking) {
+        this.gameCharacterState = playerAction;
         this.direction = direction;
         this.attacking = attacking;
         this.point = point;
@@ -110,12 +110,12 @@ public abstract class BasicMoveABC {
         this.attacking = attacking;
     }
 
-    public void setPlayerState(PlayerState playerState) {
-        this.playerAction = playerState;
+    public void setPlayerState(GameCharacterState playerState) {
+        this.gameCharacterState = playerState;
     }
 
     public void stopDirection() {
-        this.playerAction = PlayerState.IDLE;
+        this.gameCharacterState = GameCharacterState.IDLE;
         this.direction = Direction.NONE;
         this.dirMove = new int[] { 0, 0, 0, 0 };
     }
@@ -139,16 +139,16 @@ public abstract class BasicMoveABC {
             this.dirMove[index] = isMovingNum * (int) ((float) Math.pow(-1, index + 1) * this.playerSpeed * SCALE);
         }
 
-        this.setPlayerState(PlayerState.MOVING);
+        this.setPlayerState(GameCharacterState.MOVING);
 
         if (Arrays.stream(this.dirMove).allMatch(x -> x == 0)) {
             this.direction = Direction.NONE;
-            this.setPlayerState(PlayerState.IDLE);
+            this.setPlayerState(GameCharacterState.IDLE);
         }
     }
 
     public void setJump(boolean isJump) {
-        this.playerAction = (isJump ? PlayerState.JUMP : PlayerState.IDLE);
+        this.gameCharacterState = (isJump ? GameCharacterState.JUMP : GameCharacterState.IDLE);
     }
 
 }
