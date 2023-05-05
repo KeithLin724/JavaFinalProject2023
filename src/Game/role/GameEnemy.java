@@ -179,7 +179,7 @@ public class GameEnemy extends GameEnemyABC {
                 TILES_SIZE, TILES_SIZE,
                 null);
 
-        this.drawHitBox(g, GameEnemy.drawXOffset);
+        // this.drawHitBox(g, GameEnemy.drawXOffset);
     }
 
     @Override

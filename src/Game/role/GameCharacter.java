@@ -136,7 +136,7 @@ public class GameCharacter extends GameCharacterABC
                 TILES_SIZE, TILES_SIZE,
                 null);
 
-        this.drawHitBox(g, drawXOffset);
+        // this.drawHitBox(g, drawXOffset);
 
     }
 
