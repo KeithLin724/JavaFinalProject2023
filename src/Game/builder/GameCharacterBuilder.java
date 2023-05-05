@@ -1,5 +1,7 @@
 package Game.builder;
 
+import java.io.IOException;
+
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
@@ -92,7 +94,11 @@ public class GameCharacterBuilder {
      *         class.
      */
     public GameCharacterBuilder setAnimationImage(String filePath, int characterStateNum, int frameNumber) {
-        this.gameCharacter.setAnimationImage(filePath, characterStateNum, frameNumber);
+        try {
+            this.gameCharacter.setAnimationImage(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 

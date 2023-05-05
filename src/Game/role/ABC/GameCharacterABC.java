@@ -1,10 +1,12 @@
 package Game.role.ABC;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.Loader.ImageLoader;
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
@@ -83,6 +85,34 @@ public abstract class GameCharacterABC extends BasicMoveABC {
     }
 
     /**
+     * This function sets the animation image for a character state and frame number
+     * by loading the image
+     * from a file path.
+     * 
+     * @param filePath          The file path of the image file that contains the
+     *                          animation frames for the
+     *                          character.
+     * @param characterStateNum The characterStateNum parameter is an integer value
+     *                          that represents the
+     *                          state of the character in the animation. For
+     *                          example, if the character has different animations
+     *                          for
+     *                          walking, running, jumping, and standing still, each
+     *                          of these states would be assigned a unique
+     *                          number. This parameter is used to load the correct
+     *                          image
+     * @param frameNumber       The frame number refers to the specific frame of the
+     *                          animation that is being set.
+     *                          In other words, if an animation has 10 frames, the
+     *                          frame number parameter would specify which of
+     *                          those 10 frames is being set for the character's
+     *                          animation.
+     */
+    public void setAnimationImage(String filePath) throws IOException {
+        this.setAnimation(ImageLoader.loadCharacterImage(filePath, 0, 0));
+    }
+
+    /**
      * The function resets the animation tick and index to zero.
      */
     protected void resetAniTick() {
@@ -158,4 +188,7 @@ public abstract class GameCharacterABC extends BasicMoveABC {
                 this::scaleFunction);
     }
 
+    public abstract void setAnimationImage();
+
+    public abstract void setAnimationState();
 }

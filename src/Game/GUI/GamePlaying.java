@@ -5,6 +5,7 @@ import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
 import Game.role.GameCharacter;
 import Game.state.GameState;
@@ -31,8 +32,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     // about the display gaming
     private GameCharacter player;
+
     private GamePauseDisplayLayer gamePauseDisplayLayer;
     private boolean paused = false;
+
     private float xLevelOffset;
     private int levelTileWide;
     private int maxTileOffset; // not display value
@@ -40,6 +43,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private BufferedImage playingBackgroundImage, bigCloudImage, smallCloudImage;
     private int[] smallCloudPosArrayY;
     private int bigCloudNumber;
+
+    // about the game enemy
+    private GameEnemyManager gameEnemyManager;
 
     public GamePlaying(Game game) {
         super(game);
@@ -78,6 +84,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         gamePauseDisplayLayer = new GamePauseDisplayLayer(this);
 
+        // about the enemy
+        gameEnemyManager = new GameEnemyManager(this);
+
         // about the window display number
         this.levelTileWide = gameLevelManager.getGameLevel().getMaxWidth();
         this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
@@ -104,6 +113,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         this.gameLevelManager.update();
         this.player.update();
+
+        gameEnemyManager.update();
+
         checkCloseToBorder();
     }
 
@@ -124,6 +136,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     public void render(Graphics g) {
         this.gameLevelManager.passOffset(this.xLevelOffset);
         this.player.passOffset(this.xLevelOffset);
+        GameEnemyManager.passOffset(this.xLevelOffset);
 
         g.drawImage(this.playingBackgroundImage,
                 0, 0,
@@ -134,6 +147,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         this.gameLevelManager.render(g);
         this.player.render(g);
+        this.gameEnemyManager.render(g);
 
         if (this.paused) {
             g.setColor(new Color(0, 0, 0, 200));

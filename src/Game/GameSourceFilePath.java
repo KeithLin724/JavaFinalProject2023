@@ -45,5 +45,5 @@ public final class GameSourceFilePath {
     public static final String VOLUME_BUTTON_IMAGE = "resource/ui/volume_buttons.png";
 
     // for testing : enemies
-    public static final String ENEMIES_TEXT_FILE_PATH = "resource/characterDir/enemies.txt";
+    public static final String ENEMIES_FOLDER_PATH = "resource/java/";
 }

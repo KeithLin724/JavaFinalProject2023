@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Game.DataPass;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
@@ -26,7 +25,7 @@ import static logic.Controller.GameHelpMethods.*;
 
 // for put the game character skin
 public class GameCharacter extends GameCharacterABC
-        implements GameCharacterInterface, GameAnimatedDrawer, GameRenderOffsetPass {
+        implements GameAnimatedDrawer, GameRenderOffsetPass {
 
     private static final Logger LOGGER = Logger.getLogger(GameCharacter.class.getName());
 
@@ -147,18 +146,13 @@ public class GameCharacter extends GameCharacterABC
 
     }
 
-    public void setAnimationImage(String filePath, int characterStateNum, int frameNumber) {
-        try {
-            this.setAnimation(ImageLoader.loadCharacterImage(filePath, characterStateNum, frameNumber));
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "load image error", e);
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void setAnimationImage() {
-        this.setAnimationImage(ImageNamePath.PLAYER_MAIN_CHARACTER, 5, 6);
+        try {
+            this.setAnimationImage(ImageNamePath.PLAYER_MAIN_CHARACTER);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
