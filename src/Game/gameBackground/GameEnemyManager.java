@@ -33,6 +33,15 @@ public class GameEnemyManager implements GameAnimatedDrawer {
         this.addEnemies();
     }
 
+    private void loadEnemyImage() {
+        try {
+            this.enemyImage = ImageLoader.loadCharacterImage(GameSourceFilePath.ENEMIES_FOLDER_PATH, 0, 0);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "load enemy image error", e);
+        }
+        LOGGER.info("load enemy image success");
+    }
+
     private void addEnemies() {
         try {
             this.enemyArr = GameElementLoader.loadGameEnemyData(
@@ -48,28 +57,24 @@ public class GameEnemyManager implements GameAnimatedDrawer {
         LOGGER.info("enemies number : " + this.enemyArr.size());
     }
 
-    private void loadEnemyImage() {
-        try {
-            this.enemyImage = ImageLoader.loadCharacterImage(GameSourceFilePath.ENEMIES_FOLDER_PATH, 0, 0);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "load enemy image error", e);
-        }
-        LOGGER.info("load enemy image success");
-    }
-
     public static void passOffset(float xOffset) {
         GameEnemy.passOffset(xOffset);
+    }
+
+    public static void passLevelData(GameLevel levelData) {
+        GameEnemy.passLevelData(levelData);
     }
 
     @Override
     public void update() {
         enemyArr.forEach(GameEnemy::update);
-
+        // enemyArr.get(0).update();
     }
 
     @Override
     public void render(Graphics g) {
         enemyArr.forEach(enemy -> enemy.render(g));
+        // enemyArr.get(0).render(g);
     }
 
 }

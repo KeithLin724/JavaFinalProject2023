@@ -110,10 +110,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.gamePauseDisplayLayer.update();
             return;
         }
-
         this.gameLevelManager.update();
         this.player.update();
 
+        GameEnemyManager.passLevelData(this.gameLevelManager.getGameLevel());
         this.gameEnemyManager.update();
 
         checkCloseToBorder();
@@ -136,6 +136,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     public void render(Graphics g) {
         this.gameLevelManager.passOffset(this.xLevelOffset);
         this.player.passOffset(this.xLevelOffset);
+
         GameEnemyManager.passOffset(this.xLevelOffset);
 
         g.drawImage(this.playingBackgroundImage,

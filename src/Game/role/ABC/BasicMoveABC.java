@@ -66,13 +66,6 @@ public abstract class BasicMoveABC {
         this.hitBox = new Rectangle2D.Float(point.x, point.y, HIT_BOX_WIDTH, HIT_BOX_HEIGHT);
     }
 
-    // public void setPlayerHitBox(PlayerHitBox playerHitBox) {
-    // this.hitBox = new Rectangle2D.Float((int) playerHitBox.x(), (int)
-    // playerHitBox.y(),
-    // playerHitBox.width(),
-    // playerHitBox.height());
-    // }
-
     protected void updateHitBox() {
         this.hitBox.x = point.x;
         this.hitBox.y = point.y;
@@ -86,6 +79,12 @@ public abstract class BasicMoveABC {
         // for debugging
         g.setColor(Color.PINK);
         g.drawRect((int) (hitBox.x - xOffset), (int) hitBox.y, (int) hitBox.width, (int) hitBox.height);
+    }
+
+    ////////////////////
+    protected void resetInAir() {
+        this.inAir = false;
+        this.airSpeed = 0;
     }
 
     ////////////////////

@@ -37,6 +37,7 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     @Override
     public void update() {
+        this.updatePosition();
         this.updateAnimationTick();
         this.updateHitBox();
     }

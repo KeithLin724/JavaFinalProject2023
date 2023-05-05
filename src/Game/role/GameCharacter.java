@@ -3,14 +3,12 @@ package Game.role;
 import java.awt.Graphics;
 import java.io.IOException;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
-import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
@@ -57,7 +55,10 @@ public class GameCharacter extends GameCharacterABC
         this.drawXOffset = offset;
     }
 
-    private void updateXPos(int xSpeed) {
+    private void updateXPos() {
+
+        int xSpeed = this.dirMove[2] + this.dirMove[3];
+
         GamePoint nextPoint = new GamePoint(xSpeed, 0);
 
         if (!canMoveHere(GamePoint.add(point, nextPoint), HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
@@ -84,7 +85,7 @@ public class GameCharacter extends GameCharacterABC
         }
 
         if (airSpeed > 0) { // FALLING
-            resetInAir();
+            this.resetInAir();
         } else {
             airSpeed = fallSpeedAfterCollision;
         }
@@ -111,10 +112,8 @@ public class GameCharacter extends GameCharacterABC
             this.inAir = true;
         }
 
-        int xSpeed = this.dirMove[2] + this.dirMove[3];
-
         updateYPos();
-        updateXPos(xSpeed);
+        updateXPos();
 
     }
 
@@ -125,11 +124,6 @@ public class GameCharacter extends GameCharacterABC
 
         this.inAir = true;
         this.airSpeed = this.jumpSpeed;
-    }
-
-    private void resetInAir() {
-        this.inAir = false;
-        this.airSpeed = 0;
     }
 
     @Override

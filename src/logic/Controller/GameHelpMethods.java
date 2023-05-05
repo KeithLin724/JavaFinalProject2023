@@ -94,4 +94,8 @@ public class GameHelpMethods {
         return true;
     }
 
+    public static boolean isFloor(GamePoint point, float width, float height, GameLevel level) {
+        return !IsSolid(point.x, point.y + height + 1, level);
+    }
+
 }
