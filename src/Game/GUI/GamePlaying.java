@@ -1,5 +1,6 @@
 package Game.GUI;
 
+import Game.GUI.ui.GameOverDisplayLayer;
 import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GameSourceFilePath;
 import Game.Player;
@@ -15,6 +16,8 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -46,6 +49,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     // about the game enemy
     private GameEnemyManager gameEnemyManager;
+
+    // about the game over
+    private GameOverDisplayLayer gameOverDisplayLayer;
+    private boolean gameOver;
 
     public GamePlaying(Game game) {
         super(game);
@@ -81,11 +88,14 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         player.init(200, 200);
         player.setLevelData(gameLevelManager.getGameLevel().getLevel2D());
         player.setLevel(gameLevelManager.getGameLevel());
+        player.setGamePlaying(this);
 
         gamePauseDisplayLayer = new GamePauseDisplayLayer(this);
 
         // about the enemy
         gameEnemyManager = new GameEnemyManager(this);
+
+        gameOverDisplayLayer = new GameOverDisplayLayer(this);
 
         // about the window display number
         this.levelTileWide = gameLevelManager.getGameLevel().getMaxWidth();
@@ -110,6 +120,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.gamePauseDisplayLayer.update();
             return;
         }
+
+        if (this.gameOver) {
+            return;
+        }
+
         this.gameLevelManager.update();
         this.player.update();
 
@@ -152,9 +167,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.gameEnemyManager.render(g);
 
         if (this.paused) {
-            g.setColor(new Color(0, 0, 0, 200));
-            g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
             this.gamePauseDisplayLayer.render(g);
+        }
+
+        else if (this.gameOver) {
+            this.gameOverDisplayLayer.render(g);
         }
 
     }
@@ -180,8 +197,29 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     }
 
+    public void resetAll() {
+        // TODO: reset player , enemy level , etc...
+        this.gameOver = false;
+        this.paused = false;
+        player.resetAll();
+        gameEnemyManager.resetAll();
+
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public void checkEnemyHit(Player player) {
+        this.gameEnemyManager.checkEnemyHit(player);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (this.gameOver) {
+            return;
+        }
+
         if (e.getButton() == MouseEvent.BUTTON1) {
             this.player.setAttacking(true);
         }
@@ -189,6 +227,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (this.gameOver) {
+            return;
+        }
+
         if (paused) {
             this.gamePauseDisplayLayer.mousePressed(e);
         }
@@ -196,6 +238,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (this.gameOver) {
+            return;
+        }
+
         if (paused) {
             this.gamePauseDisplayLayer.mouseReleased(e);
         }
@@ -213,6 +259,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (this.gameOver) {
+            return;
+        }
+
         if (paused) {
             this.gamePauseDisplayLayer.mouseDragged(e);
         }
@@ -220,6 +270,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (this.gameOver) {
+            return;
+        }
         if (paused) {
             this.gamePauseDisplayLayer.mouseMoved(e);
         }
@@ -248,11 +301,20 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (this.gameOver) {
+            this.gameOverDisplayLayer.keyPressed(e);
+            return;
+        }
+
         this.keyEventToPlayerMove(e, true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (this.gameOver) {
+            return;
+        }
+
         this.keyEventToPlayerMove(e, false);
     }
 

@@ -1,6 +1,7 @@
 package Game.gameBackground;
 
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Game.GameSourceFilePath;
+import Game.Player;
 import Game.GUI.GamePlaying;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
@@ -26,7 +28,7 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     private GamePlaying gamePlaying;
     private BufferedImage[][] enemyImage;
     private List<GameEnemy> enemyArr = new ArrayList<>();
-    private GameCharacterABC player;
+    private Player player;
 
     public GameEnemyManager(GamePlaying gamePlaying) {
         this.gamePlaying = gamePlaying;
@@ -67,24 +69,47 @@ public class GameEnemyManager implements GameAnimatedDrawer {
         GameEnemy.passLevelData(levelData);
     }
 
-    public void passPlayer(GameCharacterABC player) {
+    public void passPlayer(Player player) {
         this.player = player;
+    }
+
+    public void checkEnemyHit(Player player) {
+        Rectangle2D.Float playerHitBox = player.getHitBox();
+        for (var enemyItem : this.enemyArr) {
+            if (enemyItem.isActive() && playerHitBox.intersects(enemyItem.getHitBox())) {
+                enemyItem.getHurt(10);
+                return;
+            }
+        }
     }
 
     @Override
     public void update() {
-        enemyArr.forEach(
-                (item) -> {
-                    item.passPlayer(this.player);
-                    item.update();
-                }); // GameEnemy::update
+        enemyArr.forEach((item) -> {
+            if (!item.isActive()) {
+                return;
+            }
+            item.passPlayer(this.player);
+            item.update();
+        });
         // enemyArr.get(0).update();
     }
 
     @Override
     public void render(Graphics g) {
-        enemyArr.forEach(enemy -> enemy.render(g));
+        enemyArr.forEach(enemy -> {
+            if (!enemy.isActive()) {
+                return;
+            }
+            enemy.render(g);
+        });
         // enemyArr.get(0).render(g);
+    }
+
+    public void resetAll() {
+        for (var enemy : this.enemyArr) {
+            enemy.resetAll();
+        }
     }
 
 }

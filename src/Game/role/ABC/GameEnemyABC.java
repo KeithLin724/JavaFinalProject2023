@@ -1,20 +1,32 @@
 package Game.role.ABC;
 
+import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.gameBackground.GameLevel;
+import Game.role.GameEnemyType;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.isSightClear;
 
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
+
 public abstract class GameEnemyABC extends GameCharacterABC implements GameAnimatedDrawer {
-    private int enemyType;
+    protected GameEnemyType enemyType;
     protected static final float ATTACK_DISTANCE = TILES_SIZE;
     protected static final float SEE_DISTANCE = ATTACK_DISTANCE * 5;
+
+    protected int maxHealth;
+    protected int currentHealth;
+
+    protected boolean firstUpdate = true;
+    private boolean active = true;
+    protected boolean attackChecked;
 
     {
         this.aniSpeed = 25;
@@ -22,24 +34,36 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     public GameEnemyABC() {
         super();
+        // default
+        this.setEnemyType(GameEnemyType.ENEMY_TYPE_1);
     }
 
-    public GameEnemyABC(int enemyType) {
+    public GameEnemyABC(GameEnemyType enemyType) {
         super();
-        this.enemyType = enemyType;
+        this.setEnemyType(GameEnemyType.ENEMY_TYPE_1);
     }
 
-    public GameEnemyABC(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps, int enemyType) {
+    public GameEnemyABC(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps, GameEnemyType enemyType) {
         super(aid, isd, gps);
-        this.enemyType = enemyType;
+        this.setEnemyType(GameEnemyType.ENEMY_TYPE_1);
     }
 
-    public int getEnemyType() {
+    protected void resetHealth(int health) {
+        this.maxHealth = health;
+        this.currentHealth = this.maxHealth;
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public GameEnemyType getEnemyType() {
         return enemyType;
     }
 
-    public void setEnemyType(int enemyType) {
+    public void setEnemyType(GameEnemyType enemyType) {
         this.enemyType = enemyType;
+        this.resetHealth(this.enemyType.health);
     }
 
     @Override
@@ -60,18 +84,34 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
         this.aniIndex = 0;
     }
 
+    public void getHurt(int amount) {
+        currentHealth -= amount;
+        // System.out.println("get hurt");
+        if (currentHealth <= 0) {
+            newEnemyState(GameCharacterState.DEAD);
+        }
+
+        else {
+            newEnemyState(GameCharacterState.HIT);
+        }
+    }
+
+    protected void checkPlayerGetHit(Rectangle2D.Float attackBox, Player player) {
+        if (attackBox.intersects(player.getHitBox())) {
+            player.changeHealth(-enemyType.damage);
+        }
+        attackChecked = true;
+    }
+
     public GameCharacterState getEnemyState() {
         return this.gameCharacterState;
     }
 
     protected void changeDirection() {
         switch (this.direction) {
-            case LEFT -> {
-                this.direction = Direction.RIGHT;
-            }
-            case RIGHT -> {
-                this.direction = Direction.LEFT;
-            }
+            case LEFT -> this.direction = Direction.RIGHT;
+
+            case RIGHT -> this.direction = Direction.LEFT;
 
             default -> {
                 // None
@@ -120,6 +160,13 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     }
 
+    public void resetAll() {
+        this.firstUpdate = true;
+        currentHealth = maxHealth;
+        this.newEnemyState(GameCharacterState.IDLE);
+        this.active = true;
+    }
+
     @Override
     protected void updateAnimationTick() {
         this.aniTick++;
@@ -130,11 +177,18 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
             if (this.aniIndex >= gameCharacterState.frameNumber) {
                 this.aniIndex = 0;
-                if (this.gameCharacterState == GameCharacterState.ATTACKING) {
-                    this.gameCharacterState = GameCharacterState.IDLE;
+
+                switch (this.gameCharacterState) {
+                    case ATTACKING, HIT -> this.setCharacterState(GameCharacterState.IDLE);
+
+                    case DEAD -> active = false;
+
+                    default -> {
+                        // None
+                    }
+
                 }
-                // this.attacking = false;
-                // this.aniSpeed = 80;
+
             }
         }
     }

@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import Game.Player;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
-import Game.role.ABC.GameCharacterABC;
 import Game.role.ABC.GameEnemyABC;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
@@ -29,9 +29,7 @@ public class GameEnemy extends GameEnemyABC {
 
     private static GameLevel levelData;
 
-    private boolean firstUpdate = true;
-
-    private GameCharacterABC player;
+    private Player player;
 
     private static final float walkSpeed = 0.5f * SCALE;
 
@@ -55,7 +53,7 @@ public class GameEnemy extends GameEnemyABC {
         this.initAttackBox();
     }
 
-    public GameEnemy(String folderName, float x, float y, int enemyType) {
+    public GameEnemy(String folderName, float x, float y, GameEnemyType enemyType) {
         super(enemyType);
         this.setXY(x, y);
 
@@ -87,7 +85,7 @@ public class GameEnemy extends GameEnemyABC {
         GameEnemy.drawXOffset = xOffset;
     }
 
-    public void passPlayer(GameCharacterABC player) {
+    public void passPlayer(Player player) {
         this.player = player;
     }
 
@@ -138,7 +136,7 @@ public class GameEnemy extends GameEnemyABC {
         }
 
         this.updateYPos();
-        this.updateXPos();
+        this.updateXPosAndBehavior();
     }
 
     private void moveX() {
@@ -177,11 +175,10 @@ public class GameEnemy extends GameEnemyABC {
         changeDirection();
     }
 
-    private void updateXPos() {
+    private void updateXPosAndBehavior() {
         switch (this.gameCharacterState) {
-            case IDLE -> {
-                this.newEnemyState(GameCharacterState.MOVING);
-            }
+
+            case IDLE -> this.newEnemyState(GameCharacterState.MOVING);
 
             case MOVING -> {
                 if (canSeePlayer(levelData, this.player)) {
@@ -193,6 +190,21 @@ public class GameEnemy extends GameEnemyABC {
                 }
 
                 this.moveX();
+            }
+
+            case ATTACKING -> {
+                if (aniIndex == 0) {
+                    this.attackChecked = false;
+                }
+
+                if (this.aniIndex == 2 && !attackChecked) {
+                    this.checkPlayerGetHit(attackBox, player);
+                }
+
+            }
+
+            case HIT -> {
+
             }
 
             default -> {
@@ -238,4 +250,7 @@ public class GameEnemy extends GameEnemyABC {
     public void setAnimationState() {
 
     }
+
+    // game logic
+
 }

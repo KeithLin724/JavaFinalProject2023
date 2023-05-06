@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.GUI.GamePlaying;
 import Game.GUI.UIConstant.StatusBar;
 import Game.Loader.ImageLoader;
 // import Game.DataPass.PlayerHitBox;
@@ -50,6 +51,10 @@ public class Player extends GameCharacterABC
     private int flipX = 0;
     private int flipW = 1;
 
+    private boolean attackChecked;
+
+    private GamePlaying gamePlaying;
+
     public Player() {
         super();
         loadUIImage();
@@ -87,17 +92,39 @@ public class Player extends GameCharacterABC
         // this.setAnimationImage();
     }
 
+    public void setGamePlaying(GamePlaying gamePlaying) {
+        this.gamePlaying = gamePlaying;
+    }
+
     @Override
     public void update() {
         this.updateHealthBar();
-        this.updatePosition();
+
+        if (this.currentHealth <= 0) {
+            this.gamePlaying.setGameOver(true);
+            return;
+        }
+
         this.updateAttackBox();
+        this.updatePosition();
+
+        if (attacking) {
+            checkAttack();
+        }
 
         // update the hit box
         this.updateHitBox();
 
         this.updateAnimationTick();
         this.setAnimationState();
+    }
+
+    private void checkAttack() {
+        if (attackChecked || this.aniIndex != 2) {
+            return;
+        }
+        attackChecked = true;
+        gamePlaying.checkEnemyHit(this);
     }
 
     private void updateAttackBox() {
@@ -284,6 +311,11 @@ public class Player extends GameCharacterABC
         if (attacking) {
             aniSpeed = 20;
             gameCharacterState = GameCharacterState.ATTACKING;
+
+            if (startAni != GameCharacterState.ATTACKING) {
+                this.aniIndex = 1;
+                this.aniTick = 0;
+            }
         }
 
         if (startAni != gameCharacterState) {
@@ -306,6 +338,36 @@ public class Player extends GameCharacterABC
 
     private void updateHealthBar() {
         this.healthWidth = (int) ((currentHealth / (float) maxHealth) * StatusBar.HEALTH_BAR_WIDTH.value);
+    }
+
+    @Override
+    protected void updateAnimationTick() {
+        this.aniTick++;
+
+        if (this.aniTick >= this.aniSpeed) {
+            this.aniTick = 0;
+            this.aniIndex++;
+
+            if (this.aniIndex >= gameCharacterState.frameNumber) {
+                this.aniIndex = 0;
+                this.attacking = false;
+                this.aniSpeed = 80;
+                this.attackChecked = false;
+            }
+        }
+    }
+
+    public void resetAll() {
+        this.stopDirection();
+        this.inAir = false;
+        this.attacking = false;
+
+        currentHealth = maxHealth;
+
+        if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+            this.inAir = true;
+        }
+
     }
 
 }
