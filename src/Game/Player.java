@@ -1,13 +1,18 @@
 package Game;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.GUI.UIConstant.StatusBar;
+import Game.Loader.ImageLoader;
 // import Game.DataPass.PlayerHitBox;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
@@ -16,8 +21,10 @@ import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 import Game.role.ABC.GameCharacterABC;
 import Game.state.GameCharacterState;
+import logic.input.Direction;
 
 import static base.BaseGameConstant.TILES_SIZE;
+import static base.BaseGameConstant.SCALE;
 import static logic.Controller.GameHelpMethods.canMoveHere;
 import static logic.Controller.GameHelpMethods.*;
 
@@ -32,12 +39,42 @@ public class Player extends GameCharacterABC
 
     private float drawXOffset;
 
+    // health bar
+    private BufferedImage statusBarImage;
+    private int maxHealth = 100;
+    private int currentHealth = 100;
+    private int healthWidth = StatusBar.HEALTH_BAR_WIDTH.value;
+
+    // attack box
+    private Rectangle2D.Float attackBox;
+    private int flipX = 0;
+    private int flipW = 1;
+
     public Player() {
         super();
+        loadUIImage();
+        initAttackBox();
     }
 
     public Player(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps) {
         super(aid, isd, gps);
+        loadUIImage();
+        initAttackBox();
+    }
+
+    private void loadUIImage() {
+        try {
+            statusBarImage = ImageLoader.loadImage(GameSourceFilePath.STATUS_HEALTH_BAR_IMAGE);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "load bar image error", e);
+        }
+    }
+
+    private void initAttackBox() {
+        this.attackBox = new Rectangle2D.Float(
+                this.point.getIntX(), this.point.getIntY(),
+                (int) (20 * SCALE),
+                (int) (20 * SCALE));
     }
 
     public void initWithPoint_testing(float x, float y) {
@@ -48,6 +85,31 @@ public class Player extends GameCharacterABC
     public void init(float x, float y) {
         this.setXY(x, y);
         // this.setAnimationImage();
+    }
+
+    @Override
+    public void update() {
+        this.updateHealthBar();
+        this.updatePosition();
+        this.updateAttackBox();
+
+        // update the hit box
+        this.updateHitBox();
+
+        this.updateAnimationTick();
+        this.setAnimationState();
+    }
+
+    private void updateAttackBox() {
+        if (this.direction.equals(Direction.RIGHT)) {
+            this.attackBox.x = this.point.getX() + HIT_BOX_WIDTH + (int) (SCALE * 10);
+        }
+
+        else if (this.direction.equals(Direction.LEFT)) {
+            this.attackBox.x = this.point.getX() - HIT_BOX_WIDTH; // - (int) (SCALE * 10)
+        }
+
+        this.attackBox.y = this.hitBox.y + (SCALE * 10);
     }
 
     @Override
@@ -92,6 +154,19 @@ public class Player extends GameCharacterABC
 
     }
 
+    public void changeHealth(int value) {
+        this.currentHealth += value;
+
+        if (this.currentHealth <= 0) {
+            this.currentHealth = 0;
+            // gameOver();
+        }
+
+        else if (this.currentHealth >= 100) {
+            this.currentHealth = 100;
+        }
+    }
+
     @Override
     public void updatePosition() {
         // moving
@@ -114,7 +189,19 @@ public class Player extends GameCharacterABC
 
         updateYPos();
         updateXPos();
+        updateImageDirection();
+    }
 
+    private void updateImageDirection() {
+        if (this.direction.equals(Direction.LEFT)) {
+            this.flipX = TILES_SIZE;
+            this.flipW = -1;
+        }
+
+        else if (this.direction.equals(Direction.RIGHT)) {
+            this.flipX = 0;
+            this.flipW = 1;
+        }
     }
 
     private void jump() {
@@ -132,11 +219,39 @@ public class Player extends GameCharacterABC
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                (int) (fromPoint.x - drawXOffset), fromPoint.y,
-                TILES_SIZE, TILES_SIZE,
+                (int) (fromPoint.x - drawXOffset + flipX),
+                fromPoint.y,
+                TILES_SIZE * flipW,
+                TILES_SIZE,
                 null);
 
         // this.drawHitBox(g, drawXOffset);
+
+        this.drawAttackBox(g);
+
+        this.drawUI(g);
+
+    }
+
+    private void drawAttackBox(Graphics g) {
+        g.setColor(Color.red);
+
+        g.drawRect((int) (this.attackBox.x - drawXOffset), (int) this.attackBox.y,
+                (int) this.attackBox.width,
+                (int) this.attackBox.height);
+    }
+
+    private void drawUI(Graphics g) {
+        g.drawImage(statusBarImage,
+                StatusBar.STATUS_BAR_X.value, StatusBar.STATUS_BAR_Y.value, // xy
+                StatusBar.STATUS_BAR_WIDTH.value, StatusBar.STATUS_BAR_HEIGHT.value, // w h
+                null);
+
+        g.setColor(Color.red);
+        g.fillRect(StatusBar.HEALTH_BAR_X_START.value + StatusBar.STATUS_BAR_X.value,
+                StatusBar.HEALTH_BAR_Y_START.value + StatusBar.STATUS_BAR_Y.value,
+                this.healthWidth,
+                StatusBar.HEALTH_BAR_HEIGHT.value);
 
     }
 
@@ -145,7 +260,7 @@ public class Player extends GameCharacterABC
         try {
             this.setAnimationImage(ImageNamePath.PLAYER_MAIN_CHARACTER);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "set Animation Image error", e);
         }
     }
 
@@ -163,11 +278,7 @@ public class Player extends GameCharacterABC
         if (this.inAir) {
             // System.out.println(this.playerAction);
             this.gameCharacterState = (airSpeed < 0 ? GameCharacterState.JUMP : GameCharacterState.FALLING);
-            // if (airSpeed < 0) {
-            // this.playerAction = PlayerState.JUMP;
-            // } else {
-            // this.playerAction = PlayerState.FALLING;
-            // }
+
         }
 
         if (attacking) {
@@ -193,15 +304,8 @@ public class Player extends GameCharacterABC
         }
     }
 
-    @Override
-    public void update() {
-        this.updatePosition();
-
-        // update the hit box
-        this.updateHitBox();
-
-        this.updateAnimationTick();
-        this.setAnimationState();
+    private void updateHealthBar() {
+        this.healthWidth = (int) ((currentHealth / (float) maxHealth) * StatusBar.HEALTH_BAR_WIDTH.value);
     }
 
 }

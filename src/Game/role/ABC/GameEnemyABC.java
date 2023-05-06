@@ -95,12 +95,17 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
     }
 
     protected boolean isPlayerCloseForAttack(GameCharacterABC player) {
+        if ((int) player.point.getY() != (int) this.point.getY()) {
+            return false;
+        }
+
         float absValue = Math.abs(player.point.getX() - this.point.getX());
 
         return absValue <= GameEnemyABC.ATTACK_DISTANCE;
     }
 
     protected boolean canSeePlayer(GameLevel levelData, GameCharacterABC player) {
+
         int playerTileY = (int) (player.point.getY() / TILES_SIZE);
         int enemyTileY = (int) (this.point.getY() / TILES_SIZE);
 

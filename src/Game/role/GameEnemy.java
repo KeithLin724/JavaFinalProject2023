@@ -1,8 +1,12 @@
 package Game.role;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
@@ -18,6 +22,8 @@ import static logic.Controller.GameHelpMethods.canMoveHere;
 
 public class GameEnemy extends GameEnemyABC {
 
+    private static final Logger LOGGER = Logger.getLogger(GameEnemy.class.getName());
+
     public static final int levelDataID = 0;
     private static float drawXOffset;
 
@@ -29,6 +35,13 @@ public class GameEnemy extends GameEnemyABC {
 
     private static final float walkSpeed = 0.5f * SCALE;
 
+    // image for flip
+    private int flipX = 0, flipW = 1;
+
+    // about the attack box
+    private Rectangle2D.Float attackBox;
+
+    // init setting
     {
         this.direction = Direction.LEFT;
     }
@@ -39,6 +52,7 @@ public class GameEnemy extends GameEnemyABC {
 
     public GameEnemy() {
         super();
+        this.initAttackBox();
     }
 
     public GameEnemy(String folderName, float x, float y, int enemyType) {
@@ -48,14 +62,25 @@ public class GameEnemy extends GameEnemyABC {
         try {
             this.setAnimationImage(folderName);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "set animation error", e);
         }
+
+        this.initAttackBox();
     }
 
     public GameEnemy(float x, float y, BufferedImage[][] image) {
         super();
         this.setXY(x, y);
         this.setAnimation(image);
+
+        this.initAttackBox();
+    }
+
+    private void initAttackBox() {
+        this.attackBox = new Rectangle2D.Float(
+                this.point.getIntX(), this.point.getIntY(),
+                (int) (TILES_SIZE),
+                (int) (TILES_SIZE));
     }
 
     public static void passOffset(float xOffset) {
@@ -69,7 +94,13 @@ public class GameEnemy extends GameEnemyABC {
     @Override
     public void update() {
         super.update();
+        updateAttackBox();
         // this.updateMove();
+    }
+
+    private void updateAttackBox() {
+        attackBox.x = this.point.getX();
+        attackBox.y = this.point.getY();
     }
 
     @Override
@@ -78,11 +109,22 @@ public class GameEnemy extends GameEnemyABC {
         var fromPoint = this.point.toIntPoint();
 
         g.drawImage(nowImage,
-                (int) (fromPoint.x - GameEnemy.drawXOffset), fromPoint.y,
-                TILES_SIZE, TILES_SIZE,
+                (int) (fromPoint.x - GameEnemy.drawXOffset + flipX),
+                fromPoint.y,
+                TILES_SIZE * flipW,
+                TILES_SIZE,
                 null);
 
         // this.drawHitBox(g, GameEnemy.drawXOffset);
+        this.drawAttackBox(g);
+    }
+
+    private void drawAttackBox(Graphics g) {
+        g.setColor(Color.red);
+
+        g.drawRect((int) (this.attackBox.x - drawXOffset), (int) this.attackBox.y,
+                (int) this.attackBox.width,
+                (int) this.attackBox.height);
     }
 
     @Override
@@ -104,9 +146,15 @@ public class GameEnemy extends GameEnemyABC {
         switch (this.direction) {
             case LEFT -> {
                 xSpeed = -walkSpeed;
+
+                this.flipX = TILES_SIZE;
+                this.flipW = -1;
             }
             case RIGHT -> {
                 xSpeed = walkSpeed;
+
+                this.flipX = 0;
+                this.flipW = 1;
             }
 
             default -> {
