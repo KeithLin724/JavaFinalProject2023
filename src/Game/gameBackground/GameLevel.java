@@ -7,7 +7,6 @@ import static Game.gameBackground.GameLevelManager.HEIGHT_BLOCK_NUM;
 import static Game.gameBackground.GameLevelManager.WIDTH_BLOCK_NUM;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GameLevel {
     private int[][] levelData;

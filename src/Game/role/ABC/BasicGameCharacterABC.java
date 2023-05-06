@@ -12,7 +12,7 @@ import logic.input.Direction;
 import static base.BaseGameConstant.TILES_SIZE;
 import static base.BaseGameConstant.SCALE;
 
-public abstract class BasicMoveABC {
+public abstract class BasicGameCharacterABC {
     public static final int HIT_BOX_WIDTH = TILES_SIZE - 7;
     public static final int HIT_BOX_HEIGHT = TILES_SIZE - 7;
 
@@ -37,7 +37,7 @@ public abstract class BasicMoveABC {
 
     public abstract void updatePosition();
 
-    public BasicMoveABC() {
+    public BasicGameCharacterABC() {
         this.gameCharacterState = GameCharacterState.IDLE;
         this.attacking = false;
         this.direction = Direction.NONE;
@@ -46,7 +46,8 @@ public abstract class BasicMoveABC {
         this.initHitBox();
     }
 
-    public BasicMoveABC(GameCharacterState playerAction, GamePoint point, Direction direction, boolean attacking) {
+    public BasicGameCharacterABC(GameCharacterState playerAction, GamePoint point, Direction direction,
+            boolean attacking) {
         this.gameCharacterState = playerAction;
         this.direction = direction;
         this.attacking = attacking;

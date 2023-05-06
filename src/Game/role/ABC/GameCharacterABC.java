@@ -12,7 +12,7 @@ import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
 import Game.state.GameCharacterState;
 
-public abstract class GameCharacterABC extends BasicMoveABC {
+public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
     protected BufferedImage[][] animations;
 
