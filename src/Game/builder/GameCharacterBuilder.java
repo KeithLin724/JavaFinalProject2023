@@ -2,11 +2,10 @@ package Game.builder;
 
 import java.io.IOException;
 
+import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
-// import Game.DataPass.PlayerHitBox;
-import Game.role.Player;
 
 /**
  * The GameCharacterBuilder class uses the builder pattern to construct a

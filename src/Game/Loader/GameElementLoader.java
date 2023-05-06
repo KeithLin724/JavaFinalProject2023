@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.DataPass;
+import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.builder.GameCharacterBuilder;
-import Game.role.Player;
 import Game.role.GameEnemy;
 import base.loader.BaseLoader;
 

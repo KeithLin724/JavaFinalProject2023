@@ -1,4 +1,4 @@
-package Game.role;
+package Game;
 
 import java.awt.Graphics;
 import java.io.IOException;

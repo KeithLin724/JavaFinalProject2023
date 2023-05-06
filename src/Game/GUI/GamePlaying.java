@@ -2,12 +2,12 @@ package Game.GUI;
 
 import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GameSourceFilePath;
+import Game.Player;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
-import Game.role.Player;
 import Game.state.GameState;
 import logic.input.Direction;
 import main.Game;
