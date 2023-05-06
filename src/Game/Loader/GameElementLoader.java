@@ -13,7 +13,7 @@ import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.builder.GameCharacterBuilder;
-import Game.role.GameCharacter;
+import Game.role.Player;
 import Game.role.GameEnemy;
 import base.loader.BaseLoader;
 
@@ -24,11 +24,11 @@ import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
 // Factory 
 public class GameElementLoader {
 
-    public GameCharacter gameCharacter() {
+    public Player gameCharacter() {
         return null;
     }
 
-    public static GameCharacter getTestingGameCharacter() {
+    public static Player getTestingGameCharacter() {
         return new GameCharacterBuilder()
                 .setAniData(new AniData(0, 0, 35))
                 .setImageScale(new ImageScaleData(0, 0, 10))
@@ -36,7 +36,7 @@ public class GameElementLoader {
                 .build();
     }
 
-    public static GameCharacter getTestingGameCharacter(String fileName) {
+    public static Player getTestingGameCharacter(String fileName) {
         try {
             return loadCharacterByPath(fileName);
 
@@ -66,7 +66,7 @@ public class GameElementLoader {
      *                 GameCharacter object.
      * @return The method is returning a GameCharacter object.
      */
-    public static GameCharacter loadCharacterByPath(String fileName)
+    public static Player loadCharacterByPath(String fileName)
             throws IOException, URISyntaxException, NoSuchMethodException, SecurityException, InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 

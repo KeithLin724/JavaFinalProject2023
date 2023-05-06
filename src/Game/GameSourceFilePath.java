@@ -44,6 +44,9 @@ public final class GameSourceFilePath {
     // volume button
     public static final String VOLUME_BUTTON_IMAGE = "resource/ui/volume_buttons.png";
 
+    // ui health bar
+    public static final String STATUS_HEALTH_BAR_IMAGE = "resource/ui/health_power_bar.png";
+
     // for testing : enemies
     public static final String ENEMIES_FOLDER_PATH = "resource/java/";
 }

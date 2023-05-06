@@ -6,7 +6,7 @@ import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 // import Game.DataPass.PlayerHitBox;
-import Game.role.GameCharacter;
+import Game.role.Player;
 
 /**
  * The GameCharacterBuilder class uses the builder pattern to construct a
@@ -14,10 +14,10 @@ import Game.role.GameCharacter;
  * animation data, image scale, and game player speed data.
  */
 public class GameCharacterBuilder {
-    private GameCharacter gameCharacter;
+    private Player gameCharacter;
 
     public GameCharacterBuilder() {
-        this.gameCharacter = new GameCharacter();
+        this.gameCharacter = new Player();
     }
 
     /**
@@ -124,7 +124,7 @@ public class GameCharacterBuilder {
      * 
      * @return A GameCharacter object is being returned.
      */
-    public GameCharacter build() {
+    public Player build() {
         return this.gameCharacter;
     }
 }

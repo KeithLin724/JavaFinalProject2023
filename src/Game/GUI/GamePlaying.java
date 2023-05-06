@@ -7,7 +7,7 @@ import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
-import Game.role.GameCharacter;
+import Game.role.Player;
 import Game.state.GameState;
 import logic.input.Direction;
 import main.Game;
@@ -31,7 +31,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private GameLevelManager gameLevelManager;
 
     // about the display gaming
-    private GameCharacter player;
+    private Player player;
 
     private GamePauseDisplayLayer gamePauseDisplayLayer;
     private boolean paused = false;
@@ -96,7 +96,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
                 / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
     }
 
-    public GameCharacter getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 

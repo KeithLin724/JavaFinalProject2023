@@ -22,21 +22,21 @@ import static logic.Controller.GameHelpMethods.canMoveHere;
 import static logic.Controller.GameHelpMethods.*;
 
 // for put the game character skin
-public class GameCharacter extends GameCharacterABC
+public class Player extends GameCharacterABC
         implements GameAnimatedDrawer, GameRenderOffsetPass {
 
-    private static final Logger LOGGER = Logger.getLogger(GameCharacter.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
 
     private int[][] levelData;
     private GameLevel level;
 
     private float drawXOffset;
 
-    public GameCharacter() {
+    public Player() {
         super();
     }
 
-    public GameCharacter(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps) {
+    public Player(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps) {
         super(aid, isd, gps);
     }
 
@@ -192,19 +192,6 @@ public class GameCharacter extends GameCharacterABC
             this.inAir = true;
         }
     }
-
-    // public void updateAnimationTick() {
-    // aniTick++;
-    // if (aniTick >= aniSpeed) {
-    // aniTick = 0;
-    // aniIndex++;
-    // if (aniIndex >= gameCharacterState.frameNumber) {
-    // aniIndex = 0;
-    // attacking = false;
-    // aniSpeed = 80;
-    // }
-    // }
-    // }
 
     @Override
     public void update() {
