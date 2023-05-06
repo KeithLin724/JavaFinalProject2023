@@ -10,7 +10,7 @@ https://www.youtube.com/watch?v=VRpHdSFWGPs
 
 end video in 13
 
-target to video 21
+target to video 21 yes 
 
 ---
 
@@ -21,7 +21,10 @@ target to video 21
 
 ### second 
 
-add the HP bar and watch the video, 
+add the HP bar and watch the video, yes
+
+add save the reset point 
+
 
 ---
  
