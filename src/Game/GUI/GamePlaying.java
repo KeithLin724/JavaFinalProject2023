@@ -174,8 +174,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         // drawCloud(g);
 
         this.gameLevelManager.render(g);
-        this.player.render(g);
         this.gameEnemyManager.render(g);
+        this.player.render(g);
 
         if (this.paused) {
             this.gamePauseDisplayLayer.render(g);
