@@ -7,14 +7,29 @@ import static Game.gameBackground.GameLevelManager.HEIGHT_BLOCK_NUM;
 import static Game.gameBackground.GameLevelManager.WIDTH_BLOCK_NUM;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class GameLevel {
     private int[][] levelData;
 
     public GameLevel(int[][] levelData) {
         this.levelData = levelData;
-        // Arrays.stream(this.levelData).forEach(line ->
-        // System.out.println(Arrays.toString(line)));
+
+        // String[] toFile = Arrays.stream(this.levelData)
+        // .map(line -> Arrays.toString(line))
+        // .toArray(String[]::new);
+
+        // var toFileList = Arrays.asList(toFile);
+
+        // try {
+        // Files.write(Paths.get("test.txt"), toFileList, StandardCharsets.UTF_8);
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+
     }
 
     public static GameLevel loadFromFile(String levelDataFileName) throws IOException {

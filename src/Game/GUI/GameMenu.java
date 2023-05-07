@@ -48,7 +48,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     }
 
     private void loadGameMenuSelectBackgroundImage() throws IOException {
-        this.backgroundMenuImage = ImageLoader.loadImage(GameSourceFilePath.MENU_SELECT_BACKGROUND_IMAGE);
+        this.backgroundMenuImage = ImageLoader.loadImage(GameSourceFilePath.MENU_SELECT_BACKGROUND_IMAGE_CITY);
     }
 
     private void loadGameMenuBackgroundImage() throws IOException {

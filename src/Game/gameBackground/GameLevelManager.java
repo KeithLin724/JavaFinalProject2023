@@ -16,8 +16,13 @@ import static base.BaseGameConstant.TILES_SIZE;
 
 public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPass {
 
-    public static final int HEIGHT_BLOCK_NUM = 4;
+    // new version // 12 * 10
+
+    public static final int HEIGHT_BLOCK_NUM = 10; // 4
     public static final int WIDTH_BLOCK_NUM = 12;
+
+    public static final int MAX_NUMBER = HEIGHT_BLOCK_NUM * WIDTH_BLOCK_NUM;
+
     public static final int PIXEL = 32;
 
     private Game game;
@@ -30,12 +35,13 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
 
     public GameLevelManager(Game game) throws IOException {
         this.game = game;
-        this.bgMapImage = ImageLoader.loadBackgroundImage(GameSourceFilePath.BACKGROUND_IMAGE_PATH,
+        this.bgMapImage = ImageLoader.loadBackgroundImage(GameSourceFilePath.BACKGROUND_IMAGE_PATH_CITY,
                 HEIGHT_BLOCK_NUM,
                 WIDTH_BLOCK_NUM,
                 PIXEL);
+        // System.out.println(this.bgMapImage.length);
 
-        this.gameLevel1 = GameLevel.loadFromFile(GameSourceFilePath.BACKGROUND_LEVEL_1);
+        this.gameLevel1 = GameLevel.loadFromFile(GameSourceFilePath.BACKGROUND_LEVEL_2);
     }
 
     @Override

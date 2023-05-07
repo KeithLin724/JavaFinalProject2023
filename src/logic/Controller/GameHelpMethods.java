@@ -1,6 +1,7 @@
 package logic.Controller;
 
 import Game.gameBackground.GameLevel;
+import Game.gameBackground.GameLevelManager;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
 import Game.role.ABC.GameCharacterABC;
@@ -63,7 +64,11 @@ public class GameHelpMethods {
 
         int value = level.getImageIndex(pointIndex);
 
-        if (value >= 48 || value < 0 || value != 11) {
+        if (value >= 72) { // new map
+            return false;
+        }
+
+        if (value >= 48 || value < 0 || value != 11) { // GameLevelManager.MAX_NUMBER
             return true;
         }
 

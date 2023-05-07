@@ -47,6 +47,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private int[] smallCloudPosArrayY;
     private int bigCloudNumber;
 
+    // city image
+    private BufferedImage cityImage2, cityImage3, cityImage4, cityImage5;
+
     // about the game enemy
     private GameEnemyManager gameEnemyManager;
 
@@ -58,9 +61,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         super(game);
 
         try {
-            this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE);
+            this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE_CITY);
             this.bigCloudImage = ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
             this.smallCloudImage = ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
+
+            this.cityImage2 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_2_IMAGE);
+            this.cityImage3 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_3_IMAGE);
+            this.cityImage4 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_4_IMAGE);
+            this.cityImage5 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_5_IMAGE);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -160,7 +169,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
                 GAME_WIDTH, GAME_HEIGHT,
                 null);
 
-        drawCloud(g);
+        drawCityImage(g);
+
+        // drawCloud(g);
 
         this.gameLevelManager.render(g);
         this.player.render(g);
@@ -176,15 +187,54 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     }
 
+    private void drawCityImage(Graphics g) {
+        g.drawImage(this.cityImage2,
+                0, 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage3,
+                -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage3,
+                (int) (xLevelOffset * 0.005), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage4,
+                -(int) (xLevelOffset * 0.05), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage4,
+                GAME_WIDTH - (int) (xLevelOffset * 0.05), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage5,
+                -(int) (xLevelOffset * 0.09), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+        g.drawImage(this.cityImage5,
+                GAME_WIDTH - (int) (xLevelOffset * 0.09), 0,
+                GAME_WIDTH, GAME_HEIGHT,
+                null);
+
+    }
+
     private void drawCloud(Graphics g) {
-        for (int i = 0; i < this.bigCloudNumber; i++) {
-            g.drawImage(this.bigCloudImage,
-                    i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), // slower
-                    (int) (204 * SCALE),
-                    GameEnvironment.BIG_CLOUD_WIDTH.value,
-                    GameEnvironment.BIG_CLOUD_HEIGHT.value,
-                    null);
-        }
+        // for (int i = 0; i < this.bigCloudNumber; i++) {
+        // g.drawImage(this.bigCloudImage,
+        // i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), //
+        // slower
+        // (int) (204 * SCALE),
+        // GameEnvironment.BIG_CLOUD_WIDTH.value,
+        // GameEnvironment.BIG_CLOUD_HEIGHT.value,
+        // null);
+        // }
 
         for (int i = 0; i < this.smallCloudPosArrayY.length; i++) {
             g.drawImage(this.smallCloudImage,
