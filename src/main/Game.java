@@ -12,6 +12,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
+/**
+ * @author USER
+ */
 public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -158,24 +161,24 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     @Override
     public void update() {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.gameMenu.update();
-            }
-            case PLAYING -> {
-                this.gamePlaying.update();
-            }
+            case MENU -> this.gameMenu.update();
 
+            case PLAYING -> this.gamePlaying.update();
+
+            default -> {
+            }
         }
     }
 
     @Override
     public void render(Graphics g) {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.gameMenu.render(g);
-            }
-            case PLAYING -> {
-                this.gamePlaying.render(g);
+            case MENU -> this.gameMenu.render(g);
+
+            case PLAYING -> this.gamePlaying.render(g);
+
+            default -> {
+                // None
             }
 
         }

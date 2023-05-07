@@ -1,6 +1,14 @@
 package Game.gameBackground;
 
-import java.awt.Graphics;
+import Game.GUI.GamePlaying;
+import Game.GameSourceFilePath;
+import Game.Loader.GameElementLoader;
+import Game.Loader.ImageLoader;
+import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.Player;
+import Game.role.GameEnemy;
+
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,15 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import Game.GameSourceFilePath;
-import Game.Player;
-import Game.GUI.GamePlaying;
-import Game.Loader.GameElementLoader;
-import Game.Loader.ImageLoader;
-import Game.PLUG.gameDrawer.GameAnimatedDrawer;
-import Game.role.GameEnemy;
-import Game.role.ABC.GameCharacterABC;
 
 import static Game.gameBackground.GameLevelManager.HEIGHT_BLOCK_NUM;
 import static Game.gameBackground.GameLevelManager.WIDTH_BLOCK_NUM;
@@ -107,9 +106,7 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     }
 
     public void resetAll() {
-        for (var enemy : this.enemyArr) {
-            enemy.resetAll();
-        }
+        this.enemyArr.forEach(GameEnemy::resetAll);
     }
 
 }

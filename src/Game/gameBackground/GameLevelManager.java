@@ -1,14 +1,14 @@
 package Game.gameBackground;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import Game.GameSourceFilePath;
 import Game.Loader.ImageLoader;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
 import main.Game;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
@@ -22,7 +22,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
 
     private Game game;
     // about save the pixel block
-    private BufferedImage[] bgMapImage;
+    private final BufferedImage[] bgMapImage;
 
     // about display the block where to display
     private GameLevel gameLevel1; // level 1
@@ -51,7 +51,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
                 int index = gameLevel1.getImageIndex(col, row);
 
                 g.drawImage(this.bgMapImage[index],
-                        (int)(TILES_SIZE * col - drawXOffset ), TILES_SIZE * row,
+                        (int) (TILES_SIZE * col - drawXOffset), TILES_SIZE * row,
                         TILES_SIZE, TILES_SIZE, null);
             }
         }

@@ -1,13 +1,5 @@
 package Game.role;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import Game.Player;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
@@ -15,10 +7,17 @@ import Game.role.ABC.GameEnemyABC;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
 
-import static base.BaseGameConstant.TILES_SIZE;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static base.BaseGameConstant.SCALE;
-import static logic.Controller.GameHelpMethods.isOnTheFloor;
+import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.canMoveHere;
+import static logic.Controller.GameHelpMethods.isOnTheFloor;
 
 public class GameEnemy extends GameEnemyABC {
 
@@ -77,8 +76,8 @@ public class GameEnemy extends GameEnemyABC {
     private void initAttackBox() {
         this.attackBox = new Rectangle2D.Float(
                 this.point.getIntX(), this.point.getIntY(),
-                (int) (TILES_SIZE),
-                (int) (TILES_SIZE));
+                TILES_SIZE,
+                TILES_SIZE);
     }
 
     public static void passOffset(float xOffset) {
@@ -163,7 +162,7 @@ public class GameEnemy extends GameEnemyABC {
 
         GamePoint nextXPoint = GamePoint.add(point, speedPoint);
 
-        boolean xCheckStatement = canMoveHere(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData); // &&
+        boolean xCheckStatement = canMoveHere(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData);
 
         if (xCheckStatement) {
             if (isOnTheFloor(nextXPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
