@@ -275,6 +275,7 @@ public class Player extends GameCharacterABC
                 null);
 
         g.setColor(Color.red);
+
         g.fillRect(StatusBar.HEALTH_BAR_X_START.value + StatusBar.STATUS_BAR_X.value,
                 StatusBar.HEALTH_BAR_Y_START.value + StatusBar.STATUS_BAR_Y.value,
                 this.healthWidth,

@@ -3,10 +3,10 @@ package Game.GUI;
 import Game.GUI.ui.GameOverDisplayLayer;
 import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GameSourceFilePath;
-import Game.Player;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.Player;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
 import Game.state.GameState;
@@ -16,15 +16,17 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
-import static base.BaseGameConstant.*;
+import static base.BaseGameConstant.GAME_HEIGHT;
+import static base.BaseGameConstant.GAME_WIDTH;
+import static base.BaseGameConstant.SCALE;
+import static base.BaseGameConstant.TILES_IN_WIDTH;
+import static base.BaseGameConstant.TILES_SIZE;
 
 public class GamePlaying extends GameStateBase implements GameStateMethod {
 
@@ -179,9 +181,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         if (this.paused) {
             this.gamePauseDisplayLayer.render(g);
-        }
-
-        else if (this.gameOver) {
+        } else if (this.gameOver) {
             this.gameOverDisplayLayer.render(g);
         }
 
@@ -193,10 +193,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
                 GAME_WIDTH, GAME_HEIGHT,
                 null);
 
-        g.drawImage(this.cityImage3,
-                -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
-                GAME_WIDTH, GAME_HEIGHT,
-                null);
+//        g.drawImage(this.cityImage3,
+//                -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
+//                GAME_WIDTH, GAME_HEIGHT,
+//                null);
 
         g.drawImage(this.cityImage3,
                 (int) (xLevelOffset * 0.005), 0,

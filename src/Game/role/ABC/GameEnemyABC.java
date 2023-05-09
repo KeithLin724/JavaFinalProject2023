@@ -1,20 +1,19 @@
 package Game.role.ABC;
 
-import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.Player;
 import Game.gameBackground.GameLevel;
 import Game.role.GameEnemyType;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
 
+import java.awt.geom.Rectangle2D;
+
 import static base.BaseGameConstant.TILES_SIZE;
 import static logic.Controller.GameHelpMethods.isSightClear;
-
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 
 public abstract class GameEnemyABC extends GameCharacterABC implements GameAnimatedDrawer {
     protected GameEnemyType enemyType;
@@ -89,9 +88,7 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
         // System.out.println("get hurt");
         if (currentHealth <= 0) {
             newEnemyState(GameCharacterState.DEAD);
-        }
-
-        else {
+        } else {
             newEnemyState(GameCharacterState.HIT);
         }
     }
