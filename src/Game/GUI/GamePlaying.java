@@ -187,7 +187,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     }
 
-    private void drawCityImage(Graphics g) {
+    private void drawCityImage(Graphics2D g) {
         g.drawImage(this.cityImage2,
                 0, 0,
                 GAME_WIDTH, GAME_HEIGHT,
