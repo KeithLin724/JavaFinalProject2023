@@ -19,7 +19,7 @@ public abstract class BasicGameCharacterABC {
     protected GameCharacterState gameCharacterState;
     protected boolean attacking;
 
-    protected GamePoint point;
+    protected GamePoint point, resetPoint;
     protected float playerSpeed; // text
 
     protected Direction direction;
@@ -96,6 +96,10 @@ public abstract class BasicGameCharacterABC {
 
     public void setY(float y) {
         this.point.y = y;
+    }
+
+    public void setResetPoint(GamePoint point) {
+        this.resetPoint = point;
     }
 
     public GamePoint getGamePoint() {

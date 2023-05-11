@@ -24,7 +24,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     private Thread gameThread;
 
-    private static final double FPS = 120;
+    private static final double FPS = 90;
     private static final double UPS = 200;
 
     private int updates = 0, frames = 0;

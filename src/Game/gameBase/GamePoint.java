@@ -78,6 +78,10 @@ public class GamePoint extends GameUnitPair {
         this.y /= yDis;
     }
 
+    public GamePoint getCopy() {
+        return GamePoint.buildGamePoint(this.x, this.y);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof GamePoint pt) {
