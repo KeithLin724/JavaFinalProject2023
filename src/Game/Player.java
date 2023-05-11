@@ -89,6 +89,7 @@ public class Player extends GameCharacterABC
 
     public void init(float x, float y) {
         this.setXY(x, y);
+        this.setResetPoint(GamePoint.buildGamePoint(x, y));
         // this.setAnimationImage();
     }
 
@@ -358,7 +359,9 @@ public class Player extends GameCharacterABC
         }
     }
 
+    @Override
     public void resetAll() {
+        super.resetAll();
         this.stopDirection();
         this.inAir = false;
         this.attacking = false;

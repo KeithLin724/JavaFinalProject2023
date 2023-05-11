@@ -157,7 +157,9 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     }
 
+    @Override
     public void resetAll() {
+        super.resetAll();
         this.firstUpdate = true;
         currentHealth = maxHealth;
         this.newEnemyState(GameCharacterState.IDLE);

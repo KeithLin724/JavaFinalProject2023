@@ -68,6 +68,7 @@ public class GameEnemy extends GameEnemyABC {
     public GameEnemy(float x, float y, BufferedImage[][] image) {
         super();
         this.setXY(x, y);
+        this.setResetPoint(GamePoint.buildGamePoint(x, y));
         this.setAnimation(image);
 
         this.initAttackBox();

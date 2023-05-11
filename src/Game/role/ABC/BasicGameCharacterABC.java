@@ -159,4 +159,8 @@ public abstract class BasicGameCharacterABC {
         this.gameCharacterState = (isJump ? GameCharacterState.JUMP : GameCharacterState.IDLE);
     }
 
+    public void resetAll() {
+        this.point = this.resetPoint.getCopy();
+    }
+
 }
