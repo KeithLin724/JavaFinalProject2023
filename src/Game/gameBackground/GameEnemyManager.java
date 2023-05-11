@@ -95,7 +95,7 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         enemyArr.forEach(enemy -> {
             if (!enemy.isActive()) {
                 return;

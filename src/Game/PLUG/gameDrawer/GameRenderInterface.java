@@ -1,6 +1,6 @@
 package Game.PLUG.gameDrawer;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 @FunctionalInterface
 public interface GameRenderInterface {
@@ -10,5 +10,5 @@ public interface GameRenderInterface {
      * 
      * @param g The Graphics object to draw to.
      */
-    public void render(Graphics g);
+    public void render(Graphics2D g);
 }

@@ -114,7 +114,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         // double deltaF = 0;
         // double deltaU = 0;
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         executorService.execute(this::gameLogicUpdateThread);
         executorService.execute(this::gameRenderThread);
@@ -171,7 +171,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         switch (GameState.getState()) {
             case MENU -> this.gameMenu.render(g);
 

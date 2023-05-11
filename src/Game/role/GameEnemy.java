@@ -102,7 +102,7 @@ public class GameEnemy extends GameEnemyABC {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         var nowImage = this.getAnimationImage(this.gameCharacterState, this.aniIndex);
         var fromPoint = this.point.toIntPoint();
 

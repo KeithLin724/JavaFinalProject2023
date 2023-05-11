@@ -50,7 +50,7 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
         for (int row = 0; row < Game.TILES_IN_HEIGHT; row++) {
             for (int col = 0; col < this.gameLevel1.getMaxWidth(); col++) {

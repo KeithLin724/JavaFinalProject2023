@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -242,7 +243,7 @@ public class Player extends GameCharacterABC
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         var nowImage = this.getAnimationImage(this.gameCharacterState, this.aniIndex);
         var fromPoint = this.point.toIntPoint();
 

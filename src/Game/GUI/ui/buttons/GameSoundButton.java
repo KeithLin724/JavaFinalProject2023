@@ -1,6 +1,7 @@
 package Game.GUI.ui.buttons;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -51,7 +52,7 @@ public class GameSoundButton extends GameButtonBase {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(this.soundImages[!isMul ? 0 : 1][this.mouseState.toDisplayIndex],
                 this.point.getIntX(), this.point.getIntY(),
                 PauseLayerButtons.SOUND_SIZE.value,

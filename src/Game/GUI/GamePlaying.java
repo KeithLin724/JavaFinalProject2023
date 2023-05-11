@@ -160,7 +160,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         this.gameLevelManager.passOffset(this.xLevelOffset);
         this.player.passOffset(this.xLevelOffset);
 
@@ -193,10 +193,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
                 GAME_WIDTH, GAME_HEIGHT,
                 null);
 
-//        g.drawImage(this.cityImage3,
-//                -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
-//                GAME_WIDTH, GAME_HEIGHT,
-//                null);
+        // g.drawImage(this.cityImage3,
+        // -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
+        // GAME_WIDTH, GAME_HEIGHT,
+        // null);
 
         g.drawImage(this.cityImage3,
                 (int) (xLevelOffset * 0.005), 0,
