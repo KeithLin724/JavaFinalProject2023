@@ -98,6 +98,10 @@ public class Player extends GameCharacterABC
         this.gamePlaying = gamePlaying;
     }
 
+    public Rectangle2D.Float getAttackBox() {
+        return this.attackBox;
+    }
+
     @Override
     public void update() {
         this.updateHealthBar();
@@ -222,14 +226,22 @@ public class Player extends GameCharacterABC
     }
 
     private void updateImageDirection() {
-        if (this.direction.equals(Direction.LEFT)) {
-            this.flipX = TILES_SIZE;
-            this.flipW = -1;
-        }
+        switch (this.direction) {
 
-        else if (this.direction.equals(Direction.RIGHT)) {
-            this.flipX = 0;
-            this.flipW = 1;
+            case LEFT -> {
+                this.flipX = TILES_SIZE;
+                this.flipW = -1;
+            }
+
+            case RIGHT -> {
+                this.flipX = 0;
+                this.flipW = 1;
+            }
+
+            default -> {
+                // None
+            }
+
         }
     }
 

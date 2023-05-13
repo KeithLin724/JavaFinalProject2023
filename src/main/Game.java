@@ -60,6 +60,11 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gameThread.start();
     }
 
+    /**
+     * This function updates the game logic at a fixed rate of UPS (updates per
+     * second) using a time-based
+     * approach.
+     */
     public void gameLogicUpdateThread() {
         double timePerUpdate = 1000000000.0 / UPS;
         long currentFrame = System.nanoTime();
@@ -79,6 +84,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         }
     }
 
+    /**
+     * This function renders a game panel at a specified frame rate using a
+     * time-based approach.
+     */
     public void gameRenderThread() {
         double timePerFrame = 1000000000.0 / FPS;
         long currentFrame;
