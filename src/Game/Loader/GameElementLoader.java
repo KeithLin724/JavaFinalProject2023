@@ -9,26 +9,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Game.DataPass;
-import Game.GameCharacter;
+import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.builder.GameCharacterBuilder;
+import Game.role.GameEnemy;
 import base.loader.BaseLoader;
 
-import static base.BaseGameConstant.TILES_IN_HEIGHT;
-import static base.BaseGameConstant.TILES_IN_WIDTH;
+import static base.BaseGameConstant.TILES_SIZE;
 
 import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
 
 // Factory 
 public class GameElementLoader {
 
-    public GameCharacter gameCharacter() {
+    public Player gameCharacter() {
         return null;
     }
 
-    public static GameCharacter getTestingGameCharacter() {
+    public static Player getTestingGameCharacter() {
         return new GameCharacterBuilder()
                 .setAniData(new AniData(0, 0, 35))
                 .setImageScale(new ImageScaleData(0, 0, 10))
@@ -36,7 +36,7 @@ public class GameElementLoader {
                 .build();
     }
 
-    public static GameCharacter getTestingGameCharacter(String fileName) {
+    public static Player getTestingGameCharacter(String fileName) {
         try {
             return loadCharacterByPath(fileName);
 
@@ -66,7 +66,7 @@ public class GameElementLoader {
      *                 GameCharacter object.
      * @return The method is returning a GameCharacter object.
      */
-    public static GameCharacter loadCharacterByPath(String fileName)
+    public static Player loadCharacterByPath(String fileName)
             throws IOException, URISyntaxException, NoSuchMethodException, SecurityException, InstantiationException,
             IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
@@ -132,5 +132,32 @@ public class GameElementLoader {
         }
 
         return levelData;
+    }
+
+    public static ArrayList<GameEnemy> loadGameEnemyData(
+            String gameLevelFileName,
+            int checkHeightBlock, int checkWidthBlock,
+            BufferedImage[][] enemyImage)
+
+            throws IOException {
+
+        BufferedImage levelImage = ImageLoader.loadImage(gameLevelFileName);
+        ArrayList<GameEnemy> enemies = new ArrayList<>();
+
+        for (int row = 0; row < levelImage.getHeight(); row++) {
+            for (int col = 0; col < levelImage.getWidth(); col++) {
+                Color color = new Color(levelImage.getRGB(col, row));
+
+                int value = color.getGreen();
+
+                if (value == GameEnemy.levelDataID) {
+                    enemies.add(new GameEnemy(col * TILES_SIZE, row * TILES_SIZE, enemyImage));
+                }
+
+            }
+        }
+
+        return enemies;
+
     }
 }

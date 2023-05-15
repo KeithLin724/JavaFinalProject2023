@@ -1,6 +1,7 @@
 package Game.GUI.ui.buttons;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
@@ -29,7 +30,7 @@ public class GameURMButton extends GameButtonBase {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(this.image[this.mouseState.toDisplayIndex],
                 this.point.getIntX(), this.point.getIntY(),
                 URMButtons.URM_SIZE.value, URMButtons.URM_SIZE.value,

@@ -1,11 +1,14 @@
 package Game.GUI.ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import Game.GameElementFactory;
 import Game.GameSourceFilePath;
@@ -26,6 +29,7 @@ import Game.state.MouseState;
 
 import static base.BaseGameConstant.SCALE;
 import static base.BaseGameConstant.GAME_WIDTH;
+import static base.BaseGameConstant.GAME_HEIGHT;
 
 public class GamePauseDisplayLayer implements GameStateMethod {
     private BufferedImage backgroundImage;
@@ -40,6 +44,8 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     private GameVolumeButton volumeButtons;
 
     private final List<GameButtonBase> allButtons;
+
+    private static final Logger LOGGER = Logger.getLogger(GamePauseDisplayLayer.class.getName());
 
     public GamePauseDisplayLayer(GamePlaying gamePlaying) {
         this.gamePlaying = gamePlaying;
@@ -103,8 +109,9 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     }
 
     @Override
-    public void render(Graphics g) {
-
+    public void render(Graphics2D g) {
+        g.setColor(new Color(0, 0, 0, 200));
+        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         // background
         g.drawImage(this.backgroundImage,
                 this.bgPoint.getIntX(), this.bgPoint.getIntY(),
@@ -145,7 +152,9 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         }
 
         else if (this.replayB.isIn(e) && this.replayB.getMouseState().equals(MouseState.PRESS)) {
-            System.out.println("level replay");
+            LOGGER.info("level replay");
+            this.gamePlaying.resetAll();
+            GameState.setState(GameState.PLAYING);
         }
 
         else if (this.unpauseB.isIn(e) && this.unpauseB.getMouseState().equals(MouseState.PRESS)) {

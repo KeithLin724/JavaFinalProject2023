@@ -1,10 +1,11 @@
 package Game.builder;
 
-import Game.GameCharacter;
+import java.io.IOException;
+
+import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
-// import Game.DataPass.PlayerHitBox;
 
 /**
  * The GameCharacterBuilder class uses the builder pattern to construct a
@@ -12,10 +13,10 @@ import Game.DataPass.ImageScaleData;
  * animation data, image scale, and game player speed data.
  */
 public class GameCharacterBuilder {
-    private GameCharacter gameCharacter;
+    private Player gameCharacter;
 
     public GameCharacterBuilder() {
-        this.gameCharacter = new GameCharacter();
+        this.gameCharacter = new Player();
     }
 
     /**
@@ -92,7 +93,11 @@ public class GameCharacterBuilder {
      *         class.
      */
     public GameCharacterBuilder setAnimationImage(String filePath, int characterStateNum, int frameNumber) {
-        this.gameCharacter.setAnimationImage(filePath, characterStateNum, frameNumber);
+        try {
+            this.gameCharacter.setAnimationImage(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
@@ -118,7 +123,7 @@ public class GameCharacterBuilder {
      * 
      * @return A GameCharacter object is being returned.
      */
-    public GameCharacter build() {
+    public Player build() {
         return this.gameCharacter;
     }
 }

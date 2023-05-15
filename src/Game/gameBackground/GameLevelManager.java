@@ -1,14 +1,14 @@
 package Game.gameBackground;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import Game.GameSourceFilePath;
 import Game.Loader.ImageLoader;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
 import main.Game;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
@@ -16,13 +16,18 @@ import static base.BaseGameConstant.TILES_SIZE;
 
 public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPass {
 
-    public static final int HEIGHT_BLOCK_NUM = 4;
+    // new version // 12 * 10
+
+    public static final int HEIGHT_BLOCK_NUM = 10; // 4
     public static final int WIDTH_BLOCK_NUM = 12;
+
+    public static final int MAX_NUMBER = HEIGHT_BLOCK_NUM * WIDTH_BLOCK_NUM;
+
     public static final int PIXEL = 32;
 
     private Game game;
     // about save the pixel block
-    private BufferedImage[] bgMapImage;
+    private final BufferedImage[] bgMapImage;
 
     // about display the block where to display
     private GameLevel gameLevel1; // level 1
@@ -30,12 +35,13 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
 
     public GameLevelManager(Game game) throws IOException {
         this.game = game;
-        this.bgMapImage = ImageLoader.loadBackgroundImage(GameSourceFilePath.BACKGROUND_IMAGE_PATH,
+        this.bgMapImage = ImageLoader.loadBackgroundImage(GameSourceFilePath.BACKGROUND_IMAGE_PATH_CITY,
                 HEIGHT_BLOCK_NUM,
                 WIDTH_BLOCK_NUM,
                 PIXEL);
+        // System.out.println(this.bgMapImage.length);
 
-        this.gameLevel1 = GameLevel.loadFromFile(GameSourceFilePath.BACKGROUND_LEVEL_1);
+        this.gameLevel1 = GameLevel.loadFromFile(GameSourceFilePath.BACKGROUND_LEVEL_2);
     }
 
     @Override
@@ -44,14 +50,14 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
 
         for (int row = 0; row < Game.TILES_IN_HEIGHT; row++) {
             for (int col = 0; col < this.gameLevel1.getMaxWidth(); col++) {
                 int index = gameLevel1.getImageIndex(col, row);
 
                 g.drawImage(this.bgMapImage[index],
-                        (int)(TILES_SIZE * col - drawXOffset ), TILES_SIZE * row,
+                        (int) (TILES_SIZE * col - drawXOffset), TILES_SIZE * row,
                         TILES_SIZE, TILES_SIZE, null);
             }
         }

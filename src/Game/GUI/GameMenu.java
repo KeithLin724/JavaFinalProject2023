@@ -1,6 +1,6 @@
 package Game.GUI;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -48,7 +48,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     }
 
     private void loadGameMenuSelectBackgroundImage() throws IOException {
-        this.backgroundMenuImage = ImageLoader.loadImage(GameSourceFilePath.MENU_SELECT_BACKGROUND_IMAGE);
+        this.backgroundMenuImage = ImageLoader.loadImage(GameSourceFilePath.MENU_SELECT_BACKGROUND_IMAGE_CITY);
     }
 
     private void loadGameMenuBackgroundImage() throws IOException {
@@ -66,7 +66,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         g.drawImage(this.backgroundMenuImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
         g.drawImage(backgroundImage,

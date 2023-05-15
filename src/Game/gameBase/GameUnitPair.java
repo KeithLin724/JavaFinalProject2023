@@ -73,6 +73,10 @@ public class GameUnitPair {
         this.y = obj.y;
     }
 
+    public GameUnitPair getCopy() {
+        return GameUnitPair.buildGameUnitPair(this.x, this.y);
+    }
+
     public GameUnitPair add(float scale) {
         return new GameUnitPair(this.x + scale, this.y + scale);
     }

@@ -56,6 +56,26 @@ public class UIConstant {
         VolumeButtons(int value) {
             this.value = value;
         }
+    }
+
+    public enum StatusBar {
+        STATUS_BAR_WIDTH((int) (192 * SCALE)),
+        STATUS_BAR_HEIGHT((int) (58 * SCALE)),
+        STATUS_BAR_X((int) (10 * SCALE)),
+        STATUS_BAR_Y((int) (10 * SCALE)),
+
+        HEALTH_BAR_WIDTH((int) (150 * SCALE)),
+        HEALTH_BAR_HEIGHT((int) (4 * SCALE)),
+
+        HEALTH_BAR_X_START((int) (34 * SCALE)),
+        HEALTH_BAR_Y_START((int) (14 * SCALE));
+
+        public final int value;
+
+        StatusBar(int value) {
+            this.value = value;
+        }
 
     }
+
 }

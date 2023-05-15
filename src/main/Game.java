@@ -12,6 +12,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
+/**
+ * @author USER
+ */
 public class Game extends BaseGameConstant implements Runnable, GameAnimatedDrawer {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
@@ -57,6 +60,11 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gameThread.start();
     }
 
+    /**
+     * This function updates the game logic at a fixed rate of UPS (updates per
+     * second) using a time-based
+     * approach.
+     */
     public void gameLogicUpdateThread() {
         double timePerUpdate = 1000000000.0 / UPS;
         long currentFrame = System.nanoTime();
@@ -76,6 +84,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         }
     }
 
+    /**
+     * This function renders a game panel at a specified frame rate using a
+     * time-based approach.
+     */
     public void gameRenderThread() {
         double timePerFrame = 1000000000.0 / FPS;
         long currentFrame;
@@ -111,7 +123,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         // double deltaF = 0;
         // double deltaU = 0;
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
 
         executorService.execute(this::gameLogicUpdateThread);
         executorService.execute(this::gameRenderThread);
@@ -158,24 +170,24 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     @Override
     public void update() {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.gameMenu.update();
-            }
-            case PLAYING -> {
-                this.gamePlaying.update();
-            }
+            case MENU -> this.gameMenu.update();
 
+            case PLAYING -> this.gamePlaying.update();
+
+            default -> {
+            }
         }
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.gameMenu.render(g);
-            }
-            case PLAYING -> {
-                this.gamePlaying.render(g);
+            case MENU -> this.gameMenu.render(g);
+
+            case PLAYING -> this.gamePlaying.render(g);
+
+            default -> {
+                // None
             }
 
         }

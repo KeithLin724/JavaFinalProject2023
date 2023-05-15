@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
 
 import logic.input.KeyboardInputs;
@@ -42,7 +44,7 @@ public class GamePanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        game.render(g);
+        game.render((Graphics2D) g);
     }
 
     public Game getGame() {
