@@ -233,8 +233,8 @@ public class GameEnemy extends GameEnemyABC {
             this.airSpeed += this.gravity;
             return;
         }
-
-        if (airSpeed > 0) { // FALLING
+        // FALLING
+        if (airSpeed > 0) {
             this.resetInAir();
         } else {
             airSpeed = fallSpeedAfterCollision;

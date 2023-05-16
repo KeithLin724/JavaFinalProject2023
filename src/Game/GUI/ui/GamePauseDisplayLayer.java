@@ -186,7 +186,8 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     @Override
     public void mouseMoved(MouseEvent e) {
         // reset
-        this.allButtons.forEach(GameButtonBase::resetState);
+        this.allButtons
+                .forEach(GameButtonBase::resetState);
 
         // check over
         this.allButtons
