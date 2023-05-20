@@ -77,4 +77,7 @@ public final class GameSourceFilePath {
 
     // for testing : enemies
     public static final String ENEMIES_FOLDER_PATH = "resource/skin/java/";
+
+    // dead screen
+    public static final String DEAD_SCREEN_IMAGE = "resource/ui/death_screen.png";
 }

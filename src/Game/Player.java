@@ -107,8 +107,24 @@ public class Player extends GameCharacterABC
         this.updateHealthBar();
 
         if (this.currentHealth <= 0) {
-            this.gamePlaying.setGameOver(true);
+
+            if (!this.gameCharacterState.equals(GameCharacterState.DEAD)) {
+                this.gameCharacterState = GameCharacterState.DEAD;
+                this.aniTick = 0;
+                this.aniIndex = 0;
+                this.gamePlaying.setPlayerDying(true);
+                return;
+            }
+
+            if (this.aniIndex == GameCharacterState.DEAD.frameNumber - 1 && aniTick >= this.aniSpeed - 1) {
+                this.gamePlaying.setGameOver(true);
+                return;
+            }
+
+            updateAnimationTick();
+
             return;
+
         }
 
         this.updateAttackBox();

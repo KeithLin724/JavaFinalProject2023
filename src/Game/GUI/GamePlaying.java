@@ -59,6 +59,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     // about the game over
     private GameOverDisplayLayer gameOverDisplayLayer;
     private boolean gameOver;
+    private boolean playerDying;
 
     public GamePlaying(Game game) {
         super(game);
@@ -136,7 +137,13 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             return;
         }
 
+        if (this.playerDying) {
+            this.player.update();
+            return;
+        }
+
         if (this.gameOver) {
+            this.gameOverDisplayLayer.update();
             return;
         }
 
@@ -256,6 +263,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         // TODO: reset player , enemy level , etc...
         this.gameOver = false;
         this.paused = false;
+        this.playerDying = false;
         player.resetAll();
         gameEnemyManager.resetAll();
 
@@ -272,6 +280,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseClicked(e);
             return;
         }
 
@@ -283,6 +292,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mousePressed(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mousePressed(e);
             return;
         }
 
@@ -294,6 +304,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseReleased(e);
             return;
         }
 
@@ -315,6 +326,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseDragged(e);
             return;
         }
 
@@ -326,6 +338,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseMoved(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseMoved(e);
             return;
         }
         if (paused) {
@@ -367,10 +380,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void keyReleased(KeyEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.keyReleased(e);
             return;
         }
 
         this.keyEventToPlayerMove(e, false);
+    }
+
+    public void setPlayerDying(boolean dead) {
+        this.playerDying = true;
     }
 
 }
