@@ -28,6 +28,11 @@ import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.GAME_HEIGHT;
 import static base.BaseGameConstant.SCALE;
 
+/**
+ * The GameOverDisplayLayer class displays the game over screen and handles user
+ * input for menu and
+ * replay buttons.
+ */
 public class GameOverDisplayLayer implements GameStateMethod {
     private static final Logger LOGGER = Logger.getLogger(GameOverDisplayLayer.class.getName());
 
