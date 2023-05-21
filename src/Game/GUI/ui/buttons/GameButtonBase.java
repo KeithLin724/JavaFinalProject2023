@@ -41,6 +41,10 @@ public abstract class GameButtonBase implements GameAnimatedDrawer {
         this.mouseState = MouseState.NONE;
     }
 
+    public void setPoint(GamePoint point) {
+        this.point = point;
+    }
+
     protected abstract void initBounds();
 
 }

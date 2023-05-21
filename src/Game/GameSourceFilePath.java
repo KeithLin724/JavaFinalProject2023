@@ -19,6 +19,9 @@ public final class GameSourceFilePath {
     // about a folder for save the game skin
     public static final String BACKGROUND_SKIN_FOLDER_PATH = "resource/skin";
 
+    // online background
+    public static final String BACKGROUND_LEVEL_ONLINE = "resource/level/level_one_data.png";
+
     // level 1 path
     public static final String BACKGROUND_LEVEL_1 = "resource/level/level_one_data_long.png";
 
@@ -80,4 +83,7 @@ public final class GameSourceFilePath {
 
     // dead screen
     public static final String DEAD_SCREEN_IMAGE = "resource/ui/death_screen.png";
+
+    // options
+    public static final String OPTIONS_IMAGE = "resource/ui/options_background.png";
 }

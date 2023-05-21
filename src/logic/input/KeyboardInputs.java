@@ -22,11 +22,13 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.game.getGameMenu().keyPressed(e);
-            }
-            case PLAYING -> {
-                this.game.getGamePlaying().keyPressed(e);
+            case MENU -> this.game.getGameMenu().keyPressed(e);
+            case PLAYING -> this.game.getGamePlaying().keyPressed(e);
+
+            case OPTIONS -> this.game.getGameOptions().keyPressed(e);
+
+            default -> {
+                // None:
             }
 
         }
@@ -35,11 +37,15 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (GameState.getState()) {
-            case MENU -> {
-                this.game.getGameMenu().keyReleased(e);
-            }
-            case PLAYING -> {
-                this.game.getGamePlaying().keyReleased(e);
+
+            case MENU -> this.game.getGameMenu().keyReleased(e);
+
+            case PLAYING -> this.game.getGamePlaying().keyReleased(e);
+
+            case OPTIONS -> this.game.getGameOptions().keyPressed(e);
+
+            default -> {
+                // None :
             }
 
         }

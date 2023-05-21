@@ -39,7 +39,7 @@ public class Player extends GameCharacterABC
     private int[][] levelData;
     private GameLevel level;
 
-    private float drawXOffset;
+    protected float drawXOffset;
 
     // health bar
     private BufferedImage statusBarImage;
@@ -49,8 +49,8 @@ public class Player extends GameCharacterABC
 
     // attack box
     private Rectangle2D.Float attackBox;
-    private int flipX = 0;
-    private int flipW = 1;
+    protected int flipX = 0;
+    protected int flipW = 1;
 
     private boolean attackChecked;
 
@@ -298,7 +298,7 @@ public class Player extends GameCharacterABC
                 (int) this.attackBox.height);
     }
 
-    private void drawUI(Graphics g) {
+    protected void drawUI(Graphics g) {
         g.drawImage(statusBarImage,
                 StatusBar.STATUS_BAR_X.value, StatusBar.STATUS_BAR_Y.value, // xy
                 StatusBar.STATUS_BAR_WIDTH.value, StatusBar.STATUS_BAR_HEIGHT.value, // w h
