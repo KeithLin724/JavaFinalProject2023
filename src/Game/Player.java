@@ -141,7 +141,7 @@ public class Player extends GameCharacterABC
         this.setAnimationState();
     }
 
-    private void checkAttack() {
+    protected void checkAttack() {
         if (attackChecked || this.aniIndex != 2) {
             return;
         }

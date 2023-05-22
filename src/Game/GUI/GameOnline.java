@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,9 +18,12 @@ import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.gameBackground.GameLevelManager;
+import logic.input.Direction;
 import main.Game;
 import online.GameClient;
+import online.GameMainOnlinePlayer;
 import online.GameOnlinePlayer;
+import online.InternetBase.InternetFunction;
 
 import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.GAME_HEIGHT;
@@ -34,7 +39,8 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
     // test
     private String IP = "127.0.0.70";
 
-    private Player player;
+    // private Player player;
+    private GameMainOnlinePlayer player;
     private GameOnlinePlayer gameOnlinePlayer;
     private String roomPlay;
 
@@ -54,6 +60,20 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "client open error", e);
         }
+
+        // run listen the server
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        executorService.execute(this::listenToServer);
+        executorService.shutdown();
+
+    }
+
+    private void commandProcess(String commandStr) {
+
+        String[] command = InternetFunction.commandSplit(commandStr);
+        System.out.println(commandStr);
+
+        // TODO:
     }
 
     private void loadImage() throws IOException {
@@ -72,10 +92,19 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
     private void initClass() throws IOException {
         this.gameLevelManager = new GameLevelManager(this.game);
         this.gameLevelManager.setGameLevelFromFile(GameSourceFilePath.BACKGROUND_LEVEL_ONLINE);
-        player = GameElementLoader.getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
+
+        player = (GameMainOnlinePlayer) GameElementLoader
+                .getTestingGameCharacter(GameSourceFilePath.PLAYER_MAIN_CHARACTER_TEXT_FILE);
 
         assert player != null;
+        player.init(200, 200);
+        player.setLevelData(gameLevelManager.getGameLevel().getLevel2D());
+        player.setLevel(gameLevelManager.getGameLevel());
 
+        // setting online
+        this.player
+                .setGameClient(client)
+                .setGameOnline(this);
     }
 
     // for send and recv server message
@@ -95,15 +124,34 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
                 GAME_WIDTH, GAME_HEIGHT,
                 null);
 
+        // gameLevel
         gameLevelManager.render(g);
 
+        // player render
         this.player.render(g);
         this.gameOnlinePlayer.render(g);
     }
 
+    private void listenToServer() {
+        LOGGER.info("link to server...");
+        String recvStr;
+
+        try {
+            while ((recvStr = this.client.recvMessagePlug()) != null) {
+                // String[] command = InternetFunction.commandSplit(recvStr);
+                commandProcess(recvStr);
+            }
+        } catch (IOException e) {
+            client.close();
+        }
+        client.close();
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            this.player.setAttacking(true);
+        }
     }
 
     @Override
@@ -136,6 +184,23 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
 
     }
 
+    private void keyEventToPlayerMove(KeyEvent e, boolean isMoveIt) {
+        switch (e.getKeyCode()) {
+
+            case KeyEvent.VK_A -> this.player.setDirection(Direction.LEFT, isMoveIt);
+
+            case KeyEvent.VK_D -> this.player.setDirection(Direction.RIGHT, isMoveIt);
+
+            case KeyEvent.VK_SPACE -> this.player.setJump(isMoveIt);
+
+            // case KeyEvent.VK_BACK_SPACE -> GameState.setState(GameState.MENU);
+
+            // case KeyEvent.VK_ESCAPE -> this.paused = (isMoveIt ? !this.paused :
+            // this.paused);
+
+        }
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -143,11 +208,21 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        // if (this.gameOver) {
+        // this.gameOverDisplayLayer.keyPressed(e);
+        // return;
+        // }
 
+        this.keyEventToPlayerMove(e, true);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        // if (this.gameOver) {
+        // this.gameOverDisplayLayer.keyReleased(e);
+        // return;
+        // }
 
+        this.keyEventToPlayerMove(e, false);
     }
 }

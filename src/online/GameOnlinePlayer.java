@@ -4,10 +4,41 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import Game.Player;
+import Game.GUI.GameOnline;
+import Game.PLUG.online.GameOnlineSetter;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
-public class GameOnlinePlayer extends Player {
+public class GameOnlinePlayer extends Player implements GameOnlineSetter {
+
+    private GameClient client;
+    private GameOnline gameOnline;
+
+    // data
+
+    @Override
+    public GameOnlineSetter setGameClient(GameClient client) {
+        this.client = client;
+        return this;
+    }
+
+    @Override
+    public GameOnlineSetter setGameOnline(GameOnline gameOnline) {
+        this.gameOnline = gameOnline;
+        return this;
+    }
+
+    @Override
+    public void update() {
+
+        // super.update();
+    }
+
+    @Override
+    protected void checkAttack() {
+
+        // super.checkAttack();
+    }
 
     @Override
     public void render(Graphics2D g) {
@@ -41,6 +72,11 @@ public class GameOnlinePlayer extends Player {
         // StatusBar.HEALTH_BAR_Y_START.value + StatusBar.STATUS_BAR_Y.value,
         // this.healthWidth,
         // StatusBar.HEALTH_BAR_HEIGHT.value);
+    }
+
+    // recv data
+    public void onlineCommandProcess(String commandStr) {
+
     }
 
 }
