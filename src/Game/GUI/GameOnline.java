@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import Game.GameSourceFilePath;
-import Game.Player;
+// import Game.Player;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
@@ -111,6 +111,8 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
     @Override
     public void update() {
         this.gameLevelManager.update();
+
+        this.gameOnlinePlayer.update();
         this.player.update();
 
     }
@@ -224,5 +226,9 @@ public class GameOnline extends GameStateBase implements GameStateMethod {
         // }
 
         this.keyEventToPlayerMove(e, false);
+    }
+
+    public void setPlayerDying(boolean dead) {
+        // this.playerDying = true;
     }
 }

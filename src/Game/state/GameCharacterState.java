@@ -26,7 +26,8 @@ public enum GameCharacterState {
     public final int frameNumber;
     public final String imageString;
 
-    public static final GameCharacterState[] ALL_PLAYER_STATES = { IDLE, MOVING, JUMP, FALLING, ATTACKING, HIT, DEAD };
+    // public static final GameCharacterState[] ALL_PLAYER_STATES = { IDLE, MOVING,
+    // JUMP, FALLING, ATTACKING, HIT, DEAD };
 
     GameCharacterState(int number, int frameNumber, String imageString) {
         this.saveArrayIndex = number;
