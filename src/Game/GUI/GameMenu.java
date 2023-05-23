@@ -13,6 +13,7 @@ import Game.GameSourceFilePath;
 import Game.GUI.ui.buttons.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -103,6 +104,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                 .filter(item -> item.isIn(e) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
                 .ifPresent(action -> {
+                    this.game.getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+
                     action.applyGameState();
                     if (GameState.getState().equals(GameState.PLAYING)) {
                         game.getGameAudioPlayer().setLevelSong(0);

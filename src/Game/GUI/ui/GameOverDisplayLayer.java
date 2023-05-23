@@ -18,6 +18,7 @@ import Game.GUI.ui.buttons.GameURMButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -141,6 +142,8 @@ public class GameOverDisplayLayer implements GameStateMethod {
             LOGGER.info("go to menu");
             this.gamePlaying.resetAll();
             gamePlaying.setGameState(GameState.MENU);
+
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
         }
 
         else if (this.replayButton.isIn(e) && this.replayButton.getMouseState().equals(MouseState.PRESS)) {
@@ -148,6 +151,7 @@ public class GameOverDisplayLayer implements GameStateMethod {
             this.gamePlaying.resetAll();
             gamePlaying.setGameState(GameState.PLAYING);
             // gamePlaying.getGame().getGameAudioPlayer().setLevelSong(0);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
         }
 
         this.allButtons.forEach(GameButtonBase::resetState);

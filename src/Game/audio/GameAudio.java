@@ -1,10 +1,15 @@
 package Game.audio;
 
 public enum GameAudio {
+        // songs
         MENU_1(0, "menu"),
         LEVEL_1(1, "level1"),
         LEVEL_2(2, "level2"),
 
+        // ui
+        CLICK(0, "click"),
+
+        // player
         DIE(0, "die"),
         JUMP(1, "jump"),
         GAMEOVER(2, "gameover"),
@@ -20,6 +25,10 @@ public enum GameAudio {
                         MENU_1.fileName,
                         LEVEL_1.fileName,
                         LEVEL_2.fileName,
+        };
+
+        public static final String[] allUISoundsName = {
+                        CLICK.fileName,
         };
 
         public static final String[] allEffectNames = {

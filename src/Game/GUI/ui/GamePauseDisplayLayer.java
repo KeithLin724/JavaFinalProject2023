@@ -18,6 +18,7 @@ import Game.GUI.ui.buttons.GameURMButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -131,18 +132,21 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
 
         if (this.menuB.isIn(e) && this.menuB.getMouseState().equals(MouseState.PRESS)) {
-            GameState.setState(GameState.MENU);
             this.gamePlaying.setPaused(false);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+            this.gamePlaying.setGameState(GameState.MENU);
         }
 
         else if (this.replayB.isIn(e) && this.replayB.getMouseState().equals(MouseState.PRESS)) {
             LOGGER.info("level replay");
             this.gamePlaying.resetAll();
-            GameState.setState(GameState.PLAYING);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+            this.gamePlaying.setGameState(GameState.PLAYING);
         }
 
         else if (this.unpauseB.isIn(e) && this.unpauseB.getMouseState().equals(MouseState.PRESS)) {
             this.gamePlaying.setPaused(false);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
         }
 
         else {

@@ -14,6 +14,7 @@ import Game.GUI.ui.GameAudioOptions;
 import Game.GUI.ui.buttons.GameURMButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -113,6 +114,7 @@ public class GameOptions extends GameStateBase implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
         if (this.menuBtn.isIn(e) && this.menuBtn.getMouseState().equals(MouseState.PRESS)) {
             GameState.setState(GameState.MENU);
+            this.game.getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
         }
 
         else {

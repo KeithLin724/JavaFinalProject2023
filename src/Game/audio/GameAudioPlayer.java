@@ -20,7 +20,7 @@ public class GameAudioPlayer {
 
     private static final Logger LOGGER = Logger.getLogger(GameAudioPlayer.class.getName());
 
-    private Clip[] songs, effects;
+    private Clip[] songs, effects, uiSoundEffects;
     private int currentSongId;
 
     private float volume = 1f;
@@ -37,10 +37,23 @@ public class GameAudioPlayer {
         try {
             loadSongs();
             loadEffects();
+            loadUISoundEffects();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             LOGGER.log(Level.SEVERE, "load sounds error", e);
         }
         playSong(GameAudio.MENU_1);
+    }
+
+    private void loadUISoundEffects()
+            throws FileNotFoundException,
+            UnsupportedAudioFileException,
+            IOException,
+            LineUnavailableException {
+        this.uiSoundEffects = new Clip[GameAudio.allUISoundsName.length];
+
+        for (int i = 0; i < this.uiSoundEffects.length; i++) {
+            this.uiSoundEffects[i] = loadClip(GameAudio.allUISoundsName[i]);
+        }
     }
 
     private void loadSongs()
@@ -115,6 +128,11 @@ public class GameAudioPlayer {
     public void playEffect(GameAudio gameAudio) {
         this.effects[gameAudio.arrayIndex].setMicrosecondPosition(0);
         this.effects[gameAudio.arrayIndex].start();
+    }
+
+    public void playUiEffect(GameAudio gameAudio) {
+        this.uiSoundEffects[gameAudio.arrayIndex].setMicrosecondPosition(0);
+        this.uiSoundEffects[gameAudio.arrayIndex].start();
     }
 
     public void playSong(GameAudio gameAudio) {

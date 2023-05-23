@@ -6,6 +6,7 @@ import Game.GUI.ui.buttons.GameVolumeButton;
 import Game.GUI.ui.buttons.GameButtonBase;
 import Game.PLUG.GameStateMethod;
 import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.audio.GameAudio;
 import Game.audio.GameAudioPlayer;
 import Game.gameBase.GamePoint;
 import Game.state.MouseState;
@@ -93,7 +94,7 @@ public class GameAudioOptions implements GameStateMethod {
             this.sfxButton.changeMul();
             this.gameAudioPlayer.toggleEffectMute();
         }
-
+        this.gameAudioPlayer.playUiEffect(GameAudio.CLICK);
         this.allButtons.forEach(GameButtonBase::resetState);
     }
 
