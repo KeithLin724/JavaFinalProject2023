@@ -1,5 +1,6 @@
 package online.InternetBase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 final public class InternetFunction {
@@ -35,8 +36,25 @@ final public class InternetFunction {
         return String.join("/", cmdArr);
     }
 
+    /**
+     * The function takes a list of strings, capitalizes the first element, and
+     * joins the elements with a
+     * forward slash.
+     * 
+     * @param cmdList cmdList is a List of Strings that contains the command and its
+     *                arguments that need to
+     *                be joined together. The first element of the list is the
+     *                command itself, and the rest of the
+     *                elements are its arguments.
+     * @return The method is returning a string that is the concatenation of all the
+     *         elements in the input
+     *         list `cmdList`, separated by a forward slash ("/"). The first element
+     *         of the list is converted to
+     *         uppercase before joining the elements.
+     */
     public static String commandJoin(List<String> cmdList) {
-        cmdList.set(0, cmdList.get(0).toUpperCase());
+        List<String> copyCmdList = new ArrayList<>(cmdList);
+        copyCmdList.set(0, copyCmdList.get(0).toUpperCase());
         return String.join("/", cmdList);
     }
 }
