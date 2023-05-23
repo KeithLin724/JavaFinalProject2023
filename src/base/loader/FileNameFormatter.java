@@ -10,7 +10,8 @@ package base.loader;
  */
 public enum FileNameFormatter {
     TEXT(".txt"),
-    IMAGE(".png");
+    IMAGE(".png"),
+    SOUND(".wav");
 
     private final String fileType;
 

@@ -1,6 +1,5 @@
 package Game.GUI.ui.buttons;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -18,6 +17,8 @@ public class GameVolumeButton extends GameButtonBase {
     private int buttonX;
     private final int sliderMin, sliderMax;
     private static final float sliderXOffset = VolumeButtons.VOLUME_WIDTH.value / 2.0F;
+
+    private float floatValue = 0f;
 
     @Override
     protected void initBounds() {
@@ -64,9 +65,22 @@ public class GameVolumeButton extends GameButtonBase {
 
         this.buttonX = x;
 
+        updateFloatValue();
+
         this.bounds.x = x;
         this.bounds.x -= sliderXOffset;
 
+    }
+
+    private void updateFloatValue() {
+        float range = sliderMax - sliderMin;
+        float value = buttonX - sliderMin;
+
+        floatValue = value / range;
+    }
+
+    public float getFloatValue() {
+        return this.floatValue;
     }
 
     @Override

@@ -109,10 +109,10 @@ public class GameOverDisplayLayer implements GameStateMethod {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            gamePlaying.resetAll();
-            GameState.setState(GameState.MENU);
-        }
+        // if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        // gamePlaying.resetAll();
+        // gamePlaying.setGameState(GameState.MENU);
+        // }
     }
 
     @Override
@@ -140,13 +140,14 @@ public class GameOverDisplayLayer implements GameStateMethod {
         if (this.menuButton.isIn(e) && this.menuButton.getMouseState().equals(MouseState.PRESS)) {
             LOGGER.info("go to menu");
             this.gamePlaying.resetAll();
-            GameState.setState(GameState.MENU);
+            gamePlaying.setGameState(GameState.MENU);
         }
 
         else if (this.replayButton.isIn(e) && this.replayButton.getMouseState().equals(MouseState.PRESS)) {
             LOGGER.info("level replay");
             this.gamePlaying.resetAll();
-            GameState.setState(GameState.PLAYING);
+            gamePlaying.setGameState(GameState.PLAYING);
+            // gamePlaying.getGame().getGameAudioPlayer().setLevelSong(0);
         }
 
         this.allButtons.forEach(GameButtonBase::resetState);

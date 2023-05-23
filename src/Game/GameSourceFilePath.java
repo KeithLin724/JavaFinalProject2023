@@ -86,4 +86,7 @@ public final class GameSourceFilePath {
 
     // options
     public static final String OPTIONS_IMAGE = "resource/ui/options_background.png";
+
+    // audio folder
+    public static final String AUDIO_FOLDER_PATH = "resource/audio/";
 }

@@ -102,7 +102,12 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
         Arrays.stream(this.buttons)
                 .filter(item -> item.isIn(e) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
-                .ifPresent(GameMenuButton::applyGameState);
+                .ifPresent(action -> {
+                    action.applyGameState();
+                    if (GameState.getState().equals(GameState.PLAYING)) {
+                        game.getGameAudioPlayer().setLevelSong(0);
+                    }
+                });
 
         this.resetButtons();
     }

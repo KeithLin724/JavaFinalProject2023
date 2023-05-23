@@ -1,10 +1,12 @@
 package main;
 
+import Game.GameSourceFilePath;
 import Game.GUI.GameMenu;
 import Game.GUI.GameOptions;
 import Game.GUI.GamePlaying;
 import Game.GUI.ui.GameAudioOptions;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.audio.GameAudioPlayer;
 import Game.state.GameState;
 import base.BaseGameConstant;
 
@@ -25,6 +27,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     private GamePlaying gamePlaying;
 
     private GameAudioOptions gameAudioOptions;
+    private GameAudioPlayer gameAudioPlayer;
 
     private GameOptions gameOptions;
 
@@ -51,7 +54,8 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gamePanel = new GamePanel(this);
         gamePanel.init();
 
-        this.gameAudioOptions = new GameAudioOptions();
+        this.gameAudioPlayer = new GameAudioPlayer(GameSourceFilePath.AUDIO_FOLDER_PATH);
+        this.gameAudioOptions = new GameAudioOptions(this.gameAudioPlayer);
 
         this.gameOptions = new GameOptions(this);
 
@@ -224,6 +228,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     public GameAudioOptions getGameAudioOptions() {
         return this.gameAudioOptions;
+    }
+
+    public GameAudioPlayer getGameAudioPlayer() {
+        return this.gameAudioPlayer;
     }
 
 }

@@ -6,6 +6,7 @@ import Game.GUI.ui.buttons.GameVolumeButton;
 import Game.GUI.ui.buttons.GameButtonBase;
 import Game.PLUG.GameStateMethod;
 import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.audio.GameAudioPlayer;
 import Game.gameBase.GamePoint;
 import Game.state.MouseState;
 
@@ -27,7 +28,10 @@ public class GameAudioOptions implements GameStateMethod {
 
     private final List<GameButtonBase> allButtons;
 
-    public GameAudioOptions() {
+    private GameAudioPlayer gameAudioPlayer;
+
+    public GameAudioOptions(GameAudioPlayer gameAudioPlayer) {
+        this.gameAudioPlayer = gameAudioPlayer;
         try {
             createVolumeButtons();
             createSoundButton();
@@ -82,10 +86,12 @@ public class GameAudioOptions implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
         if (this.musicButton.isIn(e) && this.musicButton.getMouseState().equals(MouseState.PRESS)) {
             this.musicButton.changeMul();
+            this.gameAudioPlayer.toggleSongMute();
         }
 
         else if (this.sfxButton.isIn(e) && this.sfxButton.getMouseState().equals(MouseState.PRESS)) {
             this.sfxButton.changeMul();
+            this.gameAudioPlayer.toggleEffectMute();
         }
 
         this.allButtons.forEach(GameButtonBase::resetState);
@@ -104,7 +110,13 @@ public class GameAudioOptions implements GameStateMethod {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (this.volumeButtons.getMouseState().equals(MouseState.PRESS)) {
+            float valueBefore = volumeButtons.getFloatValue();
             this.volumeButtons.changeX(e.getX());
+            float valueAfter = volumeButtons.getFloatValue();
+
+            if (valueBefore != valueAfter) {
+                this.gameAudioPlayer.setVolume(valueAfter);
+            }
         }
     }
 

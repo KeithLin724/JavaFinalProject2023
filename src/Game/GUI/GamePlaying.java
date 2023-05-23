@@ -6,6 +6,7 @@ import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.audio.GameAudio;
 import Game.Player;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;

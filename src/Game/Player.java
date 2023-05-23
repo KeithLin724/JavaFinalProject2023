@@ -19,6 +19,7 @@ import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
+import Game.audio.GameAudio;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 import Game.role.ABC.GameCharacterABC;
@@ -55,6 +56,8 @@ public class Player extends GameCharacterABC
     private boolean attackChecked;
 
     private GamePlaying gamePlaying;
+
+    protected boolean gameOverEffect;
 
     public Player() {
         super();
@@ -113,11 +116,18 @@ public class Player extends GameCharacterABC
                 this.aniTick = 0;
                 this.aniIndex = 0;
                 this.gamePlaying.setPlayerDying(true);
+                this.gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.DIE);
                 return;
             }
 
             if (this.aniIndex == GameCharacterState.DEAD.frameNumber - 1 && aniTick >= this.aniSpeed - 1) {
                 this.gamePlaying.setGameOver(true);
+                this.gamePlaying.getGame().getGameAudioPlayer().stopSong();
+                if (gameOverEffect == false) {
+                    this.gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.GAMEOVER);
+                    gameOverEffect = true;
+                }
+                // System.out.println("here");
                 return;
             }
 
@@ -147,6 +157,7 @@ public class Player extends GameCharacterABC
         }
         attackChecked = true;
         gamePlaying.checkEnemyHit(this);
+        gamePlaying.getGame().getGameAudioPlayer().playAttackSound();
     }
 
     private void updateAttackBox() {
@@ -265,7 +276,7 @@ public class Player extends GameCharacterABC
         if (inAir) {
             return;
         }
-
+        gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.JUMP);
         this.inAir = true;
         this.airSpeed = this.jumpSpeed;
     }
@@ -392,6 +403,8 @@ public class Player extends GameCharacterABC
     public void resetAll() {
         super.resetAll();
         this.stopDirection();
+        this.gameOverEffect = false;
+
         this.inAir = false;
         this.attacking = false;
 
