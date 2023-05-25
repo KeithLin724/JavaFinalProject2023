@@ -1,6 +1,8 @@
 package Game.role;
 
 import Game.Player;
+import Game.audio.GameAudio;
+import Game.audio.GameAudioPlayer;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 import Game.role.ABC.GameEnemyABC;
@@ -38,6 +40,8 @@ public class GameEnemy extends GameEnemyABC {
     // about the attack box
     private Rectangle2D.Float attackBox;
 
+    private boolean findPlayer = false;
+
     // init setting
     {
         this.direction = Direction.LEFT;
@@ -52,8 +56,8 @@ public class GameEnemy extends GameEnemyABC {
         this.initAttackBox();
     }
 
-    public GameEnemy(String folderName, float x, float y, GameEnemyType enemyType) {
-        super(enemyType);
+    public GameEnemy(String folderName, float x, float y, GameEnemyType enemyType, GameAudioPlayer gameAudioPlayer) {
+        super(enemyType, gameAudioPlayer);
         this.setXY(x, y);
 
         try {
@@ -63,15 +67,23 @@ public class GameEnemy extends GameEnemyABC {
         }
 
         this.initAttackBox();
+
+        this.gameAudioPlayer = gameAudioPlayer;
     }
 
-    public GameEnemy(float x, float y, BufferedImage[][] image) {
+    public GameEnemy(float x, float y, BufferedImage[][] image, GameAudioPlayer gameAudioPlayer) {
         super();
         this.setXY(x, y);
         this.setResetPoint(GamePoint.buildGamePoint(x, y));
         this.setAnimation(image);
 
         this.initAttackBox();
+
+        this.gameAudioPlayer = gameAudioPlayer;
+    }
+
+    public void setGameAudioPlayer(GameAudioPlayer gameAudioPlayer) {
+        this.gameAudioPlayer = gameAudioPlayer;
     }
 
     private void initAttackBox() {
@@ -182,7 +194,16 @@ public class GameEnemy extends GameEnemyABC {
 
             case MOVING -> {
                 if (canSeePlayer(levelData, this.player)) {
+
+                    // play sound
+                    if (this.findPlayer == false) {
+                        this.gameAudioPlayer.playEffect(GameAudio.ENEMY_FOUND_PLAYER);
+                        this.findPlayer = true;
+                    }
+
                     turnTowardsPlayer(player);
+                } else {
+                    findPlayer = false;
                 }
 
                 if (isPlayerCloseForAttack(player)) {
@@ -198,6 +219,8 @@ public class GameEnemy extends GameEnemyABC {
                 }
 
                 if (this.aniIndex == 2 && !attackChecked) {
+                    // play sound
+                    this.gameAudioPlayer.playEnemyAttackSound();
                     this.checkPlayerGetHit(attackBox, player);
                 }
 

@@ -217,6 +217,12 @@ public class Player extends GameCharacterABC
     public void changeHealth(int value) {
         this.currentHealth += value;
 
+        if (value < 0) {
+            this.gamePlaying.getGame()
+                    .getGameAudioPlayer()
+                    .playEffect(GameAudio.PLAYER_GET_HIT);
+        }
+
         if (this.currentHealth <= 0) {
             this.currentHealth = 0;
             // gameOver();

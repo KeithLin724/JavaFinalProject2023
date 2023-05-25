@@ -13,6 +13,7 @@ import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.audio.GameAudioPlayer;
 import Game.builder.GameCharacterBuilder;
 import Game.role.GameEnemy;
 import base.loader.BaseLoader;
@@ -137,7 +138,8 @@ public class GameElementLoader {
     public static ArrayList<GameEnemy> loadGameEnemyData(
             String gameLevelFileName,
             int checkHeightBlock, int checkWidthBlock,
-            BufferedImage[][] enemyImage)
+            BufferedImage[][] enemyImage,
+            GameAudioPlayer gameAudioPlayer)
 
             throws IOException {
 
@@ -151,7 +153,7 @@ public class GameElementLoader {
                 int value = color.getGreen();
 
                 if (value == GameEnemy.levelDataID) {
-                    enemies.add(new GameEnemy(col * TILES_SIZE, row * TILES_SIZE, enemyImage));
+                    enemies.add(new GameEnemy(col * TILES_SIZE, row * TILES_SIZE, enemyImage, gameAudioPlayer));
                 }
 
             }
