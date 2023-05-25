@@ -167,6 +167,10 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     }
 
+    public int getCurrentHealth() {
+        return this.currentHealth;
+    }
+
     @Override
     public void resetAll() {
         super.resetAll();

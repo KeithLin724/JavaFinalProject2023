@@ -80,7 +80,12 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     public void checkEnemyHit(Player player) {
         Rectangle2D.Float playerAttackBox = player.getAttackBox();
         for (var enemyItem : this.enemyArr) {
-            if (enemyItem.isActive() && playerAttackBox.intersects(enemyItem.getHitBox())) {
+
+            boolean check = enemyItem.getCurrentHealth() > 0
+                    && enemyItem.isActive()
+                    && playerAttackBox.intersects(enemyItem.getHitBox());
+
+            if (check) {
                 enemyItem.getHurt(10);
                 return;
             }

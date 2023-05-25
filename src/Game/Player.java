@@ -138,6 +138,15 @@ public class Player extends GameCharacterABC
         }
 
         this.updateAttackBox();
+
+        // if (state == HIT) {
+		// 	if (aniIndex <= GetSpriteAmount(state) - 3)
+		// 		pushBack(pushBackDir, lvlData, 1.25f);
+		// 	updatePushBackDrawOffset();
+		// } else
+		// 	updatePos();
+
+
         this.updatePosition();
 
         if (attacking) {
@@ -215,12 +224,18 @@ public class Player extends GameCharacterABC
     }
 
     public void changeHealth(int value) {
+        if (this.gameCharacterState.equals(GameCharacterState.HIT)){
+            return ;
+        }
+
         this.currentHealth += value;
 
         if (value < 0) {
             this.gamePlaying.getGame()
                     .getGameAudioPlayer()
                     .playEffect(GameAudio.PLAYER_GET_HIT);
+
+            this.setCharacterState(GameCharacterState.HIT);
         }
 
         if (this.currentHealth <= 0) {
@@ -344,6 +359,10 @@ public class Player extends GameCharacterABC
 
         GameCharacterState startAni = gameCharacterState;
 
+        if (gameCharacterState.equals(GameCharacterState.HIT)){
+            return;
+        }
+
         if (!gameCharacterState.equals(GameCharacterState.JUMP)) {
             gameCharacterState = (this.direction.isMoving() && (this.dirMove[2] + this.dirMove[3] != 0)
                     ? GameCharacterState.MOVING
@@ -390,6 +409,7 @@ public class Player extends GameCharacterABC
 
     @Override
     protected void updateAnimationTick() {
+        // LOGGER.info("player state :" + this.gameCharacterState);
         this.aniTick++;
 
         if (this.aniTick >= this.aniSpeed) {
@@ -401,6 +421,15 @@ public class Player extends GameCharacterABC
                 this.attacking = false;
                 this.aniSpeed = 80;
                 this.attackChecked = false;
+                // this.setCharacterState();
+
+                if (this.gameCharacterState.equals(GameCharacterState.HIT)){
+                    this.newState(GameCharacterState.IDLE);
+                    airSpeed = 0f;
+                    if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+                        this.inAir = true;
+                    }
+                }
             }
         }
     }
