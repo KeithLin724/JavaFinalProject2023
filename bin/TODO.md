@@ -23,7 +23,16 @@ target to video 21 yes
 
 add the HP bar and watch the video, yes
 
-add save the reset point 
+add save the reset point  , yes 
+
+### third  
+add some audio , yes 
+add the dead screen , yes 
+
+### four , final demo 
+add rain 
+add get attack push back 
+add the credit screen 
 
 
 ---
