@@ -19,6 +19,7 @@ import Game.Loader.ImageLoader;
 import Game.Loader.ImageNamePath;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
 import Game.PLUG.gameDrawer.GameRenderOffsetPass;
+import Game.audio.GameAudio;
 import Game.gameBackground.GameLevel;
 import Game.gameBase.GamePoint;
 import Game.role.ABC.GameCharacterABC;
@@ -39,7 +40,7 @@ public class Player extends GameCharacterABC
     private int[][] levelData;
     private GameLevel level;
 
-    private float drawXOffset;
+    protected float drawXOffset;
 
     // health bar
     private BufferedImage statusBarImage;
@@ -49,12 +50,14 @@ public class Player extends GameCharacterABC
 
     // attack box
     private Rectangle2D.Float attackBox;
-    private int flipX = 0;
-    private int flipW = 1;
+    protected int flipX = 0;
+    protected int flipW = 1;
 
     private boolean attackChecked;
 
     private GamePlaying gamePlaying;
+
+    protected boolean gameOverEffect;
 
     public Player() {
         super();
@@ -107,11 +110,42 @@ public class Player extends GameCharacterABC
         this.updateHealthBar();
 
         if (this.currentHealth <= 0) {
-            this.gamePlaying.setGameOver(true);
+
+            if (!this.gameCharacterState.equals(GameCharacterState.DEAD)) {
+                this.gameCharacterState = GameCharacterState.DEAD;
+                this.aniTick = 0;
+                this.aniIndex = 0;
+                this.gamePlaying.setPlayerDying(true);
+                this.gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.DIE);
+                return;
+            }
+
+            if (this.aniIndex == GameCharacterState.DEAD.frameNumber - 1 && aniTick >= this.aniSpeed - 1) {
+                this.gamePlaying.setGameOver(true);
+                this.gamePlaying.getGame().getGameAudioPlayer().stopSong();
+                if (gameOverEffect == false) {
+                    this.gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.GAMEOVER);
+                    gameOverEffect = true;
+                }
+                // System.out.println("here");
+                return;
+            }
+
+            updateAnimationTick();
+
             return;
+
         }
 
         this.updateAttackBox();
+
+        // if (state == HIT) {
+        // if (aniIndex <= GetSpriteAmount(state) - 3)
+        // pushBack(pushBackDir, lvlData, 1.25f);
+        // updatePushBackDrawOffset();
+        // } else
+        // updatePos();
+
         this.updatePosition();
 
         if (attacking) {
@@ -125,12 +159,13 @@ public class Player extends GameCharacterABC
         this.setAnimationState();
     }
 
-    private void checkAttack() {
+    protected void checkAttack() {
         if (attackChecked || this.aniIndex != 2) {
             return;
         }
         attackChecked = true;
         gamePlaying.checkEnemyHit(this);
+        gamePlaying.getGame().getGameAudioPlayer().playAttackSound();
     }
 
     private void updateAttackBox() {
@@ -188,7 +223,19 @@ public class Player extends GameCharacterABC
     }
 
     public void changeHealth(int value) {
+        // if (this.gameCharacterState.equals(GameCharacterState.HIT)){
+        // return ;
+        // }
+
         this.currentHealth += value;
+
+        if (value < 0) {
+            this.gamePlaying.getGame()
+                    .getGameAudioPlayer()
+                    .playEffect(GameAudio.PLAYER_GET_HIT);
+
+            this.setCharacterState(GameCharacterState.HIT);
+        }
 
         if (this.currentHealth <= 0) {
             this.currentHealth = 0;
@@ -249,7 +296,7 @@ public class Player extends GameCharacterABC
         if (inAir) {
             return;
         }
-
+        gamePlaying.getGame().getGameAudioPlayer().playEffect(GameAudio.JUMP);
         this.inAir = true;
         this.airSpeed = this.jumpSpeed;
     }
@@ -282,7 +329,7 @@ public class Player extends GameCharacterABC
                 (int) this.attackBox.height);
     }
 
-    private void drawUI(Graphics g) {
+    protected void drawUI(Graphics g) {
         g.drawImage(statusBarImage,
                 StatusBar.STATUS_BAR_X.value, StatusBar.STATUS_BAR_Y.value, // xy
                 StatusBar.STATUS_BAR_WIDTH.value, StatusBar.STATUS_BAR_HEIGHT.value, // w h
@@ -310,6 +357,10 @@ public class Player extends GameCharacterABC
     public void setAnimationState() {
 
         GameCharacterState startAni = gameCharacterState;
+
+        if (gameCharacterState.equals(GameCharacterState.HIT)) {
+            return;
+        }
 
         if (!gameCharacterState.equals(GameCharacterState.JUMP)) {
             gameCharacterState = (this.direction.isMoving() && (this.dirMove[2] + this.dirMove[3] != 0)
@@ -357,6 +408,7 @@ public class Player extends GameCharacterABC
 
     @Override
     protected void updateAnimationTick() {
+        // LOGGER.info("player state :" + this.gameCharacterState);
         this.aniTick++;
 
         if (this.aniTick >= this.aniSpeed) {
@@ -368,6 +420,15 @@ public class Player extends GameCharacterABC
                 this.attacking = false;
                 this.aniSpeed = 80;
                 this.attackChecked = false;
+                // this.setCharacterState();
+
+                if (this.gameCharacterState.equals(GameCharacterState.HIT)) {
+                    this.newState(GameCharacterState.IDLE);
+                    airSpeed = 0f;
+                    if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+                        this.inAir = true;
+                    }
+                }
             }
         }
     }
@@ -376,6 +437,8 @@ public class Player extends GameCharacterABC
     public void resetAll() {
         super.resetAll();
         this.stopDirection();
+        this.gameOverEffect = false;
+
         this.inAir = false;
         this.attacking = false;
 

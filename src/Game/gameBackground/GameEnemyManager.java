@@ -5,6 +5,7 @@ import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.audio.GameAudioPlayer;
 import Game.Player;
 import Game.role.GameEnemy;
 
@@ -29,8 +30,11 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     private List<GameEnemy> enemyArr = new ArrayList<>();
     private Player player;
 
+    private GameAudioPlayer gameAudioPlayer;
+
     public GameEnemyManager(GamePlaying gamePlaying) {
         this.gamePlaying = gamePlaying;
+        this.gameAudioPlayer = this.gamePlaying.getGame().getGameAudioPlayer();
 
         this.loadEnemyImage();
         this.addEnemies();
@@ -51,7 +55,8 @@ public class GameEnemyManager implements GameAnimatedDrawer {
                     GameSourceFilePath.BACKGROUND_LEVEL_1,
                     HEIGHT_BLOCK_NUM,
                     WIDTH_BLOCK_NUM,
-                    enemyImage);
+                    enemyImage,
+                    gameAudioPlayer);
 
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "add enemies error", e);
@@ -75,7 +80,12 @@ public class GameEnemyManager implements GameAnimatedDrawer {
     public void checkEnemyHit(Player player) {
         Rectangle2D.Float playerAttackBox = player.getAttackBox();
         for (var enemyItem : this.enemyArr) {
-            if (enemyItem.isActive() && playerAttackBox.intersects(enemyItem.getHitBox())) {
+
+            boolean check = enemyItem.getCurrentHealth() > 0
+                    && enemyItem.isActive()
+                    && playerAttackBox.intersects(enemyItem.getHitBox());
+
+            if (check) {
                 enemyItem.getHurt(10);
                 return;
             }

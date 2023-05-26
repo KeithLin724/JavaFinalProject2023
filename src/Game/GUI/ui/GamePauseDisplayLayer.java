@@ -1,7 +1,6 @@
 package Game.GUI.ui;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -14,13 +13,12 @@ import Game.GameElementFactory;
 import Game.GameSourceFilePath;
 import Game.GUI.GamePlaying;
 import Game.GUI.ui.buttons.GameButtonBase;
-import Game.GUI.ui.buttons.GameSoundButton;
 import Game.GUI.ui.buttons.GameURMButton;
-import Game.GUI.ui.buttons.GameVolumeButton;
 
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
 import Game.PLUG.gameDrawer.GameUpdateInterface;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -36,12 +34,14 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
     private final GamePlaying gamePlaying;
 
+    private GameAudioOptions gameAudioOptions;
+
     private GameUnitPair bgWH;
     private GamePoint bgPoint;
 
-    private GameSoundButton musicButton, sfxButton;
+    // private GameSoundButton musicButton, sfxButton;
     private GameURMButton menuB, replayB, unpauseB;
-    private GameVolumeButton volumeButtons;
+    // private GameVolumeButton volumeButtons;
 
     private final List<GameButtonBase> allButtons;
 
@@ -52,21 +52,15 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
         try {
             loadBackground();
-            createSoundButton();
+
+            this.gameAudioOptions = this.gamePlaying.getGame().getGameAudioOptions();
+
             createURMButton();
-            createVolumeButtons();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.allButtons = List.of(musicButton, sfxButton, menuB, replayB, unpauseB, volumeButtons);
-    }
-
-    private void createVolumeButtons() throws IOException {
-        var volumeBtnPoint = GamePoint.buildGamePoint(309 * SCALE, 278 * SCALE);
-
-        this.volumeButtons = GameElementFactory.getAllGameVolumeButton(volumeBtnPoint);
-
+        this.allButtons = List.of(menuB, replayB, unpauseB);
     }
 
     private void createURMButton() throws IOException {
@@ -79,17 +73,6 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         this.menuB = btnResult[0];
         this.replayB = btnResult[1];
         this.unpauseB = btnResult[2];
-    }
-
-    private void createSoundButton() throws IOException {
-        var musicPoint = GamePoint.buildGamePoint(450 * SCALE, 140 * SCALE);
-        var sfxPoint = GamePoint.buildGamePoint(450 * SCALE, 186 * SCALE);
-
-        var btnResult = GameElementFactory.getAllGameSoundButton(musicPoint, sfxPoint);
-
-        this.musicButton = btnResult[0];
-        this.sfxButton = btnResult[1];
-
     }
 
     private void loadBackground() throws IOException {
@@ -106,12 +89,16 @@ public class GamePauseDisplayLayer implements GameStateMethod {
     @Override
     public void update() {
         this.allButtons.forEach(GameUpdateInterface::update);
+
+        // audio update
+        this.gameAudioOptions.update();
     }
 
     @Override
     public void render(Graphics2D g) {
         g.setColor(new Color(0, 0, 0, 200));
         g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
         // background
         g.drawImage(this.backgroundImage,
                 this.bgPoint.getIntX(), this.bgPoint.getIntY(),
@@ -119,6 +106,9 @@ public class GamePauseDisplayLayer implements GameStateMethod {
                 null);
 
         this.allButtons.forEach(btn -> btn.render(g));
+
+        // audio render
+        this.gameAudioOptions.render(g);
 
     }
 
@@ -134,31 +124,33 @@ public class GamePauseDisplayLayer implements GameStateMethod {
                 .filter(item -> item.isIn(e))
                 .findFirst()
                 .ifPresent(item -> item.setMouseState(MouseState.PRESS));
+
+        this.gameAudioOptions.mousePressed(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (this.musicButton.isIn(e) && this.musicButton.getMouseState().equals(MouseState.PRESS)) {
-            this.musicButton.changeMul();
-        }
 
-        else if (this.sfxButton.isIn(e) && this.sfxButton.getMouseState().equals(MouseState.PRESS)) {
-            this.sfxButton.changeMul();
-        }
-
-        else if (this.menuB.isIn(e) && this.menuB.getMouseState().equals(MouseState.PRESS)) {
-            GameState.setState(GameState.MENU);
+        if (this.menuB.isIn(e) && this.menuB.getMouseState().equals(MouseState.PRESS)) {
             this.gamePlaying.setPaused(false);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+            this.gamePlaying.setGameState(GameState.MENU);
         }
 
         else if (this.replayB.isIn(e) && this.replayB.getMouseState().equals(MouseState.PRESS)) {
             LOGGER.info("level replay");
             this.gamePlaying.resetAll();
-            GameState.setState(GameState.PLAYING);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+            this.gamePlaying.setGameState(GameState.PLAYING);
         }
 
         else if (this.unpauseB.isIn(e) && this.unpauseB.getMouseState().equals(MouseState.PRESS)) {
             this.gamePlaying.setPaused(false);
+            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+        }
+
+        else {
+            this.gameAudioOptions.mouseReleased(e);
         }
 
         this.allButtons.forEach(GameButtonBase::resetState);
@@ -177,16 +169,14 @@ public class GamePauseDisplayLayer implements GameStateMethod {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (this.volumeButtons.getMouseState().equals(MouseState.PRESS)) {
-            this.volumeButtons.changeX(e.getX());
-        }
-
+        this.gameAudioOptions.mouseDragged(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
         // reset
-        this.allButtons.forEach(GameButtonBase::resetState);
+        this.allButtons
+                .forEach(GameButtonBase::resetState);
 
         // check over
         this.allButtons
@@ -194,6 +184,8 @@ public class GamePauseDisplayLayer implements GameStateMethod {
                 .filter(btn -> btn.isIn(e))
                 .findFirst()
                 .ifPresent(btn -> btn.setMouseState(MouseState.OVER));
+
+        this.gameAudioOptions.mouseMoved(e);
     }
 
     @Override

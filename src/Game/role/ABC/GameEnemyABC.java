@@ -4,6 +4,8 @@ import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.audio.GameAudio;
+import Game.audio.GameAudioPlayer;
 import Game.Player;
 import Game.gameBackground.GameLevel;
 import Game.role.GameEnemyType;
@@ -27,6 +29,8 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
     private boolean active = true;
     protected boolean attackChecked;
 
+    protected GameAudioPlayer gameAudioPlayer;
+
     {
         this.aniSpeed = 25;
     }
@@ -37,9 +41,11 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
         this.setEnemyType(GameEnemyType.ENEMY_TYPE_1);
     }
 
-    public GameEnemyABC(GameEnemyType enemyType) {
+    public GameEnemyABC(GameEnemyType enemyType, GameAudioPlayer gameAudioPlayer) {
         super();
         this.setEnemyType(GameEnemyType.ENEMY_TYPE_1);
+
+        this.gameAudioPlayer = gameAudioPlayer;
     }
 
     public GameEnemyABC(AniData aid, ImageScaleData isd, GamePlayerSpeedData gps, GameEnemyType enemyType) {
@@ -78,6 +84,10 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
 
     protected void newEnemyState(GameCharacterState state) {
         this.setCharacterState(state);
+
+        if (this.gameCharacterState.equals(GameCharacterState.DEAD)) {
+            this.gameAudioPlayer.playEffect(GameAudio.ENEMY_DIE);
+        }
 
         this.aniTick = 0;
         this.aniIndex = 0;
@@ -155,6 +165,10 @@ public abstract class GameEnemyABC extends GameCharacterABC implements GameAnima
         }
         return false;
 
+    }
+
+    public int getCurrentHealth() {
+        return this.currentHealth;
     }
 
     @Override

@@ -6,6 +6,7 @@ import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.audio.GameAudio;
 import Game.Player;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
@@ -45,9 +46,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private int levelTileWide;
     private int maxTileOffset; // not display value
     private int maxLevelOffset; // not display pixel
-    private BufferedImage playingBackgroundImage, bigCloudImage, smallCloudImage;
-    private int[] smallCloudPosArrayY;
-    private int bigCloudNumber;
+    private BufferedImage playingBackgroundImage;
+    // private BufferedImage bigCloudImage, smallCloudImage;
+    // private int[] smallCloudPosArrayY;
+    // private int bigCloudNumber;
 
     // city image
     private BufferedImage cityImage2, cityImage3, cityImage4, cityImage5;
@@ -58,14 +60,17 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     // about the game over
     private GameOverDisplayLayer gameOverDisplayLayer;
     private boolean gameOver;
+    private boolean playerDying;
 
     public GamePlaying(Game game) {
         super(game);
 
         try {
             this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE_CITY);
-            this.bigCloudImage = ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
-            this.smallCloudImage = ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
+            // this.bigCloudImage =
+            // ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
+            // this.smallCloudImage =
+            // ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
 
             this.cityImage2 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_2_IMAGE);
             this.cityImage3 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_3_IMAGE);
@@ -78,10 +83,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         Random random = new Random();
 
-        smallCloudPosArrayY = IntStream
-                .range(0, 8)
-                .map(i -> (int) (90 * SCALE) + random.nextInt((int) (100 * SCALE)))
-                .toArray();
+        // smallCloudPosArrayY = IntStream
+        // .range(0, 8)
+        // .map(i -> (int) (90 * SCALE) + random.nextInt((int) (100 * SCALE)))
+        // .toArray();
     }
 
     public void setPaused(boolean paused) {
@@ -113,8 +118,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
         this.maxLevelOffset = this.maxTileOffset * TILES_SIZE;
 
-        this.bigCloudNumber = (int) Math.round((double) GameEnvironment.BIG_CLOUD_WIDTH.value
-                / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
+        // this.bigCloudNumber = (int) Math.round((double)
+        // GameEnvironment.BIG_CLOUD_WIDTH.value
+        // / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
     }
 
     public Player getPlayer() {
@@ -132,7 +138,13 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             return;
         }
 
+        if (this.playerDying) {
+            this.player.update();
+            return;
+        }
+
         if (this.gameOver) {
+            this.gameOverDisplayLayer.update();
             return;
         }
 
@@ -225,32 +237,34 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     }
 
-    private void drawCloud(Graphics g) {
-        // for (int i = 0; i < this.bigCloudNumber; i++) {
-        // g.drawImage(this.bigCloudImage,
-        // i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), //
-        // slower
-        // (int) (204 * SCALE),
-        // GameEnvironment.BIG_CLOUD_WIDTH.value,
-        // GameEnvironment.BIG_CLOUD_HEIGHT.value,
-        // null);
-        // }
+    // private void drawCloud(Graphics g) {
+    // // for (int i = 0; i < this.bigCloudNumber; i++) {
+    // // g.drawImage(this.bigCloudImage,
+    // // i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), //
+    // // slower
+    // // (int) (204 * SCALE),
+    // // GameEnvironment.BIG_CLOUD_WIDTH.value,
+    // // GameEnvironment.BIG_CLOUD_HEIGHT.value,
+    // // null);
+    // // }
 
-        for (int i = 0; i < this.smallCloudPosArrayY.length; i++) {
-            g.drawImage(this.smallCloudImage,
-                    GameEnvironment.SMALL_CLOUD_WIDTH.value * 4 * i - (int) (xLevelOffset - 0.7), // faster
-                    this.smallCloudPosArrayY[i],
-                    GameEnvironment.SMALL_CLOUD_WIDTH.value,
-                    GameEnvironment.SMALL_CLOUD_HEIGHT.value,
-                    null);
-        }
+    // for (int i = 0; i < this.smallCloudPosArrayY.length; i++) {
+    // g.drawImage(this.smallCloudImage,
+    // GameEnvironment.SMALL_CLOUD_WIDTH.value * 4 * i - (int) (xLevelOffset - 0.7),
+    // // faster
+    // this.smallCloudPosArrayY[i],
+    // GameEnvironment.SMALL_CLOUD_WIDTH.value,
+    // GameEnvironment.SMALL_CLOUD_HEIGHT.value,
+    // null);
+    // }
 
-    }
+    // }
 
     public void resetAll() {
         // TODO: reset player , enemy level , etc...
         this.gameOver = false;
         this.paused = false;
+        this.playerDying = false;
         player.resetAll();
         gameEnemyManager.resetAll();
 
@@ -267,6 +281,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseClicked(e);
             return;
         }
 
@@ -278,6 +293,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mousePressed(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mousePressed(e);
             return;
         }
 
@@ -289,6 +305,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseReleased(e);
             return;
         }
 
@@ -310,6 +327,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseDragged(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseDragged(e);
             return;
         }
 
@@ -321,6 +339,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void mouseMoved(MouseEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.mouseMoved(e);
             return;
         }
         if (paused) {
@@ -362,10 +381,15 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     @Override
     public void keyReleased(KeyEvent e) {
         if (this.gameOver) {
+            this.gameOverDisplayLayer.keyReleased(e);
             return;
         }
 
         this.keyEventToPlayerMove(e, false);
+    }
+
+    public void setPlayerDying(boolean dead) {
+        this.playerDying = true;
     }
 
 }

@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import java.awt.image.BufferedImage;
 
@@ -98,6 +102,25 @@ public class BaseLoader {
      */
     public static List<String> loadTextFile(String fileName) throws IOException {
         return Files.readAllLines(Paths.get(pathToAbsolutePath(fileName)));
+    }
+
+    /**
+     * This function loads an audio file and returns a Clip object that can be used
+     * to play the audio.
+     * 
+     * @param fileName A String representing the name or path of the audio file to
+     *                 be loaded.
+     * @return The method `loadClip` returns a `Clip` object.
+     */
+    public static Clip loadClip(String fileName)
+            throws FileNotFoundException, UnsupportedAudioFileException,
+            IOException, LineUnavailableException {
+
+        var audio = AudioSystem.getAudioInputStream(new File(fileName));
+        Clip c = AudioSystem.getClip();
+        c.open(audio);
+
+        return c;
     }
 
 }

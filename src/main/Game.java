@@ -1,8 +1,12 @@
 package main;
 
+import Game.GameSourceFilePath;
 import Game.GUI.GameMenu;
+import Game.GUI.GameOptions;
 import Game.GUI.GamePlaying;
+import Game.GUI.ui.GameAudioOptions;
 import Game.PLUG.gameDrawer.GameAnimatedDrawer;
+import Game.audio.GameAudioPlayer;
 import Game.state.GameState;
 import base.BaseGameConstant;
 
@@ -21,6 +25,11 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     private GameMenu gameMenu;
     private GamePlaying gamePlaying;
+
+    private GameAudioOptions gameAudioOptions;
+    private GameAudioPlayer gameAudioPlayer;
+
+    private GameOptions gameOptions;
 
     private Thread gameThread;
 
@@ -45,6 +54,11 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         gamePanel = new GamePanel(this);
         gamePanel.init();
 
+        this.gameAudioPlayer = new GameAudioPlayer(GameSourceFilePath.AUDIO_FOLDER_PATH);
+        this.gameAudioOptions = new GameAudioOptions(this.gameAudioPlayer);
+
+        this.gameOptions = new GameOptions(this);
+
         this.gameMenu = new GameMenu(this);
         this.gamePlaying = new GamePlaying(this);
 
@@ -58,6 +72,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public GameWindow getGameWindow() {
+        return this.gameWindow;
     }
 
     /**
@@ -174,7 +192,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
             case PLAYING -> this.gamePlaying.update();
 
+            case OPTIONS -> this.gameOptions.update();
+
             default -> {
+                // None
             }
         }
     }
@@ -185,6 +206,8 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
             case MENU -> this.gameMenu.render(g);
 
             case PLAYING -> this.gamePlaying.render(g);
+
+            case OPTIONS -> this.gameOptions.render(g);
 
             default -> {
                 // None
@@ -197,6 +220,18 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         if (GameState.getState() == GameState.PLAYING) {
             this.gamePlaying.windowLostFocus();
         }
+    }
+
+    public GameOptions getGameOptions() {
+        return this.gameOptions;
+    }
+
+    public GameAudioOptions getGameAudioOptions() {
+        return this.gameAudioOptions;
+    }
+
+    public GameAudioPlayer getGameAudioPlayer() {
+        return this.gameAudioPlayer;
     }
 
 }

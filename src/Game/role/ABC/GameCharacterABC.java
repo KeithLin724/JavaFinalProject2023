@@ -121,6 +121,17 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
     }
 
     /**
+     * The function sets the game character state and resets the animation tick.
+     * 
+     * @param gameCharacterState an object representing the new state of a game character. This could
+     * include information such as the character's position, health, or current action.
+     */
+    protected void newState(GameCharacterState gameCharacterState){
+        this.gameCharacterState = gameCharacterState;
+        this.resetAniTick();
+    }
+
+    /**
      * This function updates the animation tick and index for a game character and
      * sets the attacking flag
      * to false when the animation is complete.

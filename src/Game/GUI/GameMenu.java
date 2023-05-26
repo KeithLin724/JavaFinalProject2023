@@ -1,18 +1,12 @@
 package Game.GUI;
 
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Arrays;
-
 import Game.GUI.ui.buttons.GameButtonBase;
+import Game.GUI.ui.buttons.GameMenuButton;
 import Game.GameElementFactory;
 import Game.GameSourceFilePath;
-import Game.GUI.ui.buttons.GameMenuButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
@@ -20,8 +14,15 @@ import Game.state.GameState;
 import Game.state.MouseState;
 import main.Game;
 
-import static base.BaseGameConstant.GAME_WIDTH;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Arrays;
+
 import static base.BaseGameConstant.GAME_HEIGHT;
+import static base.BaseGameConstant.GAME_WIDTH;
 import static base.BaseGameConstant.SCALE;
 
 public class GameMenu extends GameStateBase implements GameStateMethod {
@@ -33,8 +34,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private GameUnitPair menuWH;
     private GamePoint menuBgPoint;
 
-    private static final float[] xMenuArray = { GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F };
-    private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
+    private static final float[] xMenuArray = {GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F};
+    private static final float[] yMenuArray = {150 * SCALE, 220 * SCALE, 290 * SCALE};
 
     public GameMenu(Game game) {
         super(game);
@@ -102,7 +103,14 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
         Arrays.stream(this.buttons)
                 .filter(item -> item.isIn(e) && item.getMouseState().equals(MouseState.PRESS))
                 .findFirst()
-                .ifPresent(GameMenuButton::applyGameState);
+                .ifPresent(action -> {
+                    this.game.getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+
+                    action.applyGameState();
+                    if (GameState.getState().equals(GameState.PLAYING)) {
+                        game.getGameAudioPlayer().setLevelSong(0);
+                    }
+                });
 
         this.resetButtons();
     }

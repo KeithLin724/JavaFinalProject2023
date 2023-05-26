@@ -44,6 +44,10 @@ public class GameLevelManager implements GameAnimatedDrawer, GameRenderOffsetPas
         this.gameLevel1 = GameLevel.loadFromFile(GameSourceFilePath.BACKGROUND_LEVEL_2);
     }
 
+    public void setGameLevelFromFile(String fileName) throws IOException {
+        this.gameLevel1 = GameLevel.loadFromFile(fileName);
+    }
+
     @Override
     public void passOffset(float offset) {
         this.drawXOffset = offset;

@@ -116,11 +116,11 @@ public class ImageLoader {
             throws IOException {
 
         // var len = PlayerState.ALL_PLAYER_STATES.length;
-        BufferedImage[][] animations = new BufferedImage[GameCharacterState.ALL_PLAYER_STATES.length][]; // frameNumber
+        BufferedImage[][] animations = new BufferedImage[GameCharacterState.values().length][]; // frameNumber
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        Future<?>[] futures = Arrays.stream(GameCharacterState.ALL_PLAYER_STATES)
+        Future<?>[] futures = Arrays.stream(GameCharacterState.values())
                 .map(state -> executorService
                         .submit(() -> animations[state.saveArrayIndex] = loadCharacterImageByState(folderName, state)))
                 .toArray(Future<?>[]::new);
