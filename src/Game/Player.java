@@ -140,12 +140,11 @@ public class Player extends GameCharacterABC
         this.updateAttackBox();
 
         // if (state == HIT) {
-		// 	if (aniIndex <= GetSpriteAmount(state) - 3)
-		// 		pushBack(pushBackDir, lvlData, 1.25f);
-		// 	updatePushBackDrawOffset();
-		// } else
-		// 	updatePos();
-
+        // if (aniIndex <= GetSpriteAmount(state) - 3)
+        // pushBack(pushBackDir, lvlData, 1.25f);
+        // updatePushBackDrawOffset();
+        // } else
+        // updatePos();
 
         this.updatePosition();
 
@@ -224,9 +223,9 @@ public class Player extends GameCharacterABC
     }
 
     public void changeHealth(int value) {
-        if (this.gameCharacterState.equals(GameCharacterState.HIT)){
-            return ;
-        }
+        // if (this.gameCharacterState.equals(GameCharacterState.HIT)){
+        // return ;
+        // }
 
         this.currentHealth += value;
 
@@ -359,7 +358,7 @@ public class Player extends GameCharacterABC
 
         GameCharacterState startAni = gameCharacterState;
 
-        if (gameCharacterState.equals(GameCharacterState.HIT)){
+        if (gameCharacterState.equals(GameCharacterState.HIT)) {
             return;
         }
 
@@ -423,7 +422,7 @@ public class Player extends GameCharacterABC
                 this.attackChecked = false;
                 // this.setCharacterState();
 
-                if (this.gameCharacterState.equals(GameCharacterState.HIT)){
+                if (this.gameCharacterState.equals(GameCharacterState.HIT)) {
                     this.newState(GameCharacterState.IDLE);
                     airSpeed = 0f;
                     if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
