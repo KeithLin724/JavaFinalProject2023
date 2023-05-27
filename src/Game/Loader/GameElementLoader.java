@@ -6,24 +6,41 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.function.BiFunction;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Game.DataPass;
 import Game.Player;
 import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
+import Game.audio.GameAudio;
 import Game.audio.GameAudioPlayer;
 import Game.builder.GameCharacterBuilder;
 import Game.role.GameEnemy;
 import base.loader.BaseLoader;
+import base.loader.FileNameFormatter;
 
 import static base.BaseGameConstant.TILES_SIZE;
 
 import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
 
 // Factory 
-public class GameElementLoader {
+public final class GameElementLoader {
+
+    private static final Logger LOGGER = Logger.getLogger(GameElementLoader.class.getName());
 
     public Player gameCharacter() {
         return null;
@@ -135,6 +152,26 @@ public class GameElementLoader {
         return levelData;
     }
 
+    /**
+     * This function loads game enemy data from a specified file and creates enemy
+     * objects based on the
+     * level data in the file.
+     * 
+     * @param gameLevelFileName The file name of the image file that contains the
+     *                          level data for the game
+     *                          enemies.
+     * @param checkHeightBlock  The height of the block to check for enemy data in
+     *                          the game level file.
+     * @param checkWidthBlock   The width of the block being checked in the game
+     *                          level.
+     * @param enemyImage        A 2D array of BufferedImages representing the
+     *                          different images for each type of
+     *                          enemy in the game.
+     * @param gameAudioPlayer   An object of the GameAudioPlayer class, which is
+     *                          responsible for playing
+     *                          audio in the game.
+     * @return An ArrayList of GameEnemy objects.
+     */
     public static ArrayList<GameEnemy> loadGameEnemyData(
             String gameLevelFileName,
             int checkHeightBlock, int checkWidthBlock,
@@ -161,5 +198,67 @@ public class GameElementLoader {
 
         return enemies;
 
+    }
+
+    /**
+     * A lambda expression that defines a function that takes in two parameters, a
+     * String `folderPath` and
+     * a `GameAudio` object, and returns an `Optional` of `Clip`. The function loads
+     * an audio clip from a
+     * file path generated using the `folderPath` and `gameAudio.fileName`
+     * parameters, using the
+     * `BaseLoader.loadClip` method. If the clip cannot be loaded, the function logs
+     * an error message using
+     * the `LOGGER` object and returns an empty `Optional`. Otherwise, it returns an
+     * `Optional` containing
+     * the loaded `Clip`. This lambda expression is used in the `loadClip` method to
+     * asynchronously load
+     * multiple audio clips.
+     */
+    private static final BiFunction<String, GameAudio, Optional<Clip>> loadClipLambda = (folderPath, gameAudio) -> {
+        Clip clip = null;
+        String fileName = FileNameFormatter.of(folderPath + gameAudio.fileName, FileNameFormatter.SOUND);
+        try {
+            clip = BaseLoader.loadClip(fileName);
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            LOGGER.log(Level.SEVERE, "load clip error FileName: " + fileName, e);
+
+        }
+        return Optional.ofNullable(clip);
+    };
+
+    /**
+     * The function loads audio clips from a specified folder path using a list of
+     * GameAudio objects and
+     * returns an array of Clip objects.
+     * 
+     * @param folderPath  A string representing the path to the folder containing
+     *                    the audio files to be
+     *                    loaded as Clips.
+     * @param listOfAudio An array of GameAudio objects that represent the audio
+     *                    files to be loaded as Clip
+     *                    objects.
+     * @return The method is returning an array of Clip objects.
+     */
+    public static Clip[] loadClip(String folderPath, GameAudio[] listOfAudio) {
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        Future<?>[] futures = Arrays.stream(listOfAudio)
+                .map((audio) -> executorService.submit(
+                        () -> loadClipLambda.apply(folderPath, audio).orElse(null)))
+                .toArray(Future<?>[]::new);
+
+        executorService.shutdown();
+
+        return Arrays.stream(futures)
+                .map(future -> {
+                    try {
+                        return future.get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        LOGGER.log(Level.SEVERE, "load list clip error", e);
+                    }
+                    return null;
+                }).toArray(Clip[]::new);
     }
 }

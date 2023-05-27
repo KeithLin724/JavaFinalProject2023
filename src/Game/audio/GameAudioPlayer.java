@@ -1,20 +1,14 @@
 package Game.audio;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
-import base.loader.BaseLoader;
-import base.loader.FileNameFormatter;
+import Game.Loader.GameElementLoader;
 
 public class GameAudioPlayer {
 
@@ -34,65 +28,26 @@ public class GameAudioPlayer {
 
     public GameAudioPlayer(String folderPath) {
         this.folderPath = folderPath;
-        try {
-            loadSongs();
-            loadEffects();
-            loadUISoundEffects();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            LOGGER.log(Level.SEVERE, "load sounds error", e);
-        }
+
+        loadSongs();
+        loadEffects();
+        loadUISoundEffects();
+
         playSong(GameAudio.MENU_1);
     }
 
-    private void loadUISoundEffects()
-            throws FileNotFoundException,
-            UnsupportedAudioFileException,
-            IOException,
-            LineUnavailableException {
-        this.uiSoundEffects = new Clip[GameAudio.allUISoundsName.length];
-
-        for (int i = 0; i < this.uiSoundEffects.length; i++) {
-            this.uiSoundEffects[i] = loadClip(GameAudio.allUISoundsName[i]);
-        }
+    private void loadUISoundEffects() {
+        this.uiSoundEffects = GameElementLoader.loadClip(folderPath, GameAudio.allUISoundsAudio);
     }
 
-    private void loadSongs()
-            throws FileNotFoundException,
-            UnsupportedAudioFileException,
-            IOException,
-            LineUnavailableException {
-        this.songs = new Clip[GameAudio.allSongNames.length];
-
-        for (int i = 0; i < this.songs.length; i++) {
-            this.songs[i] = loadClip(GameAudio.allSongNames[i]);
-        }
-
+    private void loadSongs() {
+        this.songs = GameElementLoader.loadClip(folderPath, GameAudio.allSongAudio);
     }
 
-    private void loadEffects()
-            throws FileNotFoundException,
-            UnsupportedAudioFileException,
-            IOException,
-            LineUnavailableException {
-        this.effects = new Clip[GameAudio.allEffectNames.length];
-
-        for (int i = 0; i < this.effects.length; i++) {
-            this.effects[i] = loadClip(GameAudio.allEffectNames[i]);
-        }
+    private void loadEffects() {
+        this.effects = GameElementLoader.loadClip(folderPath, GameAudio.allEffectAudio);
 
         updateEffectsVolume();
-    }
-
-    private String soundPath(String fileName) {
-        return FileNameFormatter.of(folderPath + fileName, FileNameFormatter.SOUND);
-    }
-
-    private Clip loadClip(String fileName)
-            throws FileNotFoundException,
-            UnsupportedAudioFileException,
-            IOException,
-            LineUnavailableException {
-        return BaseLoader.loadClip(soundPath(fileName));
     }
 
     public void setVolume(float volume) {
