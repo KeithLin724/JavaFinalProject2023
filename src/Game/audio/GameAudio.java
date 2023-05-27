@@ -1,5 +1,16 @@
 package Game.audio;
 
+/**
+ * This is an enumeration class called `GameAudio` that defines different audio
+ * files used in a game.
+ * Each audio file is represented as a constant with a unique name and an
+ * associated integer index and
+ * file name. The class also defines several arrays that group the audio files
+ * based on their type,
+ * such as songs, UI sounds, and effects. The constructor of the class
+ * initializes the index and file
+ * name of each constant.
+ */
 public enum GameAudio {
         // songs
         MENU_1(0, "menu"),
