@@ -23,7 +23,7 @@ import Game.Loader.ImageLoader;
 import Game.gameBase.GamePoint;
 import Game.state.GameState;
 
-public class GameElementFactory {
+public final class GameElementFactory {
     public GameElementFactory() {
 
     }
