@@ -63,10 +63,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         try {
             this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE_CITY);
-            // this.bigCloudImage =
-            // ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
-            // this.smallCloudImage =
-            // ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
 
             this.cityImage2 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_2_IMAGE);
             this.cityImage3 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_3_IMAGE);
@@ -205,7 +201,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         // -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
         // GAME_WIDTH, GAME_HEIGHT,
         // null);
-
         g.drawImage(this.cityImage3,
                 (int) (xLevelOffset * 0.005), 0,
                 GAME_WIDTH, GAME_HEIGHT,
