@@ -126,6 +126,10 @@ public class GameAudioPlayer {
         this.uiSoundEffects[gameAudio.arrayIndex].start();
     }
 
+    public void stopUiEffect(GameAudio gameAudio) {
+        this.uiSoundEffects[gameAudio.arrayIndex].stop();
+    }
+
     /**
      * The function plays a game audio clip continuously and updates its volume.
      * 

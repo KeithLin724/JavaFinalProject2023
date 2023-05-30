@@ -85,16 +85,28 @@ public class GameAudioOptions implements GameStateMethod {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (this.musicButton.isIn(e) && this.musicButton.getMouseState().equals(MouseState.PRESS)) {
-            this.musicButton.changeMul();
-            this.gameAudioPlayer.toggleSongMute();
-        }
+        this.allButtons
+                .stream()
+                .filter(btn -> btn.isIn(e) && btn.getMouseState().equals(MouseState.PRESS))
+                .findFirst()
+                .ifPresent(btn -> {
+                    this.gameAudioPlayer.playUiEffect(GameAudio.CLICK);
 
-        else if (this.sfxButton.isIn(e) && this.sfxButton.getMouseState().equals(MouseState.PRESS)) {
-            this.sfxButton.changeMul();
-            this.gameAudioPlayer.toggleEffectMute();
-        }
-        this.gameAudioPlayer.playUiEffect(GameAudio.CLICK);
+                    // btn is GameSoundButton type
+                    if (btn instanceof GameSoundButton) {
+                        var gameSoundButtonTemp = (GameSoundButton) btn;
+                        gameSoundButtonTemp.changeMul();
+
+                        if (gameSoundButtonTemp.equals(this.musicButton)) {
+                            this.gameAudioPlayer.toggleSongMute();
+
+                        } else if (gameSoundButtonTemp.equals(this.sfxButton)) {
+                            this.gameAudioPlayer.toggleEffectMute();
+                        }
+                    }
+
+                });
+
         this.allButtons.forEach(GameButtonBase::resetState);
     }
 

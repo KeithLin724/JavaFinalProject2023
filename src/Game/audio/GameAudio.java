@@ -19,6 +19,7 @@ public enum GameAudio {
 
         // ui
         CLICK(0, "click"),
+        HOLD(1, "hold"),
 
         // player
         DIE(0, "die"),
@@ -44,6 +45,7 @@ public enum GameAudio {
 
         public static final GameAudio[] allUISoundsAudio = {
                         CLICK,
+                        HOLD,
         };
 
         public static final GameAudio[] allEffectAudio = {
