@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +15,7 @@ import Game.GUI.ui.GameAudioOptions;
 import Game.GUI.ui.buttons.GameURMButton;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.PLUG.gameDrawer.GameUpdateInterface;
 import Game.audio.GameAudio;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GamePoint;
@@ -37,6 +39,8 @@ public class GameOptions extends GameStateBase implements GameStateMethod {
 
     private GameURMButton menuBtn;
 
+    private final List<GameUpdateInterface> allUpdateList;
+
     public GameOptions(Game game) {
         super(game);
 
@@ -49,6 +53,7 @@ public class GameOptions extends GameStateBase implements GameStateMethod {
         }
 
         this.gameAudioOptions = game.getGameAudioOptions();
+        this.allUpdateList = List.of(menuBtn, gameAudioOptions);
     }
 
     private void loadImage() throws IOException {
@@ -75,8 +80,7 @@ public class GameOptions extends GameStateBase implements GameStateMethod {
 
     @Override
     public void update() {
-        this.menuBtn.update();
-        this.gameAudioOptions.update();
+        this.allUpdateList.forEach(GameUpdateInterface::update);
     }
 
     @Override

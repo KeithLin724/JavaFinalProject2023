@@ -6,7 +6,6 @@ import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
-import Game.audio.GameAudio;
 import Game.Player;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
@@ -19,13 +18,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Random;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 
 import static base.BaseGameConstant.GAME_HEIGHT;
 import static base.BaseGameConstant.GAME_WIDTH;
-import static base.BaseGameConstant.SCALE;
 import static base.BaseGameConstant.TILES_IN_WIDTH;
 import static base.BaseGameConstant.TILES_SIZE;
 
@@ -67,10 +63,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         try {
             this.playingBackgroundImage = ImageLoader.loadImage(GameSourceFilePath.PLAYING_BACKGROUND_IMAGE_CITY);
-            // this.bigCloudImage =
-            // ImageLoader.loadImage(GameSourceFilePath.BIG_CLOUD_IMAGE);
-            // this.smallCloudImage =
-            // ImageLoader.loadImage(GameSourceFilePath.SMALL_CLOUD_IMAGE);
 
             this.cityImage2 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_2_IMAGE);
             this.cityImage3 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_3_IMAGE);
@@ -81,7 +73,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             e.printStackTrace();
         }
 
-        Random random = new Random();
+        // Random random = new Random();
 
         // smallCloudPosArrayY = IntStream
         // .range(0, 8)
@@ -209,7 +201,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         // -GAME_WIDTH + (int) (xLevelOffset * 0.005), 0,
         // GAME_WIDTH, GAME_HEIGHT,
         // null);
-
         g.drawImage(this.cityImage3,
                 (int) (xLevelOffset * 0.005), 0,
                 GAME_WIDTH, GAME_HEIGHT,
@@ -236,29 +227,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
                 null);
 
     }
-
-    // private void drawCloud(Graphics g) {
-    // // for (int i = 0; i < this.bigCloudNumber; i++) {
-    // // g.drawImage(this.bigCloudImage,
-    // // i * GameEnvironment.BIG_CLOUD_WIDTH.value - (int) (xLevelOffset - 0.1), //
-    // // slower
-    // // (int) (204 * SCALE),
-    // // GameEnvironment.BIG_CLOUD_WIDTH.value,
-    // // GameEnvironment.BIG_CLOUD_HEIGHT.value,
-    // // null);
-    // // }
-
-    // for (int i = 0; i < this.smallCloudPosArrayY.length; i++) {
-    // g.drawImage(this.smallCloudImage,
-    // GameEnvironment.SMALL_CLOUD_WIDTH.value * 4 * i - (int) (xLevelOffset - 0.7),
-    // // faster
-    // this.smallCloudPosArrayY[i],
-    // GameEnvironment.SMALL_CLOUD_WIDTH.value,
-    // GameEnvironment.SMALL_CLOUD_HEIGHT.value,
-    // null);
-    // }
-
-    // }
 
     public void resetAll() {
         // TODO: reset player , enemy level , etc...

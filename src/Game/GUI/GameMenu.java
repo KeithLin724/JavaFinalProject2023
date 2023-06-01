@@ -34,8 +34,8 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private GameUnitPair menuWH;
     private GamePoint menuBgPoint;
 
-    private static final float[] xMenuArray = {GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F};
-    private static final float[] yMenuArray = {150 * SCALE, 220 * SCALE, 290 * SCALE};
+    private static final float[] xMenuArray = { GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F };
+    private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
 
     public GameMenu(Game game) {
         super(game);
@@ -136,6 +136,7 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        // this.game.getGameAudioPlayer().stopUiEffect(GameAudio.HOLD);
         Arrays.stream(this.buttons).forEach(GameButtonBase::resetState);
 
         Arrays.stream(this.buttons)
