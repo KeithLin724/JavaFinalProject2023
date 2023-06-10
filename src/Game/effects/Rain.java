@@ -49,10 +49,24 @@ public class Rain implements GameAnimatedDrawer, GameRenderOffsetPass {
         }
     }
 
+    /**
+     * This function returns a randomly generated GamePoint object with a new
+     * x-coordinate and a
+     * y-coordinate generated using a random integer within the range of
+     * GAME_HEIGHT.
+     * 
+     * @return The method `getRandomPos()` is returning a `GamePoint` object.
+     */
     private GamePoint getRandomPos() {
         return GamePoint.buildGamePoint(getNewX(), random.nextInt(GAME_HEIGHT));
     }
 
+    /**
+     * This function returns a random float value within a certain range, with an
+     * additional offset.
+     * 
+     * @return The method `getNewX()` is returning a `float` value.
+     */
     private float getNewX() {
         float value = (-GAME_WIDTH) + random.nextInt((int) (GAME_WIDTH * 3f)) + xLevelOffset;
         return value;

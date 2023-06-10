@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static base.BaseGameConstant.GAME_HEIGHT;
@@ -80,15 +81,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.cityImage5 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_5_IMAGE);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Load image error", e);
         }
 
-        // Random random = new Random();
-
-        // smallCloudPosArrayY = IntStream
-        // .range(0, 8)
-        // .map(i -> (int) (90 * SCALE) + random.nextInt((int) (100 * SCALE)))
-        // .toArray();
     }
 
     public void setPaused(boolean paused) {
