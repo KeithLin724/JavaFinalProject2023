@@ -1,5 +1,6 @@
 package Game.GUI.ui;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -25,6 +26,7 @@ import Game.state.MouseState;
 
 import static base.BaseGameConstant.SCALE;
 import static base.BaseGameConstant.GAME_WIDTH;
+import static base.BaseGameConstant.GAME_HEIGHT;
 
 public class GameLevelCompletedOverLayer implements GameStateMethod {
 
@@ -84,6 +86,9 @@ public class GameLevelCompletedOverLayer implements GameStateMethod {
 
     @Override
     public void render(Graphics2D g) {
+        g.setColor(new Color(0, 0, 0, 200));
+        g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
         g.drawImage(image,
                 this.point.getIntX(), this.point.getIntY(),
                 this.bgWH.getIntW(), this.bgWH.getIntH(),
