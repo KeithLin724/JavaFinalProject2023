@@ -28,6 +28,9 @@ public final class GameSourceFilePath {
     // level 2 path
     public static final String BACKGROUND_LEVEL_2 = "resource/level/level_two_data.png";
 
+    // level complete Image
+    public static final String LEVEL_COMPLETED_IMAGE = "resource/ui/completed_sprite.png";
+
     //////////////////////////////////////////////
 
     public static final String PLAYING_BACKGROUND_IMAGE = "resource/background/playing_bg_img.png";
@@ -89,4 +92,10 @@ public final class GameSourceFilePath {
 
     // audio folder
     public static final String AUDIO_FOLDER_PATH = "resource/audio/";
+
+    // effects
+
+    // rain
+    public static final String RAINING_IMAGE = "resource/effects/rain_particle.png";
+
 }

@@ -212,4 +212,9 @@ public class GameAudioPlayer {
         });
     }
 
+    public void playLevelComplete() {
+        this.stopSong();
+        this.playEffect(GameAudio.LVL_COMPLETED);
+    }
+
 }
