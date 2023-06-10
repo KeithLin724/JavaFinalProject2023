@@ -30,9 +30,10 @@ add some audio , yes
 add the dead screen , yes 
 
 ### four , final demo 
-add rain 
+add rain , yes   
 add get attack push back 
 add the credit screen 
+take off the attack box render 
 
 
 ---
