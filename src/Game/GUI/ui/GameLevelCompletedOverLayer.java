@@ -113,23 +113,28 @@ public class GameLevelCompletedOverLayer implements GameStateMethod {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (this.menuButton.isIn(e) && this.menuButton.getMouseState().equals(MouseState.PRESS)) {
-            LOGGER.info("go to menu");
-            this.gamePlaying.resetAll();
-            gamePlaying.setGameState(GameState.MENU);
 
-            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
-        }
+        this.allButtons.stream()
+                .filter(btn -> btn.isIn(e) && btn.getMouseState().equals(MouseState.PRESS))
+                .findFirst()
+                .ifPresent(gameButtonTemp -> {
 
-        // next
-        else if (this.nextButton.isIn(e) && this.nextButton.getMouseState().equals(MouseState.PRESS)) {
+                    if (gameButtonTemp.equals(this.menuButton)) {
+                        LOGGER.info("go to menu");
 
-            LOGGER.info("level next");
+                        this.gamePlaying.resetAll();
+                        gamePlaying.setGameState(GameState.MENU);
 
-            gamePlaying.loadNextLevel();
+                    } else if (gameButtonTemp.equals(this.nextButton)) {
+                        LOGGER.info("level next");
 
-            this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
-        }
+                        gamePlaying.loadNextLevel();
+                    }
+                    this.gamePlaying
+                            .getGame()
+                            .getGameAudioPlayer()
+                            .playUiEffect(GameAudio.CLICK);
+                });
 
         this.allButtons.forEach(GameButtonBase::resetState);
     }
