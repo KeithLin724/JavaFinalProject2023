@@ -218,8 +218,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.gameLevelCompletedOverLayer.render(g);
         }
 
-        // gameLevelCompletedOverLayer.render(g);
-
     }
 
     private void drawCityImage(Graphics2D g) {

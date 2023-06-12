@@ -139,11 +139,13 @@ public class Player extends GameCharacterABC
 
         this.updateAttackBox();
 
-        // if (state == HIT) {
-        // if (aniIndex <= GetSpriteAmount(state) - 3)
-        // pushBack(pushBackDir, lvlData, 1.25f);
+        // if (gameCharacterState == GameCharacterState.HIT) {
+        // if (aniIndex <= gameCharacterState.frameNumber - 3)
+        // pushBack(pushBackDir, level, 1.25f);
         // updatePushBackDrawOffset();
-        // } else
+        // } else {
+        // // this.updatePosition();
+        // }
         // updatePos();
 
         this.updatePosition();
@@ -315,7 +317,7 @@ public class Player extends GameCharacterABC
 
         // this.drawHitBox(g, drawXOffset);
 
-        this.drawAttackBox(g);
+        // this.drawAttackBox(g);
 
         this.drawUI(g);
 

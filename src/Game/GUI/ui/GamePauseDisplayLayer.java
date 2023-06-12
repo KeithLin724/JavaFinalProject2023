@@ -134,6 +134,7 @@ public class GamePauseDisplayLayer implements GameStateMethod {
         if (this.menuB.isIn(e) && this.menuB.getMouseState().equals(MouseState.PRESS)) {
             this.gamePlaying.setPaused(false);
             this.gamePlaying.getGame().getGameAudioPlayer().playUiEffect(GameAudio.CLICK);
+            this.gamePlaying.resetAll();
             this.gamePlaying.setGameState(GameState.MENU);
         }
 

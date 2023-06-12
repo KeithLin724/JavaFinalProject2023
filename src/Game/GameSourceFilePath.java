@@ -98,4 +98,12 @@ public final class GameSourceFilePath {
     // rain
     public static final String RAINING_IMAGE = "resource/effects/rain_particle.png";
 
+    // Game Object
+
+    // Box
+    public static final String BOX_OBJECT_IMAGE = "resource/object/objects_sprites.png";
+
+    // Potions
+    public static final String POTION_OBJECT_IMAGE = "resource/object/potions_sprites.png";
+
 }
