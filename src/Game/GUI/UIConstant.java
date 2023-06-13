@@ -7,8 +7,8 @@ public class UIConstant {
     public enum MenuButtons {
         B_WIDTH_DEFAULT(140),
         B_HEIGHT_DEFAULT(56),
-        B_WIDTH((int) (B_WIDTH_DEFAULT.value * SCALE)),
-        B_HEIGHT((int) (B_HEIGHT_DEFAULT.value * SCALE));
+        B_WIDTH((int) (B_WIDTH_DEFAULT.value * SCALE * 0.87f)),
+        B_HEIGHT((int) (B_HEIGHT_DEFAULT.value * SCALE * 0.87f));
 
         public final int value;
 

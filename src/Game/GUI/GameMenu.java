@@ -42,10 +42,10 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     };
 
     private static final float[] yMenuArray = {
-            150 * SCALE,
-            220 * SCALE,
-            360 * SCALE,
-            290 * SCALE,
+            188 * SCALE,
+            241 * SCALE,
+            347 * SCALE,
+            294 * SCALE,
     };
 
     public GameMenu(Game game) {
