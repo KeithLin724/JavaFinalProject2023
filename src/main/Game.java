@@ -131,18 +131,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     @Override
     public void run() {
 
-        // double timePerFrame = 1000000000.0 / FPS;
-        // double timePerUpdate = 1000000000.0 / UPS;
-
-        // long lastFrame = System.nanoTime();
-        // long currentFrame = System.nanoTime();
         long lastCheck = System.currentTimeMillis();
-
-        // int frames = 0;
-        // int updates = 0;
-
-        // double deltaF = 0;
-        // double deltaU = 0;
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
 
@@ -152,23 +141,6 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
         executorService.shutdown();
 
         while (true) {
-
-            // currentFrame = System.nanoTime();
-            // deltaF += (currentFrame - lastFrame) / timePerFrame;
-            // deltaU += (currentFrame - lastFrame) / timePerUpdate;
-            // lastFrame = currentFrame;
-
-            // if (deltaU >= 1) {
-            // this.update();
-            // updates++;
-            // deltaU--;
-            // }
-
-            // if (deltaF >= 1) {
-            // gamePanel.repaint();
-            // frames++;
-            // deltaF--;
-            // }
 
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
