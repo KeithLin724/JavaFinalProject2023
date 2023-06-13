@@ -243,6 +243,7 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
             this.point.addToX(xSpeed * speedMulti);
         }
 
+        // check is in the air
         if (!this.inAir && !isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
             this.inAir = true;
         }

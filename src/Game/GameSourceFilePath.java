@@ -39,9 +39,11 @@ public final class GameSourceFilePath {
 
     /////////////////////////////////////////
 
-    public static final String BIG_CLOUD_IMAGE = "resource/background/big_clouds.png";
+    // public static final String BIG_CLOUD_IMAGE =
+    // "resource/background/big_clouds.png";
 
-    public static final String SMALL_CLOUD_IMAGE = "resource/background/small_clouds.png";
+    // public static final String SMALL_CLOUD_IMAGE =
+    // "resource/background/small_clouds.png";
 
     // menu button
     public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";
@@ -106,4 +108,12 @@ public final class GameSourceFilePath {
     // Potions
     public static final String POTION_OBJECT_IMAGE = "resource/object/potions_sprites.png";
 
+    // credits path
+    public static final String CREDITS_IMAGE = "resource/background/credits_list.png";
+
+    public static final String PYTHON_CHARACTER_FOLDER = "resource/skin/python/";
+
+    public static final String CPP_CHARACTER_FOLDER = "resource/skin/cpp/";
+
+    public static final String JAVA_CHARACTER_FOLDER = "resource/skin/java/";
 }

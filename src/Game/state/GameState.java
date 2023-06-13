@@ -17,12 +17,13 @@ public enum GameState {
     PLAYING,
     MENU,
     OPTIONS,
+    CREDITS,
     QUITS;
 
     private static GameState state = MENU;
     private static final Logger LOGGER = Logger.getLogger(GameState.class.getName());
 
-    public static final GameState[] MENU_GAME_STATES_CHOOSE = { PLAYING, OPTIONS, QUITS };
+    public static final GameState[] MENU_GAME_STATES_CHOOSE = { PLAYING, OPTIONS, QUITS, CREDITS };
 
     /**
      * The function returns the current state of the game.

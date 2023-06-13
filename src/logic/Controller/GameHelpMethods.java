@@ -116,11 +116,6 @@ public class GameHelpMethods {
     }
 
     public static boolean isFloor(GamePoint point, float xSpeed, int width, int height, GameLevel level) {
-        // if (xSpeed > 0)
-        // return IsSolid(hitbox.x + hitbox.width + xSpeed, hitbox.y + hitbox.height +
-        // 1, lvlData);
-        // else
-        // return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
 
         return (xSpeed > 0 ? IsSolid(point.getX() + width + xSpeed, point.getY() + height + 1, level)
                 : IsSolid(point.getX() + xSpeed, point.getY() + height + 1, level));

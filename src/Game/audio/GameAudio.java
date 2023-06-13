@@ -16,6 +16,7 @@ public enum GameAudio {
         MENU_1(0, "menu"),
         LEVEL_1(1, "level1"),
         LEVEL_2(2, "level2"),
+        CREDITS(3, "See_You_Again"),
 
         // ui
         CLICK(0, "click"),
@@ -41,6 +42,7 @@ public enum GameAudio {
                         MENU_1,
                         LEVEL_1,
                         LEVEL_2,
+                        CREDITS,
         };
 
         public static final GameAudio[] allUISoundsAudio = {

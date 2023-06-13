@@ -1,6 +1,7 @@
 package main;
 
 import Game.GameSourceFilePath;
+import Game.GUI.GameCredits;
 import Game.GUI.GameMenu;
 import Game.GUI.GameOptions;
 import Game.GUI.GamePlaying;
@@ -30,6 +31,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
     private GameAudioPlayer gameAudioPlayer;
 
     private GameOptions gameOptions;
+    private GameCredits gameCredits;
 
     private Thread gameThread;
 
@@ -61,6 +63,7 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
         this.gameMenu = new GameMenu(this);
         this.gamePlaying = new GamePlaying(this);
+        this.gameCredits = new GameCredits(this);
 
         this.gamePlaying.initClass();
     }
@@ -194,6 +197,8 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
             case OPTIONS -> this.gameOptions.update();
 
+            case CREDITS -> this.gameCredits.update();
+
             default -> {
                 // None
             }
@@ -208,6 +213,8 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
             case PLAYING -> this.gamePlaying.render(g);
 
             case OPTIONS -> this.gameOptions.render(g);
+
+            case CREDITS -> this.gameCredits.render(g);
 
             default -> {
                 // None
@@ -232,6 +239,10 @@ public class Game extends BaseGameConstant implements Runnable, GameAnimatedDraw
 
     public GameAudioPlayer getGameAudioPlayer() {
         return this.gameAudioPlayer;
+    }
+
+    public GameCredits getGameCredits() {
+        return this.gameCredits;
     }
 
 }

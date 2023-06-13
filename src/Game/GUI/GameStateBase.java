@@ -69,11 +69,15 @@ public abstract class GameStateBase {
     public void setGameState(GameState state) {
         switch (state) {
             case MENU -> game.getGameAudioPlayer().playSong(GameAudio.MENU_1);
+
             case OPTIONS -> {
             }
             case PLAYING -> game.getGameAudioPlayer().setLevelSong(0);
 
+            case CREDITS -> game.getGameAudioPlayer().playSong(GameAudio.CREDITS);
+
             case QUITS -> {
+
             }
             default -> {
                 // None

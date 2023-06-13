@@ -252,13 +252,11 @@ public class Player extends GameCharacterABC
     }
 
     private void setHitAni() {
-        // this.airSpeed =
         if (inAir) {
             return;
         }
-
         this.inAir = true;
-        this.airSpeed = this.jumpSpeed * 0.3f;
+        this.airSpeed = this.jumpSpeed * 0.4f;
     }
 
     @Override
