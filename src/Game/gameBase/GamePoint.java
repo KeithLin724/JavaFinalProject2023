@@ -2,6 +2,10 @@ package Game.gameBase;
 
 import java.awt.Point;
 
+/**
+ * The GamePoint class contains methods for performing mathematical operations
+ * on points in a 2D plane.
+ */
 public class GamePoint extends GameUnitPair {
 
     public GamePoint() {
@@ -24,18 +28,65 @@ public class GamePoint extends GameUnitPair {
         super(obj);
     }
 
+    /**
+     * The function builds a new GamePoint object with the given x and y
+     * coordinates.
+     * 
+     * @param x The x-coordinate of the game point being built.
+     * @param y The parameter "y" is an integer representing the vertical coordinate
+     *          of a point in a game.
+     * @return A new instance of the GamePoint class with the specified x and y
+     *         coordinates.
+     */
     public static GamePoint buildGamePoint(int x, int y) {
         return new GamePoint(x, y);
     }
 
+    /**
+     * The function builds a new GamePoint object with the given x and y
+     * coordinates.
+     * 
+     * @param x A float value representing the x-coordinate of a point in a game.
+     * @param y The "y" parameter in the "buildGamePoint" method is a float value
+     *          representing the vertical
+     *          coordinate of a point in a 2D game world.
+     * @return A new instance of the `GamePoint` class with the specified `x` and
+     *         `y` coordinates.
+     */
     public static GamePoint buildGamePoint(float x, float y) {
         return new GamePoint(x, y);
     }
 
+    /**
+     * The function builds a GamePoint object using a GameUnitPair object.
+     * 
+     * @param obj The parameter "obj" is of type GameUnitPair, which is likely a
+     *            class that represents a
+     *            pair of coordinates in a game world. The method "buildGamePoint"
+     *            takes this object and returns a new
+     *            GamePoint object that is constructed using the GameUnitPair
+     *            object. It is possible that the
+     * @return A new instance of the GamePoint class is being returned, which is
+     *         constructed using the
+     *         GameUnitPair object passed as a parameter to the buildGamePoint
+     *         method.
+     */
     public static GamePoint buildGamePoint(GameUnitPair obj) {
         return new GamePoint(obj);
     }
 
+    /**
+     * The function builds a new GamePoint object using a Point object as input.
+     * 
+     * @param obj The parameter "obj" is a Point object that is being passed as an
+     *            argument to the method
+     *            "buildGamePoint". The method then creates a new GamePoint object
+     *            using the Point object as a
+     *            parameter for its constructor.
+     * @return A new instance of the `GamePoint` class, initialized with the `Point`
+     *         object passed as a
+     *         parameter to the `buildGamePoint` method.
+     */
     public static GamePoint buildGamePoint(Point obj) {
         return new GamePoint(obj);
     }
@@ -78,6 +129,14 @@ public class GamePoint extends GameUnitPair {
         this.y /= yDis;
     }
 
+    /**
+     * This Java function returns a copy of a GamePoint object.
+     * 
+     * @return A copy of the current GamePoint object is being returned. The copy is
+     *         created using the
+     *         `buildGamePoint` method and has the same x and y coordinates as the
+     *         original object.
+     */
     public GamePoint getCopy() {
         return GamePoint.buildGamePoint(this.x, this.y);
     }

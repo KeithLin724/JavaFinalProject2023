@@ -1,11 +1,13 @@
 package Game.GUI;
 
+import Game.GUI.ui.GameLevelCompletedOverLayer;
 import Game.GUI.ui.GameOverDisplayLayer;
 import Game.GUI.ui.GamePauseDisplayLayer;
 import Game.GameSourceFilePath;
 import Game.Loader.GameElementLoader;
 import Game.Loader.ImageLoader;
 import Game.PLUG.GameStateMethod;
+import Game.effects.Rain;
 import Game.Player;
 import Game.gameBackground.GameEnemyManager;
 import Game.gameBackground.GameLevelManager;
@@ -18,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static base.BaseGameConstant.GAME_HEIGHT;
@@ -58,6 +61,14 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     private boolean gameOver;
     private boolean playerDying;
 
+    // game level complete
+    private GameLevelCompletedOverLayer gameLevelCompletedOverLayer;
+    private boolean levelComplete = false;
+
+    // effect
+    private Rain rain;
+    private boolean drawRaining = true;
+
     public GamePlaying(Game game) {
         super(game);
 
@@ -70,15 +81,9 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.cityImage5 = ImageLoader.loadImage(GameSourceFilePath.CITY_BACKGROUND_5_IMAGE);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Load image error", e);
         }
 
-        // Random random = new Random();
-
-        // smallCloudPosArrayY = IntStream
-        // .range(0, 8)
-        // .map(i -> (int) (90 * SCALE) + random.nextInt((int) (100 * SCALE)))
-        // .toArray();
     }
 
     public void setPaused(boolean paused) {
@@ -105,6 +110,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
         gameOverDisplayLayer = new GameOverDisplayLayer(this);
 
+        gameLevelCompletedOverLayer = new GameLevelCompletedOverLayer(this);
+
         // about the window display number
         this.levelTileWide = gameLevelManager.getGameLevel().getMaxWidth();
         this.maxTileOffset = levelTileWide - TILES_IN_WIDTH;
@@ -113,6 +120,12 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         // this.bigCloudNumber = (int) Math.round((double)
         // GameEnvironment.BIG_CLOUD_WIDTH.value
         // / (double) this.gameLevelManager.getGameLevel().getMaxWidth());
+        this.rain = new Rain();
+    }
+
+    public void loadNextLevel() {
+        this.resetAll();
+        gameLevelManager.loadNextLevel();
     }
 
     public Player getPlayer() {
@@ -135,9 +148,19 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             return;
         }
 
+        if (this.levelComplete) {
+            this.gameLevelCompletedOverLayer.update();
+            return;
+        }
+
         if (this.gameOver) {
             this.gameOverDisplayLayer.update();
             return;
+        }
+
+        if (this.drawRaining) {
+            rain.passOffset(this.xLevelOffset);
+            rain.update();
         }
 
         this.gameLevelManager.update();
@@ -178,6 +201,10 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         drawCityImage(g);
 
         // drawCloud(g);
+        if (this.drawRaining) {
+            rain.passOffset(this.xLevelOffset);
+            rain.render(g);
+        }
 
         this.gameLevelManager.render(g);
         this.gameEnemyManager.render(g);
@@ -187,6 +214,8 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.gamePauseDisplayLayer.render(g);
         } else if (this.gameOver) {
             this.gameOverDisplayLayer.render(g);
+        } else if (this.levelComplete) {
+            this.gameLevelCompletedOverLayer.render(g);
         }
 
     }
@@ -233,6 +262,7 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         this.gameOver = false;
         this.paused = false;
         this.playerDying = false;
+        this.levelComplete = false;
         player.resetAll();
         gameEnemyManager.resetAll();
 
@@ -240,6 +270,17 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public void setPlayerDying(boolean dead) {
+        this.playerDying = true;
+    }
+
+    public void setLevelCompleted(boolean completed) {
+        this.levelComplete = completed;
+        if (this.levelComplete) {
+            this.game.getGameAudioPlayer().playLevelComplete();
+        }
     }
 
     public void checkEnemyHit(Player player) {
@@ -265,6 +306,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             return;
         }
 
+        if (this.levelComplete) {
+            this.gameLevelCompletedOverLayer.mousePressed(e);
+            return;
+        }
+
         if (paused) {
             this.gamePauseDisplayLayer.mousePressed(e);
         }
@@ -274,6 +320,11 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
     public void mouseReleased(MouseEvent e) {
         if (this.gameOver) {
             this.gameOverDisplayLayer.mouseReleased(e);
+            return;
+        }
+
+        if (this.levelComplete) {
+            this.gameLevelCompletedOverLayer.mouseReleased(e);
             return;
         }
 
@@ -310,6 +361,12 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
             this.gameOverDisplayLayer.mouseMoved(e);
             return;
         }
+
+        if (this.levelComplete) {
+            this.gameLevelCompletedOverLayer.mouseMoved(e);
+            return;
+        }
+
         if (paused) {
             this.gamePauseDisplayLayer.mouseMoved(e);
         }
@@ -354,10 +411,6 @@ public class GamePlaying extends GameStateBase implements GameStateMethod {
         }
 
         this.keyEventToPlayerMove(e, false);
-    }
-
-    public void setPlayerDying(boolean dead) {
-        this.playerDying = true;
     }
 
 }

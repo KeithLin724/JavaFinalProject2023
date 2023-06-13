@@ -94,6 +94,7 @@ public class GameEnemyManager implements GameAnimatedDrawer {
 
     @Override
     public void update() {
+
         enemyArr.forEach((item) -> {
             if (!item.isActive()) {
                 return;
@@ -101,6 +102,11 @@ public class GameEnemyManager implements GameAnimatedDrawer {
             item.passPlayer(this.player);
             item.update();
         });
+
+        boolean isAnyActive = enemyArr.stream().anyMatch(item -> item.isActive());
+        if (!isAnyActive) {
+            gamePlaying.setLevelCompleted(true);
+        }
         // enemyArr.get(0).update();
     }
 

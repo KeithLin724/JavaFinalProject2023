@@ -126,7 +126,7 @@ public class GameEnemy extends GameEnemyABC {
                 null);
 
         // this.drawHitBox(g, GameEnemy.drawXOffset);
-        this.drawAttackBox(g);
+        // this.drawAttackBox(g);
     }
 
     private void drawAttackBox(Graphics g) {

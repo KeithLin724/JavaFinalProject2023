@@ -1,6 +1,21 @@
 package Game.Loader;
 
-import java.awt.Color;
+import Game.DataPass;
+import Game.DataPass.AniData;
+import Game.DataPass.GamePlayerSpeedData;
+import Game.DataPass.ImageScaleData;
+import Game.Player;
+import Game.audio.GameAudio;
+import Game.audio.GameAudioPlayer;
+import Game.builder.GameCharacterBuilder;
+import Game.role.GameEnemy;
+import base.loader.BaseLoader;
+import base.loader.FileNameFormatter;
+
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,27 +32,14 @@ import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import Game.DataPass;
-import Game.Player;
-import Game.DataPass.AniData;
-import Game.DataPass.GamePlayerSpeedData;
-import Game.DataPass.ImageScaleData;
-import Game.audio.GameAudio;
-import Game.audio.GameAudioPlayer;
-import Game.builder.GameCharacterBuilder;
-import Game.role.GameEnemy;
-import base.loader.BaseLoader;
-import base.loader.FileNameFormatter;
-
+import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
 import static base.BaseGameConstant.TILES_SIZE;
 
-import static Game.GameSourceFilePath.BACKGROUND_SKIN_FOLDER_PATH;
-
-// Factory 
+/**
+ * Factory
+ *
+ * @author KYLiN
+ */
 public final class GameElementLoader {
 
     private static final Logger LOGGER = Logger.getLogger(GameElementLoader.class.getName());
@@ -79,7 +81,7 @@ public final class GameElementLoader {
 
     /**
      * This function loads a game character from a file path and returns it.
-     * 
+     *
      * @param fileName The name of the file that contains the data needed to load a
      *                 GameCharacter object.
      * @return The method is returning a GameCharacter object.
@@ -117,10 +119,11 @@ public final class GameElementLoader {
 
     // this is a function for load the pixel where to put
     // for the GameMapLevelManager
+
     /**
      * This function loads game level data from an image file and returns it as a 2D
      * integer array.
-     * 
+     *
      * @param fileName         The name of the file containing the game level data.
      * @param checkHeightBlock The height of each block in pixels that is checked in
      *                         the level image.
@@ -156,7 +159,7 @@ public final class GameElementLoader {
      * This function loads game enemy data from a specified file and creates enemy
      * objects based on the
      * level data in the file.
-     * 
+     *
      * @param gameLevelFileName The file name of the image file that contains the
      *                          level data for the game
      *                          enemies.
@@ -232,7 +235,7 @@ public final class GameElementLoader {
      * The function loads audio clips from a specified folder path using a list of
      * GameAudio objects and
      * returns an array of Clip objects.
-     * 
+     *
      * @param folderPath  A string representing the path to the folder containing
      *                    the audio files to be
      *                    loaded as Clips.

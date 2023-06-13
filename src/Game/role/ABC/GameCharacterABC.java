@@ -7,10 +7,15 @@ import Game.DataPass.AniData;
 import Game.DataPass.GamePlayerSpeedData;
 import Game.DataPass.ImageScaleData;
 import Game.Loader.ImageLoader;
+import Game.gameBackground.GameLevel;
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GameCalculator;
 import Game.gameBase.GameUnitPair;
 import Game.state.GameCharacterState;
+import logic.input.Direction;
+
+import static logic.Controller.GameHelpMethods.canMoveHere;
+import static logic.Controller.GameHelpMethods.isOnTheFloor;
 
 public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
@@ -18,6 +23,9 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
     protected int aniTick, aniIndex, aniSpeed; // text
     protected int imgScaleX, imgScaleY, imageScale; // text
+
+    protected float pushDrawOffset;
+    protected Direction pushBackDir = Direction.UP;
 
     public GameCharacterABC() {
         super();
@@ -123,10 +131,12 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
     /**
      * The function sets the game character state and resets the animation tick.
      * 
-     * @param gameCharacterState an object representing the new state of a game character. This could
-     * include information such as the character's position, health, or current action.
+     * @param gameCharacterState an object representing the new state of a game
+     *                           character. This could
+     *                           include information such as the character's
+     *                           position, health, or current action.
      */
-    protected void newState(GameCharacterState gameCharacterState){
+    protected void newState(GameCharacterState gameCharacterState) {
         this.gameCharacterState = gameCharacterState;
         this.resetAniTick();
     }
@@ -202,4 +212,40 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
     public abstract void setAnimationImage();
 
     public abstract void setAnimationState();
+
+    // push back
+
+    protected void updatePushBackDrawOffset() {
+        float speed = 0.95f;
+        float limit = -(0.95f * 2);
+
+        if (pushBackDir.equals(Direction.UP)) {
+            pushDrawOffset -= speed;
+            if (pushDrawOffset <= limit) {
+                pushBackDir = Direction.DOWN;
+            }
+
+        } else {
+            pushDrawOffset += speed;
+            if (pushDrawOffset >= 0) {
+                pushDrawOffset = 0;
+            }
+        }
+    }
+
+    protected void pushBack(Direction inputPushBackDir, GameLevel levelData, float speedMulti) {
+        float xSpeed = (inputPushBackDir.equals(Direction.LEFT) ? -this.playerSpeed : this.playerSpeed);
+
+        var nextPoint = this.point.getCopy();
+        nextPoint.addToX(xSpeed * speedMulti);
+
+        if (canMoveHere(nextPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
+            this.point.addToX(xSpeed * speedMulti);
+        }
+
+        // check is in the air
+        if (!this.inAir && !isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
+            this.inAir = true;
+        }
+    }
 }

@@ -34,8 +34,19 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
     private GameUnitPair menuWH;
     private GamePoint menuBgPoint;
 
-    private static final float[] xMenuArray = { GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F, GAME_WIDTH / 2.0F };
-    private static final float[] yMenuArray = { 150 * SCALE, 220 * SCALE, 290 * SCALE };
+    private static final float[] xMenuArray = {
+            GAME_WIDTH / 2.0F,
+            GAME_WIDTH / 2.0F,
+            GAME_WIDTH / 2.0F,
+            GAME_WIDTH / 2.0F,
+    };
+
+    private static final float[] yMenuArray = {
+            150 * SCALE,
+            220 * SCALE,
+            360 * SCALE,
+            290 * SCALE,
+    };
 
     public GameMenu(Game game) {
         super(game);
@@ -109,7 +120,10 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
                     action.applyGameState();
                     if (GameState.getState().equals(GameState.PLAYING)) {
                         game.getGameAudioPlayer().setLevelSong(0);
+                    } else if (GameState.getState().equals(GameState.CREDITS)) {
+                        game.getGameAudioPlayer().playSong(GameAudio.CREDITS);
                     }
+
                 });
 
         this.resetButtons();
@@ -153,9 +167,9 @@ public class GameMenu extends GameStateBase implements GameStateMethod {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            GameState.setState(GameState.PLAYING);
-        }
+        // if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+        // GameState.setState(GameState.PLAYING);
+        // }
     }
 
     @Override

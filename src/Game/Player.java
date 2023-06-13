@@ -139,12 +139,15 @@ public class Player extends GameCharacterABC
 
         this.updateAttackBox();
 
-        // if (state == HIT) {
-        // if (aniIndex <= GetSpriteAmount(state) - 3)
-        // pushBack(pushBackDir, lvlData, 1.25f);
-        // updatePushBackDrawOffset();
-        // } else
-        // updatePos();
+        if (gameCharacterState == GameCharacterState.HIT) {
+            // System.out.println("hit");
+
+            if (aniIndex <= gameCharacterState.frameNumber - 4) {
+                pushBack(pushBackDir, level, 0.8f);
+            }
+
+            updatePushBackDrawOffset();
+        }
 
         this.updatePosition();
 
@@ -235,6 +238,7 @@ public class Player extends GameCharacterABC
                     .playEffect(GameAudio.PLAYER_GET_HIT);
 
             this.setCharacterState(GameCharacterState.HIT);
+            this.setHitAni();
         }
 
         if (this.currentHealth <= 0) {
@@ -245,6 +249,14 @@ public class Player extends GameCharacterABC
         else if (this.currentHealth >= 100) {
             this.currentHealth = 100;
         }
+    }
+
+    private void setHitAni() {
+        if (inAir) {
+            return;
+        }
+        this.inAir = true;
+        this.airSpeed = this.jumpSpeed * 0.4f;
     }
 
     @Override
@@ -315,7 +327,7 @@ public class Player extends GameCharacterABC
 
         // this.drawHitBox(g, drawXOffset);
 
-        this.drawAttackBox(g);
+        // this.drawAttackBox(g);
 
         this.drawUI(g);
 
@@ -425,8 +437,13 @@ public class Player extends GameCharacterABC
                 if (this.gameCharacterState.equals(GameCharacterState.HIT)) {
                     this.newState(GameCharacterState.IDLE);
                     airSpeed = 0f;
-                    if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+                    // if (!isOnTheFloor(point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, this.level)) {
+                    // this.inAir = true;
+                    // }
+
+                    if (!isFloor(point, 0, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, level)) {
                         this.inAir = true;
+                        System.out.println("here");
                     }
                 }
             }

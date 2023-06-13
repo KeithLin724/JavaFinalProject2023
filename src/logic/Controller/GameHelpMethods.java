@@ -1,7 +1,6 @@
 package logic.Controller;
 
 import Game.gameBackground.GameLevel;
-import Game.gameBackground.GameLevelManager;
 import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
 import Game.role.ABC.GameCharacterABC;
@@ -114,6 +113,12 @@ public class GameHelpMethods {
         }
 
         return true;
+    }
+
+    public static boolean isFloor(GamePoint point, float xSpeed, int width, int height, GameLevel level) {
+
+        return (xSpeed > 0 ? IsSolid(point.getX() + width + xSpeed, point.getY() + height + 1, level)
+                : IsSolid(point.getX() + xSpeed, point.getY() + height + 1, level));
     }
 
     public static boolean isFloor(GamePoint point, float width, float height, GameLevel level) {

@@ -23,9 +23,12 @@ public class KeyboardInputs implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (GameState.getState()) {
             case MENU -> this.game.getGameMenu().keyPressed(e);
+
             case PLAYING -> this.game.getGamePlaying().keyPressed(e);
 
             case OPTIONS -> this.game.getGameOptions().keyPressed(e);
+
+            case CREDITS -> this.game.getGameCredits().keyPressed(e);
 
             default -> {
                 // None:
@@ -42,7 +45,9 @@ public class KeyboardInputs implements KeyListener {
 
             case PLAYING -> this.game.getGamePlaying().keyReleased(e);
 
-            case OPTIONS -> this.game.getGameOptions().keyPressed(e);
+            case OPTIONS -> this.game.getGameOptions().keyReleased(e);
+
+            case CREDITS -> this.game.getGameCredits().keyReleased(e);
 
             default -> {
                 // None :

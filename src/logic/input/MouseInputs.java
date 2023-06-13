@@ -24,6 +24,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
             case OPTIONS -> this.game.getGameOptions().mouseDragged(e);
 
+            case CREDITS -> this.game.getGameCredits().mouseDragged(e);
+
             default -> {
 
             }
@@ -40,6 +42,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
             case PLAYING -> this.game.getGamePlaying().mouseMoved(e);
 
             case OPTIONS -> this.game.getGameOptions().mouseMoved(e);
+
+            case CREDITS -> this.game.getGameCredits().mouseMoved(e);
 
             case QUITS -> System.exit(0);
 
@@ -58,6 +62,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
             case OPTIONS -> this.game.getGameOptions().mouseClicked(e);
 
+            case CREDITS -> this.game.getGameCredits().mouseClicked(e);
+
             case QUITS -> System.exit(0);
 
             default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
@@ -74,6 +80,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
 
             case OPTIONS -> this.game.getGameOptions().mousePressed(e);
 
+            case CREDITS -> this.game.getGameCredits().mousePressed(e);
+
             case QUITS -> System.exit(0);
 
             default -> throw new IllegalArgumentException("Unexpected value: " + GameState.getState());
@@ -89,6 +97,8 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
             case PLAYING -> this.game.getGamePlaying().mouseReleased(e);
 
             case OPTIONS -> this.game.getGameOptions().mouseReleased(e);
+
+            case CREDITS -> this.game.getGameCredits().mouseReleased(e);
 
             case QUITS -> System.exit(0);
 

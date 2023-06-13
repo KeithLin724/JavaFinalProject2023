@@ -28,6 +28,9 @@ public final class GameSourceFilePath {
     // level 2 path
     public static final String BACKGROUND_LEVEL_2 = "resource/level/level_two_data.png";
 
+    // level complete Image
+    public static final String LEVEL_COMPLETED_IMAGE = "resource/ui/completed_sprite.png";
+
     //////////////////////////////////////////////
 
     public static final String PLAYING_BACKGROUND_IMAGE = "resource/background/playing_bg_img.png";
@@ -36,9 +39,11 @@ public final class GameSourceFilePath {
 
     /////////////////////////////////////////
 
-    public static final String BIG_CLOUD_IMAGE = "resource/background/big_clouds.png";
+    // public static final String BIG_CLOUD_IMAGE =
+    // "resource/background/big_clouds.png";
 
-    public static final String SMALL_CLOUD_IMAGE = "resource/background/small_clouds.png";
+    // public static final String SMALL_CLOUD_IMAGE =
+    // "resource/background/small_clouds.png";
 
     // menu button
     public static final String MENU_BUTTON_IMAGE_1 = "resource/ui/button_atlas.png";
@@ -89,4 +94,26 @@ public final class GameSourceFilePath {
 
     // audio folder
     public static final String AUDIO_FOLDER_PATH = "resource/audio/";
+
+    // effects
+
+    // rain
+    public static final String RAINING_IMAGE = "resource/effects/rain_particle.png";
+
+    // Game Object
+
+    // Box
+    public static final String BOX_OBJECT_IMAGE = "resource/object/objects_sprites.png";
+
+    // Potions
+    public static final String POTION_OBJECT_IMAGE = "resource/object/potions_sprites.png";
+
+    // credits path
+    public static final String CREDITS_IMAGE = "resource/background/credits_list.png";
+
+    public static final String PYTHON_CHARACTER_FOLDER = "resource/skin/python/";
+
+    public static final String CPP_CHARACTER_FOLDER = "resource/skin/cpp/";
+
+    public static final String JAVA_CHARACTER_FOLDER = "resource/skin/java/";
 }
