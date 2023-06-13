@@ -10,12 +10,12 @@ import Game.Loader.ImageLoader;
 import Game.gameBackground.GameLevel;
 // import Game.DataPass.PlayerHitBox;
 import Game.gameBase.GameCalculator;
-import Game.gameBase.GamePoint;
 import Game.gameBase.GameUnitPair;
 import Game.state.GameCharacterState;
 import logic.input.Direction;
 
 import static logic.Controller.GameHelpMethods.canMoveHere;
+import static logic.Controller.GameHelpMethods.isOnTheFloor;
 
 public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
@@ -217,7 +217,7 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
     protected void updatePushBackDrawOffset() {
         float speed = 0.95f;
-        float limit = -30f;
+        float limit = -(0.95f * 2);
 
         if (pushBackDir.equals(Direction.UP)) {
             pushDrawOffset -= speed;
@@ -241,6 +241,10 @@ public abstract class GameCharacterABC extends BasicGameCharacterABC {
 
         if (canMoveHere(nextPoint, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
             this.point.addToX(xSpeed * speedMulti);
+        }
+
+        if (!this.inAir && !isOnTheFloor(this.point, HIT_BOX_WIDTH, HIT_BOX_HEIGHT, levelData)) {
+            this.inAir = true;
         }
     }
 }
